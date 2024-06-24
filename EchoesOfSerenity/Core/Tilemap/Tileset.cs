@@ -29,4 +29,11 @@ public class Tileset
     {
         Raylib.DrawTextureRec(TilesetTexture, new Rectangle(tileX * TileWidth, tileY * TileHeight, TileWidth, TileHeight), new Vector2(x, y), Color.White);
     }
+
+    public (int, int) GetTileCoordinates(int tileIndex)
+    {
+        int x = tileIndex % TileColumns;
+        int y = tileIndex / TileColumns;
+        return (x, y);
+    }
 }

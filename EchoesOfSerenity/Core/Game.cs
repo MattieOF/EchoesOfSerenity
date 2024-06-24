@@ -1,3 +1,4 @@
+using System.Numerics;
 using EchoesOfSerenity.Core.Content;
 using Raylib_cs;
 using rlImGui_cs;
@@ -8,6 +9,8 @@ public class Game
 {
     public static Game Instance = null!;
     public bool IsRunning { get; private set; } = true;
+    public Camera2D Camera;
+    public static readonly Vector2 ScreenSize = new(1280, 600);
     
     private readonly List<Layer> _layers = [];
     private readonly List<Layer> _layersToDetach = [];
@@ -24,17 +27,42 @@ public class Game
     public void Run()
     {
         Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
-        Raylib.InitWindow(1280, 600, "Echoes of Serenity");
+        Raylib.InitWindow((int)ScreenSize.X, (int)ScreenSize.Y, "Echoes of Serenity");
         Raylib.InitAudioDevice();
         Raylib.SetExitKey(0);
         
         rlImGui.Setup();
-
+        
+        // Initialize camera
+        Camera.Zoom = 1f;
+        Camera.Target = new Vector2(0, 0);
+        Camera.Offset = new Vector2(Raylib.GetScreenWidth() / 2f, Raylib.GetScreenHeight() / 2f);;
+        Camera.Rotation = 0f;
+        
         ContentManager.LoadContent();
         OnInit();
         
         while (!Raylib.WindowShouldClose() && IsRunning)
         {
+            if (Raylib.IsWindowResized())
+            {
+                Camera.Offset = new Vector2(Raylib.GetScreenWidth() / 2f, Raylib.GetScreenHeight() / 2f);
+                Camera.Zoom = Raylib.GetScreenWidth() / ScreenSize.X;
+            }
+
+            // Temp camera movement
+            float moveSpeed = 100;
+            if (Raylib.IsKeyDown(KeyboardKey.LeftShift))
+                moveSpeed *= 3;
+            if (Raylib.IsKeyDown(KeyboardKey.A))
+                Camera.Target -= new Vector2(moveSpeed * Raylib.GetFrameTime(), 0);
+            if (Raylib.IsKeyDown(KeyboardKey.D))
+                Camera.Target += new Vector2(moveSpeed * Raylib.GetFrameTime(), 0);
+            if (Raylib.IsKeyDown(KeyboardKey.W))
+                Camera.Target -= new Vector2(0, moveSpeed * Raylib.GetFrameTime());
+            if (Raylib.IsKeyDown(KeyboardKey.S))
+                Camera.Target += new Vector2(0, moveSpeed * Raylib.GetFrameTime());
+            
             SoundManager.Update();
             foreach (var layer in _layers)
                 layer.Update();
@@ -44,8 +72,18 @@ public class Game
             Raylib.ClearBackground(Color.SkyBlue);
             
             foreach (var layer in _layers)
+                layer.PreRender();
+            OnPreRender();
+            
+            Raylib.BeginMode2D(Camera);
+            foreach (var layer in _layers)
                 layer.Render();
             OnRender();
+            Raylib.EndMode2D();
+            
+            foreach (var layer in _layers)
+                layer.RenderUI();
+            OnRenderUI();
             
             rlImGui.Begin();
             foreach (var layer in _layers)
@@ -100,7 +138,9 @@ public class Game
 
     protected virtual void OnInit() { }
     protected virtual void OnUpdate() { }
+    protected virtual void OnPreRender() { }
     protected virtual void OnRender() { }
+    protected virtual void OnRenderUI() { }
     protected virtual void OnRenderImGUI() { }
     protected virtual void OnShutdown() { }
 }

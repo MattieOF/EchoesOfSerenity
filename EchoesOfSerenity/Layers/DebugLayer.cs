@@ -1,6 +1,7 @@
 using System.Numerics;
 using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Content;
+using EchoesOfSerenity.Core.Tilemap;
 using EchoesOfSerenity.World;
 using ImGuiNET;
 using Raylib_cs;
@@ -32,7 +33,7 @@ public class DebugLayer : Layer
             _debugMenuVisible = !_debugMenuVisible;
     }
 
-    public override void Render()
+    public override void RenderUI()
     {
         if (_fpsVisible)
         {
@@ -64,6 +65,11 @@ public class DebugLayer : Layer
                 ImGui.SliderInt("Test tile Y", ref _tileY, 0, Tiles.TerrainTileset.TileRows - 1);
                 
                 ImGui.SliderFloat2("Tile Location", ref _tileLocation, 0, 1000);
+            }
+
+            if (ImGui.CollapsingHeader("Tilemap Debugging"))
+            {
+                ImGui.Checkbox("Draw Chunk Outlines", ref Tilemap.DrawChunkOutlines);
             }
             
             ImGui.End();
