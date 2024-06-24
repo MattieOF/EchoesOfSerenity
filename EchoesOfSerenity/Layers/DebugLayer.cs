@@ -9,12 +9,13 @@ namespace EchoesOfSerenity.Layers;
 
 public class DebugLayer : Layer
 {
-    private bool _fpsVisible = false;
+    private bool _fpsVisible;
     private const int FontSize = 18;
     private Font _font, _boldFont;
     private Vector2 _titleSize;
-    private bool _debugMenuVisible = false;
+    private bool _debugMenuVisible;
     private int _tileX, _tileY;
+    private Vector2 _tileLocation;
     
     public override void OnAttach()
     {
@@ -42,8 +43,11 @@ public class DebugLayer : Layer
             Raylib.DrawTextEx(_boldFont, "EoS Stats", new Vector2(25, 20), FontSize, 1, Color.White);
             Raylib.DrawTextEx(_font, fpsString, new Vector2(25, 25 + _titleSize.Y), FontSize, 1, Color.White);
         }
-        
-        Tiles.TerrainTileset.RenderTile(200, 200, _tileX, _tileY);
+
+        if (_debugMenuVisible)
+        {
+            Tiles.TerrainTileset.RenderTile((int)_tileLocation.X, (int)_tileLocation.Y, _tileX, _tileY);
+        }
     }
 
     public override void RenderImGUI()
@@ -53,8 +57,15 @@ public class DebugLayer : Layer
             ImGui.Begin("EoS Debug Menu", ref _debugMenuVisible);
             if (ImGui.Button("Close")) 
                 Game.Instance.CloseGame();
-            ImGui.SliderInt("Tile tile X", ref _tileX, 0, Tiles.TerrainTileset.TileColumns - 1);
-            ImGui.SliderInt("Test tile Y", ref _tileY, 0, Tiles.TerrainTileset.TileRows - 1);
+
+            if (ImGui.CollapsingHeader("Tileset Debugging"))
+            {
+                ImGui.SliderInt("Tile tile X", ref _tileX, 0, Tiles.TerrainTileset.TileColumns - 1);
+                ImGui.SliderInt("Test tile Y", ref _tileY, 0, Tiles.TerrainTileset.TileRows - 1);
+                
+                ImGui.SliderFloat2("Tile Location", ref _tileLocation, 0, 1000);
+            }
+            
             ImGui.End();
         }
     }
