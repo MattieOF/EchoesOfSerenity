@@ -96,8 +96,16 @@ public class Tilemap : IDisposable
                 Tile tile = _tiles[x, y];
                 if (tile is null || tile.Animated) continue;
                 var (tilesetX, tilesetY) = Tileset.GetTileCoordinates(tile.TileSetIndex);
+
+                float rot = 0;
+                if (tile.RandomRotation)
+                {
+                    Random rnd = new(Utility.GetSeedXY(x, y));
+                    rot = rnd.Next(0, 4) * 90;
+                }
+                
                 Tileset.RenderTile((x - chunkX) * Tileset.TileWidth, (y - chunkY) * Tileset.TileHeight, tilesetX,
-                    tilesetY);
+                    tilesetY, rot);
             }
         }
 

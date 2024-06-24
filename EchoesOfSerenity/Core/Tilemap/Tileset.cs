@@ -25,13 +25,27 @@ public class Tileset
         }
     }
 
-    public void RenderTile(int x, int y, int tileX, int tileY)
+    public void RenderTile(int x, int y, int tileX, int tileY, float rot = 0)
     {
-        Raylib.DrawTextureRec(TilesetTexture,
-            new Rectangle(tileX * TileWidth, tileY * TileHeight, TileWidth, TileHeight), new Vector2(x, y),
-            Color.White);
+        switch (rot)
+        {
+            case 90:
+                x += TileWidth;
+                break;
+            case 180:
+                x += TileWidth;
+                y += TileHeight;
+                break;
+            case 270:
+                y += TileHeight;
+                break;
+        }
+        
+        Raylib.DrawTexturePro(TilesetTexture,
+            new Rectangle(tileX * TileWidth, tileY * TileHeight, TileWidth, TileHeight), new Rectangle(x, y, TileWidth, TileHeight), Vector2.Zero, 
+            rot, Color.White);
     }
-
+    
     public (int, int) GetTileCoordinates(int tileIndex)
     {
         int x = tileIndex % TileColumns;

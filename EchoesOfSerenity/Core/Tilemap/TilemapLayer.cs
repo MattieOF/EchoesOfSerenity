@@ -14,7 +14,8 @@ public class TilemapLayer(Tilemap tilemap) : ILayer
             Random rnd = new();
             int x = rnd.Next(0, Tilemap.Width);
             int y = rnd.Next(0, Tilemap.Height);
-            Tilemap.SetTile(x, y, rnd.Next(0, 2) == 0 ? Tiles.Grass : Tiles.Water);
+            // Tilemap.SetTile(x, y, rnd.Next(0, 2) == 0 ? Tiles.Grass : Tiles.Water);
+            Tilemap.SetTile(x, y, Tiles.Grass);
         }
     }
 

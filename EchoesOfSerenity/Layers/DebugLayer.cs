@@ -1,6 +1,7 @@
 using System.Numerics;
 using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Content;
+using EchoesOfSerenity.Core.Tilemap;
 using EchoesOfSerenity.World;
 using ImGuiNET;
 using Raylib_cs;
