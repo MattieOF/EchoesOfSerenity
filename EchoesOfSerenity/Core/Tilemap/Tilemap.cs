@@ -12,7 +12,7 @@ public class Tilemap : IDisposable
     private Tile[,] _tiles;
     private const int ChunkSize = 16;
     private List<RenderTexture2D> _chunks = new();
-    private List<int> _dirtyChunks = new();
+    private HashSet<int> _dirtyChunks = new();
 
     public static bool DrawChunkOutlines = false;
 
