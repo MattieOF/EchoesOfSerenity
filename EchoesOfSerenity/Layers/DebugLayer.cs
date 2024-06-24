@@ -1,6 +1,7 @@
 using System.Numerics;
 using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Content;
+using EchoesOfSerenity.World;
 using ImGuiNET;
 using Raylib_cs;
 
@@ -13,6 +14,7 @@ public class DebugLayer : Layer
     private Font _font, _boldFont;
     private Vector2 _titleSize;
     private bool _debugMenuVisible = false;
+    private int _tileX, _tileY;
     
     public override void OnAttach()
     {
@@ -40,6 +42,8 @@ public class DebugLayer : Layer
             Raylib.DrawTextEx(_boldFont, "EoS Stats", new Vector2(25, 20), FontSize, 1, Color.White);
             Raylib.DrawTextEx(_font, fpsString, new Vector2(25, 25 + _titleSize.Y), FontSize, 1, Color.White);
         }
+        
+        Tiles.TerrainTileset.RenderTile(200, 200, _tileX, _tileY);
     }
 
     public override void RenderImGUI()
@@ -49,6 +53,8 @@ public class DebugLayer : Layer
             ImGui.Begin("EoS Debug Menu", ref _debugMenuVisible);
             if (ImGui.Button("Close")) 
                 Game.Instance.CloseGame();
+            ImGui.SliderInt("Tile tile X", ref _tileX, 0, Tiles.TerrainTileset.TileColumns - 1);
+            ImGui.SliderInt("Test tile Y", ref _tileY, 0, Tiles.TerrainTileset.TileRows - 1);
             ImGui.End();
         }
     }

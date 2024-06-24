@@ -1,6 +1,7 @@
 using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Tilemap;
 using EchoesOfSerenity.Layers;
+using EchoesOfSerenity.World;
 using Raylib_cs;
 
 namespace EchoesOfSerenity;
@@ -9,6 +10,8 @@ public class Echoes : Game
 {
     protected override void OnInit()
     {
+        Tiles.Init();
+        
         ConstructLayer<TestLayer>();
         ConstructLayer<DebugLayer>();
 
