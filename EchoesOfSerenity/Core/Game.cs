@@ -11,7 +11,18 @@ public class Game
     public bool IsRunning { get; private set; } = true;
     public Camera2D Camera;
     public static readonly Vector2 ScreenSize = new(1280, 600);
-    
+
+    public float CameraZoom
+    {
+        get => _cameraZoom;
+        set
+        {
+            _cameraZoom = value;
+            Camera.Zoom = _baseCameraZoom * value;
+        }
+    }
+
+    private float _baseCameraZoom = 1, _cameraZoom = 1;
     private readonly List<Layer> _layers = [];
     private readonly List<Layer> _layersToDetach = [];
     
@@ -47,7 +58,8 @@ public class Game
             if (Raylib.IsWindowResized())
             {
                 Camera.Offset = new Vector2(Raylib.GetScreenWidth() / 2f, Raylib.GetScreenHeight() / 2f);
-                Camera.Zoom = Raylib.GetScreenWidth() / ScreenSize.X;
+                _baseCameraZoom = Raylib.GetScreenWidth() / ScreenSize.X;
+                Camera.Zoom = _baseCameraZoom * CameraZoom;
             }
 
             // Temp camera movement

@@ -56,9 +56,14 @@ public class DebugLayer : Layer
         if (_debugMenuVisible)
         {
             ImGui.Begin("EoS Debug Menu", ref _debugMenuVisible);
+            
             if (ImGui.Button("Close")) 
                 Game.Instance.CloseGame();
 
+            float camZoom = Game.Instance.CameraZoom;
+            if (ImGui.DragFloat("Camera Zoom", ref camZoom, 0.1f, 4f))
+                Game.Instance.CameraZoom = camZoom;
+            
             if (ImGui.CollapsingHeader("Tileset Debugging"))
             {
                 ImGui.SliderInt("Tile tile X", ref _tileX, 0, Tiles.TerrainTileset.TileColumns - 1);
