@@ -34,6 +34,7 @@ public class Game
         
         while (!Raylib.WindowShouldClose())
         {
+            SoundManager.Update();
             foreach (var layer in _layers)
                 layer.Update();
             OnUpdate();

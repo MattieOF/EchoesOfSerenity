@@ -16,6 +16,6 @@ public class TestLayer : Layer
     public override void Update()
     {
         if (Raylib.IsKeyPressed(KeyboardKey.J))
-            Raylib.PlaySound(ContentManager.GetSound("Content/Sounds/jerma.wav"));
+            SoundManager.PlaySound(ContentManager.GetSound("Content/Sounds/jerma.wav"));
     }
 }
