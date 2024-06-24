@@ -64,6 +64,9 @@ public class Game
         }
         
         OnShutdown();
+        foreach (var layer in _layers)
+            layer.OnDetach();
+        ContentManager.UnloadAssets();
         rlImGui.Shutdown();
         Raylib.CloseWindow();
     }

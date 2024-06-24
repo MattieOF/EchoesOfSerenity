@@ -2,7 +2,7 @@ using Raylib_cs;
 
 namespace EchoesOfSerenity.Core.Tilemap;
 
-public class Tilemap
+public class Tilemap : IDisposable
 {
     public Tileset Tileset;
 
