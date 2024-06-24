@@ -1,14 +1,21 @@
 using EchoesOfSerenity.Core;
-using ImGuiNET;
+using EchoesOfSerenity.Core.Content;
+using Raylib_cs;
 
 namespace EchoesOfSerenity.Layers;
 
 public class TestLayer : Layer
 {
-    public bool _demoWindow = false;
-    
-    public override void RenderImGUI()
+    // public bool _demoWindow = false;
+    //
+    // public override void RenderImGUI()
+    // {
+    //     ImGui.ShowDemoWindow(ref _demoWindow);
+    // }
+
+    public override void Update()
     {
-        ImGui.ShowDemoWindow(ref _demoWindow);
+        if (Raylib.IsKeyPressed(KeyboardKey.J))
+            Raylib.PlaySound(ContentManager.GetSound("Content/Sounds/jerma.wav"));
     }
 }

@@ -1,3 +1,4 @@
+using EchoesOfSerenity.Core.Content;
 using Raylib_cs;
 using rlImGui_cs;
 
@@ -23,10 +24,12 @@ public class Game
     {
         Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
         Raylib.InitWindow(1280, 600, "Echoes of Serenity");
+        Raylib.InitAudioDevice();
         Raylib.SetExitKey(0);
         
         rlImGui.Setup();
 
+        ContentManager.LoadContent();
         OnInit();
         
         while (!Raylib.WindowShouldClose())
@@ -53,7 +56,10 @@ public class Game
             // Post frame stuff
             // Perform queued destructions
             foreach (var layer in _layersToDetach)
+            {
+                layer.OnDetach();
                 _layers.Remove(layer);
+            }
             _layersToDetach.Clear();
         }
         
@@ -67,6 +73,7 @@ public class Game
     public void AttachLayer(Layer layer, int index = 0)
     {
         _layers.Insert(index, layer);
+        layer.OnAttach();
     }
 
     public T ConstructLayer<T>(int index = 0) where T : Layer, new()
