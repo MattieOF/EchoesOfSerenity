@@ -16,7 +16,7 @@ public class Echoes : Game
         ConstructLayer<DebugLayer>();
 
         Tileset tileset = new("Content/Spritesheets/TerrainSpritesheet.png", 16, 16);
-        Tilemap tilemap = new(32, 32, tileset);
+        Tilemap tilemap = new(256, 256, tileset);
         TilemapLayer layer = new(tilemap);
         AttachLayer(layer);
     }

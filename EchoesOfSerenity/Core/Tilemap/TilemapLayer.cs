@@ -17,6 +17,17 @@ public class TilemapLayer(Tilemap tilemap) : ILayer
             // Tilemap.SetTile(x, y, rnd.Next(0, 2) == 0 ? Tiles.Grass : Tiles.Water);
             Tilemap.SetTile(x, y, Tiles.Grass);
         }
+        
+        if (Raylib.IsKeyDown(KeyboardKey.G))
+        {
+            for (int x = 0; x < Tilemap.Width; x++)
+            {
+                for (int y = 0; y < Tilemap.Height; y++)
+                {
+                    Tilemap.SetTile(x, y, Tiles.Grass);
+                }
+            }
+        }
     }
 
     public void PreRender()

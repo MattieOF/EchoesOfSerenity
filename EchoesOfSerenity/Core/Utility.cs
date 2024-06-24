@@ -41,4 +41,12 @@ public static class Utility
         int sy = Seed2(y * 2904);
         return Seed2(sx ^ sy);
     }
+    
+    // Thanks to https://stackoverflow.com/a/37221804
+    public static int ChaosHash(int x, int y, int seed = 0)
+    {   
+        int h = seed + x*374761393 + y*668265263;
+        h = (h^(h >> 13))*1274126177;
+        return h^(h >> 16);
+    }
 }

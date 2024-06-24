@@ -74,6 +74,7 @@ public class Game
                 Camera.Target -= new Vector2(0, moveSpeed * Raylib.GetFrameTime());
             if (Raylib.IsKeyDown(KeyboardKey.S))
                 Camera.Target += new Vector2(0, moveSpeed * Raylib.GetFrameTime());
+            CameraZoom = Math.Clamp(CameraZoom + Raylib.GetMouseWheelMoveV().Y * 0.2f, 0.1f, 5f);
             
             SoundManager.Update();
             foreach (var layer in _layers)

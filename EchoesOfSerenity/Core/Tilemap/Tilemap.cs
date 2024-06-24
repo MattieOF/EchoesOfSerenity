@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Raylib_cs;
 
 namespace EchoesOfSerenity.Core.Tilemap;
@@ -46,8 +47,16 @@ public class Tilemap : IDisposable
 
     public void PreRender()
     {
+        if (_dirtyChunks.Count == 0) return;
+        Stopwatch sw = new();
+        sw.Start();
+        
         foreach (var chunk in _dirtyChunks)
             RenderChunk(chunk);
+        
+        sw.Stop();
+        Utility.WriteLineColour(ConsoleColor.Green, $"Rendered {_dirtyChunks.Count} chunks in {sw.Elapsed.TotalSeconds:F}s.");
+        
         _dirtyChunks.Clear();
     }
 
@@ -100,8 +109,10 @@ public class Tilemap : IDisposable
                 float rot = 0;
                 if (tile.RandomRotation)
                 {
-                    Random rnd = new(Utility.GetSeedXY(x, y));
-                    rot = rnd.Next(0, 4) * 90;
+                    // Random rnd = new(Utility.GetSeedXY(x, y));
+                    // rot = rnd.Next(0, 4) * 90;
+                    
+                    rot = Utility.ChaosHash(x, y) % 4 * 90;
                 }
                 
                 Tileset.RenderTile((x - chunkX) * Tileset.TileWidth, (y - chunkY) * Tileset.TileHeight, tilesetX,
