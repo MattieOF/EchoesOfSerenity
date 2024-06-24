@@ -11,7 +11,7 @@ public class Tileset
     public int TileCount => (TilesetTexture.Width / TileWidth) * (TilesetTexture.Height / TileHeight);
     public int TileColumns => TilesetTexture.Width / TileWidth;
     public int TileRows => TilesetTexture.Height / TileHeight;
-    
+
     public Tileset(string filepath, int tileWidth, int tileHeight)
     {
         TilesetTexture = ContentManager.GetTexture(filepath);
@@ -24,10 +24,12 @@ public class Tileset
             Utility.WriteLineColour(ConsoleColor.Red, $"Tileset image size does not match tile size.");
         }
     }
-    
+
     public void RenderTile(int x, int y, int tileX, int tileY)
     {
-        Raylib.DrawTextureRec(TilesetTexture, new Rectangle(tileX * TileWidth, tileY * TileHeight, TileWidth, TileHeight), new Vector2(x, y), Color.White);
+        Raylib.DrawTextureRec(TilesetTexture,
+            new Rectangle(tileX * TileWidth, tileY * TileHeight, TileWidth, TileHeight), new Vector2(x, y),
+            Color.White);
     }
 
     public (int, int) GetTileCoordinates(int tileIndex)

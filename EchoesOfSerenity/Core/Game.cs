@@ -23,8 +23,8 @@ public class Game
     }
 
     private float _baseCameraZoom = 1, _cameraZoom = 1;
-    private readonly List<Layer> _layers = [];
-    private readonly List<Layer> _layersToDetach = [];
+    private readonly List<ILayer> _layers = [];
+    private readonly List<ILayer> _layersToDetach = [];
     
     public Game()
     {
@@ -125,20 +125,20 @@ public class Game
 
     public int GetLayerCount() => _layers.Count;
     
-    public void AttachLayer(Layer layer, int index = 0)
+    public void AttachLayer(ILayer layer, int index = 0)
     {
         _layers.Insert(index, layer);
         layer.OnAttach();
     }
 
-    public T ConstructLayer<T>(int index = 0) where T : Layer, new()
+    public T ConstructLayer<T>(int index = 0) where T : ILayer, new()
     {
         T layer = new();
         AttachLayer(layer, index);
         return layer;
     }
     
-    public void QueueDetach(Layer layer)
+    public void QueueDetach(ILayer layer)
     {
         if (!_layers.Contains(layer))
             Utility.WriteLineColour(ConsoleColor.Red, "Attempt to detach non-attached layer");

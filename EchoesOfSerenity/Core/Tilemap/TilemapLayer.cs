@@ -3,11 +3,11 @@ using Raylib_cs;
 
 namespace EchoesOfSerenity.Core.Tilemap;
 
-public class TilemapLayer(Tilemap tilemap) : Layer
+public class TilemapLayer(Tilemap tilemap) : ILayer
 {
     public Tilemap Tilemap = tilemap;
 
-    public override void Update()
+    public void Update()
     {
         if (Raylib.IsKeyDown(KeyboardKey.F))
         {
@@ -18,12 +18,12 @@ public class TilemapLayer(Tilemap tilemap) : Layer
         }
     }
 
-    public override void PreRender()
+    public void PreRender()
     {
         Tilemap.PreRender();
     }
 
-    public override void Render()
+    public void Render()
     {
         Tilemap.Render();
     }

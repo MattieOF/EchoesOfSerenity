@@ -11,7 +11,7 @@ public class Echoes : Game
     protected override void OnInit()
     {
         Tiles.Init();
-        
+
         ConstructLayer<TestLayer>();
         ConstructLayer<DebugLayer>();
 

@@ -23,22 +23,30 @@ public class ContentManager
         {
             if (Path.GetFileName(file).StartsWith('_')) // TODO: ew
                 continue;
-            
+
+#if DEBUG
             string loadType;
+#endif
             var extension = Path.GetExtension(file);
             switch (extension)
             {
                 case ".png":
+#if DEBUG
                     loadType = "texture";
+#endif
                     RegisterTexture(file, Raylib.LoadTexture(file));
                     break;
                 case ".ttf":
+#if DEBUG
                     loadType = "font";
+#endif
                     var font = Raylib.LoadFontEx(file, 18, [], 250);
                     RegisterFont(file, font);
                     break;
                 case ".wav":
+#if DEBUG
                     loadType = "sound";
+#endif
                     var sound = Raylib.LoadSound(file);
                     RegisterSound(file, sound);
                     break;
@@ -60,10 +68,10 @@ public class ContentManager
     {
         foreach (var texture in _textures.Values)
             Raylib.UnloadTexture(texture);
-        
+
         foreach (var font in _fonts.Values)
             Raylib.UnloadFont(font);
-        
+
         foreach (var sound in _sounds.Values)
             Raylib.UnloadSound(sound);
     }
@@ -83,7 +91,7 @@ public class ContentManager
     }
 
     public static Font GetFont(string path) => _fonts[path];
-    
+
     public static void RegisterSound(string path, Sound sound)
     {
         path = path.Replace('\\', '/');
