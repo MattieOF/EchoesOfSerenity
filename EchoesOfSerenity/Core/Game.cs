@@ -7,6 +7,7 @@ namespace EchoesOfSerenity.Core;
 public class Game
 {
     public static Game Instance = null!;
+    public bool IsRunning { get; private set; } = true;
     
     private readonly List<Layer> _layers = [];
     private readonly List<Layer> _layersToDetach = [];
@@ -32,7 +33,7 @@ public class Game
         ContentManager.LoadContent();
         OnInit();
         
-        while (!Raylib.WindowShouldClose())
+        while (!Raylib.WindowShouldClose() && IsRunning)
         {
             SoundManager.Update();
             foreach (var layer in _layers)
@@ -94,6 +95,8 @@ public class Game
         else
             _layersToDetach.Add(layer);
     }
+    
+    public void CloseGame() => IsRunning = false;
 
     protected virtual void OnInit() { }
     protected virtual void OnUpdate() { }
