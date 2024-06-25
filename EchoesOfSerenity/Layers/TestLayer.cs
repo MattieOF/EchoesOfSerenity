@@ -6,13 +6,6 @@ namespace EchoesOfSerenity.Layers;
 
 public class TestLayer : ILayer
 {
-    // public bool _demoWindow = false;
-    //
-    // public override void RenderImGUI()
-    // {
-    //     ImGui.ShowDemoWindow(ref _demoWindow);
-    // }
-
     public void Update()
     {
         if (Raylib.IsKeyPressed(KeyboardKey.J))

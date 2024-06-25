@@ -11,12 +11,12 @@ public class Tilemap : IDisposable
     public const int ChunkSize = 16;
     public int Width { get; private set; }
     public int Height { get; private set; }
-    private Tile[,] _tiles;
+    private Tile?[,] _tiles;
     public List<RenderTexture2D> Chunks { get; private set; } = new();
     private HashSet<int> _dirtyChunks = new();
 
     public static bool DrawChunkOutlines = false;
-    public static int RenderedChunks { get; private set; } = 0;
+    public int RenderedChunks { get; private set; }
 
     public Tilemap(int width, int height, Tileset tileset)
     {
@@ -94,7 +94,7 @@ public class Tilemap : IDisposable
                 {
                     for (int cx = chunkX; cx < chunkX + ChunkSize; cx++)
                     {
-                        Tile tile = _tiles[cx, cy];
+                        Tile? tile = _tiles[cx, cy];
                         if (tile is null || !tile.Animated) continue;
                         var (tilesetX, tilesetY) = Tileset.GetTileCoordinates(tile.TileSetIndex);
                         Tileset.RenderTile(cx * Tileset.TileWidth, cy * Tileset.TileHeight, tilesetX + (int)((Raylib.GetTime() * tile.FPS) % tile.Frames),
@@ -140,16 +140,13 @@ public class Tilemap : IDisposable
         {
             for (int x = chunkX; x < chunkX + ChunkSize; x++)
             {
-                Tile tile = _tiles[x, y];
+                Tile? tile = _tiles[x, y];
                 if (tile is null || tile.Animated) continue;
                 var (tilesetX, tilesetY) = Tileset.GetTileCoordinates(tile.TileSetIndex);
 
                 float rot = 0;
                 if (tile.RandomRotation)
                 {
-                    // Random rnd = new(Utility.GetSeedXY(x, y));
-                    // rot = rnd.Next(0, 4) * 90;
-                    
                     rot = Utility.ChaosHash(x, y) % 4 * 90;
                 }
                 

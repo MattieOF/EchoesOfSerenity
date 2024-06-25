@@ -2,7 +2,6 @@ using System.Numerics;
 using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Content;
 using EchoesOfSerenity.Core.Tilemap;
-using EchoesOfSerenity.World;
 using EchoesOfSerenity.World.Tiles;
 using ImGuiNET;
 using Raylib_cs;
@@ -83,12 +82,22 @@ public class DebugLayer : ILayer
 
             if (ImGui.CollapsingHeader("Tilemap Debugging"))
             {
-                ImGui.Text($"Rendered Chunks: {Tilemap.RenderedChunks}");
-                if (ImGui.CollapsingHeader("Tilemap Chunk Preview"))
+                void TilemapDebugger(string name, Tilemap tilemap)
                 {
-                    ImGui.SliderInt("Chunk Index", ref _tilemapChunkPreviewIndex, 0, Echoes.EchoesInstance.Tilemap.Chunks.Count - 1);
-                    rlImGui.ImageSize(Echoes.EchoesInstance.Tilemap.Chunks[_tilemapChunkPreviewIndex].Texture, 256, 256);
+                    if (ImGui.CollapsingHeader(name))
+                    {
+                        ImGui.Text($"Rendered Chunks: {tilemap.RenderedChunks}");
+                        if (ImGui.CollapsingHeader("Tilemap Chunk Preview"))
+                        {
+                            ImGui.SliderInt("Chunk Index", ref _tilemapChunkPreviewIndex, 0, tilemap.Chunks.Count - 1);
+                            rlImGui.ImageSize(tilemap.Chunks[_tilemapChunkPreviewIndex].Texture, 256, 256);
+                        }
+                    }
                 }
+                
+                TilemapDebugger("Base Layer", Echoes.EchoesInstance.World.BaseLayer);
+                TilemapDebugger("Top Layer", Echoes.EchoesInstance.World.TopLayer);
+                
 #if DEBUG
                 ImGui.Checkbox("Draw Chunk Outlines", ref Tilemap.DrawChunkOutlines);
 #endif
@@ -98,8 +107,7 @@ public class DebugLayer : ILayer
             {
                 if (ImGui.Button("View Full Map"))
                 {
-                    Game.Instance.Camera.Target = new Vector2(Echoes.EchoesInstance.Tilemap.Width * Tiles.TerrainTileset.TileWidth / 2.0f,
-                        Echoes.EchoesInstance.Tilemap.Height * Tiles.TerrainTileset.TileHeight / 2.0f);
+                    Game.Instance.Camera.Target = Echoes.EchoesInstance.World.GetCenterPoint();
                     Game.Instance.CameraZoom = 0.1f;
                 }
             }

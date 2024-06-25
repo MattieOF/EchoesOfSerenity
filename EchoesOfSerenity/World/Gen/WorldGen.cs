@@ -4,7 +4,7 @@ namespace EchoesOfSerenity.World.Gen;
 
 public class WorldGen
 {
-    public World GenerateWorld(int chunkCountX, int chunkCountY, int seed = 0)
+    public static World GenerateWorld(int chunkCountX, int chunkCountY, int seed = 0)
     {
         if (seed == 0)
             seed = new Random().Next();
@@ -19,6 +19,8 @@ public class WorldGen
         
         world.BaseLayer = new Tilemap(tilesX, tilesY, Tiles.Tiles.TerrainTileset);
         world.TopLayer = new Tilemap(tilesX, tilesY, Tiles.Tiles.TerrainTileset);
+        world.Width = tilesX;
+        world.Height = tilesY;
 
         for (int y = 0; y < tilesY; y++)
         {
@@ -31,7 +33,8 @@ public class WorldGen
                     continue;
                 }
                 
-                world.BaseLayer.SetTile(x, y, Tiles.Tiles.Grass);
+                // world.BaseLayer.SetTile(x, y, Tiles.Tiles.Grass);
+                world.BaseLayer.SetTile(x, y, rnd.Next(0, 10) == 0 ? Tiles.Tiles.Water : Tiles.Tiles.Grass);
             }
         }
         
