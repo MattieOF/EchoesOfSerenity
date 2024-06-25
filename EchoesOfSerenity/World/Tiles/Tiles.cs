@@ -1,6 +1,6 @@
 using EchoesOfSerenity.Core.Tilemap;
 
-namespace EchoesOfSerenity.World;
+namespace EchoesOfSerenity.World.Tiles;
 
 public static class Tiles
 {

@@ -2,16 +2,20 @@ using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Tilemap;
 using EchoesOfSerenity.Layers;
 using EchoesOfSerenity.World;
+using EchoesOfSerenity.World.Tiles;
 using Raylib_cs;
 
 namespace EchoesOfSerenity;
 
 public class Echoes : Game
 {
-    public static Tilemap Tilemap = null!;
+    public static Echoes EchoesInstance = null!;
+    public Tilemap Tilemap = null!;
     
     protected override void OnInit()
     {
+        EchoesInstance = this;
+        
         Tiles.Init();
 
         ConstructLayer<TestLayer>();

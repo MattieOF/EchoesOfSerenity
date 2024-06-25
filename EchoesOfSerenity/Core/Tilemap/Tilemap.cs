@@ -8,10 +8,10 @@ public class Tilemap : IDisposable
 {
     public Tileset Tileset;
 
+    public const int ChunkSize = 16;
     public int Width { get; private set; }
     public int Height { get; private set; }
     private Tile[,] _tiles;
-    private const int ChunkSize = 16;
     public List<RenderTexture2D> Chunks { get; private set; } = new();
     private HashSet<int> _dirtyChunks = new();
 

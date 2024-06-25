@@ -3,6 +3,7 @@ using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Content;
 using EchoesOfSerenity.Core.Tilemap;
 using EchoesOfSerenity.World;
+using EchoesOfSerenity.World.Tiles;
 using ImGuiNET;
 using Raylib_cs;
 using rlImGui_cs;
@@ -85,12 +86,22 @@ public class DebugLayer : ILayer
                 ImGui.Text($"Rendered Chunks: {Tilemap.RenderedChunks}");
                 if (ImGui.CollapsingHeader("Tilemap Chunk Preview"))
                 {
-                    ImGui.SliderInt("Chunk Index", ref _tilemapChunkPreviewIndex, 0, Echoes.Tilemap.Chunks.Count - 1);
-                    rlImGui.Image(Echoes.Tilemap.Chunks[_tilemapChunkPreviewIndex].Texture);
+                    ImGui.SliderInt("Chunk Index", ref _tilemapChunkPreviewIndex, 0, Echoes.EchoesInstance.Tilemap.Chunks.Count - 1);
+                    rlImGui.Image(Echoes.EchoesInstance.Tilemap.Chunks[_tilemapChunkPreviewIndex].Texture);
                 }
 #if DEBUG
                 ImGui.Checkbox("Draw Chunk Outlines", ref Tilemap.DrawChunkOutlines);
 #endif
+            }
+
+            if (ImGui.CollapsingHeader("World Gen Debugging"))
+            {
+                if (ImGui.Button("View Full Map"))
+                {
+                    Game.Instance.Camera.Target = new Vector2(Echoes.EchoesInstance.Tilemap.Width * Tiles.TerrainTileset.TileWidth / 2.0f,
+                        Echoes.EchoesInstance.Tilemap.Height * Tiles.TerrainTileset.TileHeight / 2.0f);
+                    Game.Instance.CameraZoom = 0.1f;
+                }
             }
 
             ImGui.End();
