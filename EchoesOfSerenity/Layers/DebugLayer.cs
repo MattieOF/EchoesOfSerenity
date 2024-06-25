@@ -18,6 +18,7 @@ public class DebugLayer : ILayer
     private bool _debugMenuVisible;
     private int _tileX, _tileY;
     private Vector2 _tileLocation;
+    private int _tilemapChunkPreviewIndex = 0;
 
     public void OnAttach()
     {
@@ -81,6 +82,12 @@ public class DebugLayer : ILayer
 
             if (ImGui.CollapsingHeader("Tilemap Debugging"))
             {
+                ImGui.Text($"Rendered Chunks: {Tilemap.RenderedChunks}");
+                if (ImGui.CollapsingHeader("Tilemap Chunk Preview"))
+                {
+                    ImGui.SliderInt("Chunk Index", ref _tilemapChunkPreviewIndex, 0, Echoes.Tilemap.Chunks.Count - 1);
+                    rlImGui.Image(Echoes.Tilemap.Chunks[_tilemapChunkPreviewIndex].Texture);
+                }
 #if DEBUG
                 ImGui.Checkbox("Draw Chunk Outlines", ref Tilemap.DrawChunkOutlines);
 #endif

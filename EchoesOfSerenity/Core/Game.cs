@@ -10,7 +10,7 @@ public class Game
     public static Game Instance = null!;
     public bool IsRunning { get; private set; } = true;
     public Camera2D Camera;
-    public static readonly Vector2 ScreenSize = new(1280, 600);
+    public static readonly Vector2 DefaultScreenSize = new(1280, 600);
 
     public float CameraZoom
     {
@@ -38,7 +38,7 @@ public class Game
     public void Run()
     {
         Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
-        Raylib.InitWindow((int)ScreenSize.X, (int)ScreenSize.Y, "Echoes of Serenity");
+        Raylib.InitWindow((int)DefaultScreenSize.X, (int)DefaultScreenSize.Y, "Echoes of Serenity");
         Raylib.InitAudioDevice();
         Raylib.SetExitKey(0);
         
@@ -58,7 +58,7 @@ public class Game
             if (Raylib.IsWindowResized())
             {
                 Camera.Offset = new Vector2(Raylib.GetScreenWidth() / 2f, Raylib.GetScreenHeight() / 2f);
-                _baseCameraZoom = Raylib.GetScreenWidth() / ScreenSize.X;
+                _baseCameraZoom = Raylib.GetScreenWidth() / DefaultScreenSize.X;
                 Camera.Zoom = _baseCameraZoom * CameraZoom;
             }
 

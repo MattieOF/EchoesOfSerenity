@@ -8,6 +8,8 @@ namespace EchoesOfSerenity;
 
 public class Echoes : Game
 {
+    public static Tilemap Tilemap = null!;
+    
     protected override void OnInit()
     {
         Tiles.Init();
@@ -16,8 +18,8 @@ public class Echoes : Game
         ConstructLayer<DebugLayer>();
 
         Tileset tileset = new("Content/Spritesheets/TerrainSpritesheet.png", 16, 16);
-        Tilemap tilemap = new(256, 256, tileset);
-        TilemapLayer layer = new(tilemap);
+        Tilemap = new(512, 512, tileset);
+        TilemapLayer layer = new(Tilemap);
         AttachLayer(layer);
     }
 

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Numerics;
 using Raylib_cs;
 
 namespace EchoesOfSerenity.Core.Tilemap;
@@ -11,10 +12,11 @@ public class Tilemap : IDisposable
     public int Height { get; private set; }
     private Tile[,] _tiles;
     private const int ChunkSize = 16;
-    private List<RenderTexture2D> _chunks = new();
+    public List<RenderTexture2D> Chunks { get; private set; } = new();
     private HashSet<int> _dirtyChunks = new();
 
     public static bool DrawChunkOutlines = false;
+    public static int RenderedChunks { get; private set; } = 0;
 
     public Tilemap(int width, int height, Tileset tileset)
     {
@@ -62,23 +64,58 @@ public class Tilemap : IDisposable
 
     public void Render()
     {
+        RenderedChunks = 0;
+        
+        // Make camera rectangle
+        var mat = Raylib.GetCameraMatrix2D(Game.Instance.Camera);
+        mat = Raymath.MatrixInvert(mat);
+        var topLeft = Raymath.Vector2Transform(new(0, 0), mat);
+        var bottomRight = Raymath.Vector2Transform(new(Raylib.GetScreenWidth(), Raylib.GetScreenHeight()), mat);
+        Rectangle cameraRect = new(topLeft.X, topLeft.Y, bottomRight.X - topLeft.X, bottomRight.Y - topLeft.Y);
+        
         // Render the chunks
         int x = 0, y = 0;
-        foreach (var chunk in _chunks)
+        Rectangle source = new Rectangle(0, 0, ChunkSize * Tileset.TileWidth, -ChunkSize * Tileset.TileHeight);
+        for (var index = 0; index < Chunks.Count; index++)
         {
-            Raylib.DrawTexture(chunk.Texture, x, y, Color.White);
+            // Make chunk bounding box
+            Rectangle chunkRect = new(x, y, ChunkSize * Tileset.TileWidth, ChunkSize * Tileset.TileHeight);
+            // And check if it's in the camera
+            if (Raylib.CheckCollisionRecs(cameraRect, chunkRect))
+            {
+                Raylib.DrawTextureRec(Chunks[index].Texture, source, new Vector2(x, y), Color.White);
 #if DEBUG
-            if (DrawChunkOutlines)
-                Raylib.DrawRectangleLines(x, y, ChunkSize * Tileset.TileWidth, ChunkSize * Tileset.TileHeight, Color.Red);
+                if (DrawChunkOutlines)
+                    Raylib.DrawRectangleLines(x, y, ChunkSize * Tileset.TileWidth, ChunkSize * Tileset.TileHeight,
+                        Color.Red);
 #endif
+
+                // Draw animated tiles
+                // int chunkX = (index % (Width / ChunkSize)) * ChunkSize;
+                // int chunkY = (index / (Width / ChunkSize)) * ChunkSize;
+                int chunkX = x / Tileset.TileWidth;
+                int chunkY = y / Tileset.TileHeight;
+                for (int cy = chunkY; cy < chunkY + ChunkSize; cy++) // Loop y first for cache efficiency
+                {
+                    for (int cx = chunkX; cx < chunkX + ChunkSize; cx++)
+                    {
+                        Tile tile = _tiles[cx, cy];
+                        if (tile is null || !tile.Animated) continue;
+                        var (tilesetX, tilesetY) = Tileset.GetTileCoordinates(tile.TileSetIndex);
+                        Tileset.RenderTile(cx * Tileset.TileWidth, cy * Tileset.TileHeight, tilesetX + (int)((Raylib.GetTime() * tile.FPS) % tile.Frames),
+                            tilesetY);
+                    }
+                }
+
+                RenderedChunks++;
+            }
+
             x += ChunkSize * Tileset.TileWidth;
             if (x >= Width * Tileset.TileWidth)
             {
                 x = 0;
                 y += ChunkSize * Tileset.TileHeight;
             }
-
-            // Render the animated tiles
         }
     }
 
@@ -87,15 +124,15 @@ public class Tilemap : IDisposable
         int chunkX = (index % (Width / ChunkSize)) * ChunkSize;
         int chunkY = (index / (Width / ChunkSize)) * ChunkSize;
 
-        if (!_chunks.IsValidIndex(index))
+        if (!Chunks.IsValidIndex(index))
         {
-            if (_chunks.Count != index)
+            if (Chunks.Count != index)
                 Utility.WriteLineColour(ConsoleColor.Red, "Chunk index is out of order.");
 
-            _chunks.Add(Raylib.LoadRenderTexture(ChunkSize * Tileset.TileWidth, ChunkSize * Tileset.TileHeight));
+            Chunks.Add(Raylib.LoadRenderTexture(ChunkSize * Tileset.TileWidth, ChunkSize * Tileset.TileHeight));
         }
 
-        Raylib.BeginTextureMode(_chunks[index]);
+        Raylib.BeginTextureMode(Chunks[index]);
         Raylib.ClearBackground(Color.Blank);
 
         for (int y = chunkY; y < chunkY + ChunkSize; y++) // Loop y first for cache efficiency
@@ -125,7 +162,7 @@ public class Tilemap : IDisposable
 
     public void Dispose()
     {
-        foreach (var texture in _chunks)
+        foreach (var texture in Chunks)
             Raylib.UnloadRenderTexture(texture);
     }
 }

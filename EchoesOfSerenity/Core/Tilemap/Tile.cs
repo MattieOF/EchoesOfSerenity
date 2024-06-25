@@ -8,5 +8,6 @@ public class Tile
     public bool RandomRotation = false;
 
     public bool Animated = false;
-    public int Frames = 1; // Should be stored sequentially in the tileset, in the X direction 
+    public int Frames = 1; // Should be stored sequentially in the tileset, in the X direction
+    public int FPS = 3;
 }
