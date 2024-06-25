@@ -64,16 +64,6 @@ public class WorldGen
         {
             for (int x = 0; x < tilesX; x++)
             {
-                // if (x < 32 || x > tilesX - 32 
-                //            || y < 32 || y > tilesY - 32)
-                // {
-                //     world.BaseLayer.SetTile(x, y, Tiles.Tiles.Water);
-                //     continue;
-                // }
-
-                Vector2 location = new(x, y);
-                float distSquared = Raymath.Vector2DistanceSqr(centerPoint, location);
-
                 float nx = 2.0f * x / world.Width - 1;
                 float ny = 2.0f * y / world.Height - 1;
                 float dist = 1 - (1 - (nx * nx)) * (1 - (ny * ny));
@@ -81,8 +71,6 @@ public class WorldGen
 
                 float islandVal = Raymath.Lerp(noise, 1 - dist, IslandNoiseMix);
                 bool isLand = islandVal > IslandThreshold;
-                // bool isLand = noise > 0.3f;
-                // bool isLand = 1 - dist > 0.3f;
                 if (!isLand)
                 {
                     world.BaseLayer.SetTile(x, y, dist > 0.85 ? Tiles.Tiles.DeepWater : Tiles.Tiles.Water);
@@ -135,10 +123,13 @@ public class WorldGen
                 float mainNoise2Val = mainNoise2.GetNoise(x, y);
                 if (mainNoiseVal > 0.3f && mainNoiseVal < 0.3f + LakeThreshold && mainNoise2Val is < 0.25f)
                 {
-                    world.BaseLayer.SetTile(x, y, Tiles.Tiles.Water);
+                    bool isDeep = mainNoiseVal > 0.3 + (LakeThreshold / 2) - 0.015f
+                        && mainNoiseVal < 0.3 + (LakeThreshold / 2) + 0.015f;
+                    world.BaseLayer.SetTile(x, y, isDeep ? Tiles.Tiles.DeepWater : Tiles.Tiles.Water);
                     continue;
                 }
-                else if (mainNoiseVal > 0.3f + LakeThreshold && mainNoiseVal < 0.3f + LakeThreshold + SandThreshold
+                
+                if (mainNoiseVal > 0.3f + LakeThreshold && mainNoiseVal < 0.3f + LakeThreshold + SandThreshold
                                                              && mainNoise2Val < SandThreshold)
                 {
                     world.BaseLayer.SetTile(x, y, Tiles.Tiles.Sand);

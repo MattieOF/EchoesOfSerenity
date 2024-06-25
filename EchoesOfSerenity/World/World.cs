@@ -12,8 +12,8 @@ public class World
     public int Width, Height;
     public int Seed = 0;
 
-    private List<Entity> _entities = new();
-    private List<Entity> _queuedFrees = new();
+    private List<Core.Entity.Entity> _entities = new();
+    private List<Core.Entity.Entity> _queuedFrees = new();
 
     public static World CreateEmpty()
     {
@@ -23,13 +23,13 @@ public class World
         return world;
     }
 
-    public void AddEntity(Entity entity)
+    public void AddEntity(Core.Entity.Entity entity)
     {
         entity.World = this;
         _entities.Add(entity);
     }
 
-    public void RemoveEntity(Entity entity)
+    public void RemoveEntity(Core.Entity.Entity entity)
     {
         _queuedFrees.Add(entity);
     }
