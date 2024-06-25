@@ -15,6 +15,7 @@ public static class Tiles
     public static Tile StoneWall = new Tile { IsSolid = true, TileSetIndex = 9 };
     public static Tile FloweryGrass = new Tile { IsSolid = false, TileSetIndex = 10, RandomRotation = true };
     public static Tile Pebbles = new Tile { IsSolid = false, TileSetIndex = 11, RandomRotation = false };
+    public static Tile Rock = new Tile { IsSolid = true, TileSetIndex = 12, RandomRotation = false };
     
     // TODO: Deep water, around of edge of map and where water gets deep. Kills player.
 

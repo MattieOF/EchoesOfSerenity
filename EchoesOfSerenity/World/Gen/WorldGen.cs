@@ -98,6 +98,10 @@ public class WorldGen
                         && rnd.Next(0, 6) == 0)
                     {
                         world.TopLayer.SetTile(x, y, Tiles.Tiles.Pebbles);
+                    } else if (mainNoise3Val is > 0.5f and < 0.55f
+                            && rnd.Next(0, 10) == 0)
+                    {
+                        world.TopLayer.SetTile(x, y, Tiles.Tiles.Rock);
                     }
                 }
                 
