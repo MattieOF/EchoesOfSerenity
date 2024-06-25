@@ -87,7 +87,7 @@ public class DebugLayer : ILayer
                 if (ImGui.CollapsingHeader("Tilemap Chunk Preview"))
                 {
                     ImGui.SliderInt("Chunk Index", ref _tilemapChunkPreviewIndex, 0, Echoes.EchoesInstance.Tilemap.Chunks.Count - 1);
-                    rlImGui.Image(Echoes.EchoesInstance.Tilemap.Chunks[_tilemapChunkPreviewIndex].Texture);
+                    rlImGui.ImageSize(Echoes.EchoesInstance.Tilemap.Chunks[_tilemapChunkPreviewIndex].Texture, 256, 256);
                 }
 #if DEBUG
                 ImGui.Checkbox("Draw Chunk Outlines", ref Tilemap.DrawChunkOutlines);
