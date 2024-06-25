@@ -12,4 +12,9 @@
       <PackageReference Include="rlImGui-cs" Version="2.0.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="World\Entity\" />
+      <Folder Include="World\Item\" />
+    </ItemGroup>
+
 </Project>

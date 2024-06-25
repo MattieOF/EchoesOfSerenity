@@ -9,7 +9,7 @@ public static class Tiles
     public static Tile Grass = new Tile { IsSolid = false, TileSetIndex = 0 };
     public static Tile Sand = new Tile { IsSolid = false, TileSetIndex = 1 };
     public static Tile Water = new Tile { IsSolid = false, TileSetIndex = 2, Animated = true, Frames = 6, FPS = 3};
-    public static Tile DeepWater = new Tile { IsSolid = false };
+    public static Tile DeepWater = new Tile { IsSolid = false, TileSetIndex = 18, Animated = true, Frames = 6, FPS = 3};
 
     public static Tile StoneFloor = new Tile { IsSolid = false, TileSetIndex = 8 };
     public static Tile StoneWall = new Tile { IsSolid = true, TileSetIndex = 9 };

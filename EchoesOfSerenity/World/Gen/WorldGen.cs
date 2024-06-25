@@ -78,17 +78,25 @@ public class WorldGen
                 float ny = 2.0f * y / world.Height - 1;
                 float dist = 1 - (1 - (nx * nx)) * (1 - (ny * ny));
                 float noise = islandNoise.GetNoise(x, y);
-                
-                bool isLand = Raymath.Lerp(noise, 1 - dist, IslandNoiseMix) > IslandThreshold;
+
+                float islandVal = Raymath.Lerp(noise, 1 - dist, IslandNoiseMix);
+                bool isLand = islandVal > IslandThreshold;
                 // bool isLand = noise > 0.3f;
                 // bool isLand = 1 - dist > 0.3f;
                 if (!isLand)
                 {
-                    world.BaseLayer.SetTile(x, y, Tiles.Tiles.Water);
+                    world.BaseLayer.SetTile(x, y, dist > 0.85 ? Tiles.Tiles.DeepWater : Tiles.Tiles.Water);
+                    continue;
+                }
+
+                float mainNoiseVal = mainNoise.GetNoise(x, y);
+                
+                if (islandVal < IslandThreshold + Math.Clamp(((mainNoiseVal + 0.6f) * 0.05f), 0, 1))
+                {
+                    world.BaseLayer.SetTile(x, y, Tiles.Tiles.Sand);
                     continue;
                 }
                 
-                float mainNoiseVal = mainNoise.GetNoise(x, y);
                 float mainNoise3Val = mainNoise3.GetNoise(x, y);
                 float caveNoiseVal = caveNoise.GetNoise(x, y);
 
@@ -111,7 +119,8 @@ public class WorldGen
                     world.BaseLayer.SetTile(x, y, Tiles.Tiles.StoneFloor);
 
                     if (absCaveNoiseVal < CaveNoiseThreshold && absCaveNoiseVal > CaveNoiseThreshold - CaveWallThickness
-                        || world.BaseLayer.TileTouches(x, y, Tiles.Tiles.Water))
+                        || world.BaseLayer.TileTouches(x, y, Tiles.Tiles.Water)
+                        || islandVal < IslandThreshold + 0.1f)
                     {
                         world.TopLayer.SetTile(x, y, Tiles.Tiles.StoneWall);
                     }
