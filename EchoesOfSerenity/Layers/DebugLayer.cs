@@ -110,6 +110,7 @@ public class DebugLayer : ILayer
                 ImGui.InputFloat("Island Noise Frequency", ref WorldGen.IslandNoiseFrequency, 0, 1);
                 ImGui.SliderFloat("Island Noise Mix", ref WorldGen.IslandNoiseMix, 0, 1);
                 ImGui.InputFloat("Lake Threshold", ref WorldGen.LakeThreshold, 0.02f, 0.1f);
+                ImGui.InputFloat("Deep Lake Threshold", ref WorldGen.DeepLakeThreshold, 0.02f, 0.1f);
                 ImGui.InputFloat("Sand Threshold", ref WorldGen.SandThreshold, 0.02f, 0.1f);
                 ImGui.InputFloat("Main Noise 1 Frequency", ref WorldGen.MainNoiseFreq, 0.02f, 0.1f);
                 ImGui.InputFloat("Main Noise 2 Frequency", ref WorldGen.MainNoise2Freq, 0.02f, 0.1f);

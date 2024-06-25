@@ -6,10 +6,12 @@ using Raylib_cs;
 
 namespace EchoesOfSerenity.World.Gen;
 
+// TODO: Zoom in at start
+
 public class WorldGen
 {
     public static float IslandThreshold = 0.35f, IslandNoiseFrequency = 0.01f, IslandNoiseMix = 0.7f;
-    public static float LakeThreshold = 0.2f, SandThreshold = 0.2f;
+    public static float LakeThreshold = 0.2f, DeepLakeThreshold = 0.015f, SandThreshold = 0.2f;
     public static float MainNoiseFreq = 0.04f, MainNoise2Freq = 0.1f, MainNoise3Freq = 0.02f;
     public static float CaveNoiseFreq = 0.04f, CaveNoiseThreshold = 0.65f, CaveWallThickness = 0.12f;
     
@@ -123,8 +125,8 @@ public class WorldGen
                 float mainNoise2Val = mainNoise2.GetNoise(x, y);
                 if (mainNoiseVal > 0.3f && mainNoiseVal < 0.3f + LakeThreshold && mainNoise2Val is < 0.25f)
                 {
-                    bool isDeep = mainNoiseVal > 0.3 + (LakeThreshold / 2) - 0.015f
-                        && mainNoiseVal < 0.3 + (LakeThreshold / 2) + 0.015f;
+                    bool isDeep = mainNoiseVal > 0.3 + (LakeThreshold / 2) - DeepLakeThreshold
+                        && mainNoiseVal < 0.3 + (LakeThreshold / 2) + DeepLakeThreshold;
                     world.BaseLayer.SetTile(x, y, isDeep ? Tiles.Tiles.DeepWater : Tiles.Tiles.Water);
                     continue;
                 }
