@@ -2,6 +2,7 @@ using System.Numerics;
 using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Content;
 using EchoesOfSerenity.Core.Tilemap;
+using EchoesOfSerenity.World.Gen;
 using EchoesOfSerenity.World.Tiles;
 using ImGuiNET;
 using Raylib_cs;
@@ -105,6 +106,15 @@ public class DebugLayer : ILayer
 
             if (ImGui.CollapsingHeader("World Gen Debugging"))
             {
+                ImGui.SliderFloat("Island Threshold", ref WorldGen.islandThreshold, 0, 1);
+                ImGui.InputFloat("Island Noise Frequency", ref WorldGen.islandNoiseFrequency, 0, 1);
+                ImGui.SliderFloat("Island Noise Mix", ref WorldGen.islandNoiseMix, 0, 1);
+                
+                if (ImGui.Button("Regenerate Level"))
+                {
+                    WorldGen.RegenerateWorld(Echoes.EchoesInstance.World);
+                }
+                
                 if (ImGui.Button("View Full Map"))
                 {
                     Game.Instance.Camera.Target = Echoes.EchoesInstance.World.GetCenterPoint();
