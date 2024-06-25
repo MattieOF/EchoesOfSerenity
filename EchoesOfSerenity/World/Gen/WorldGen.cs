@@ -4,10 +4,17 @@ namespace EchoesOfSerenity.World.Gen;
 
 public class WorldGen
 {
-    public World GenerateWorld(int chunkCountX, int chunkCountY)
+    public World GenerateWorld(int chunkCountX, int chunkCountY, int seed = 0)
     {
-        World world = new();
+        if (seed == 0)
+            seed = new Random().Next();
+        Random rnd = new(seed);
         
+        World world = new()
+        {
+            Seed = seed
+        };
+
         int tilesX = chunkCountX * Tilemap.ChunkSize, tilesY = chunkCountY * Tilemap.ChunkSize;
         
         world.BaseLayer = new Tilemap(tilesX, tilesY, Tiles.Tiles.TerrainTileset);

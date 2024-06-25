@@ -6,4 +6,5 @@ public class World
 {
     public Tilemap BaseLayer = null!;
     public Tilemap TopLayer = null!;
+    public int Seed = 0;
 }
