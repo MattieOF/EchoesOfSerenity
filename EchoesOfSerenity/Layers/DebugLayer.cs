@@ -106,9 +106,17 @@ public class DebugLayer : ILayer
 
             if (ImGui.CollapsingHeader("World Gen Debugging"))
             {
-                ImGui.SliderFloat("Island Threshold", ref WorldGen.islandThreshold, 0, 1);
-                ImGui.InputFloat("Island Noise Frequency", ref WorldGen.islandNoiseFrequency, 0, 1);
-                ImGui.SliderFloat("Island Noise Mix", ref WorldGen.islandNoiseMix, 0, 1);
+                ImGui.SliderFloat("Island Threshold", ref WorldGen.IslandThreshold, 0, 1);
+                ImGui.InputFloat("Island Noise Frequency", ref WorldGen.IslandNoiseFrequency, 0, 1);
+                ImGui.SliderFloat("Island Noise Mix", ref WorldGen.IslandNoiseMix, 0, 1);
+                ImGui.InputFloat("Lake Threshold", ref WorldGen.LakeThreshold, 0.02f, 0.1f);
+                ImGui.InputFloat("Sand Threshold", ref WorldGen.SandThreshold, 0.02f, 0.1f);
+                ImGui.InputFloat("Main Noise 1 Frequency", ref WorldGen.MainNoiseFreq, 0.02f, 0.1f);
+                ImGui.InputFloat("Main Noise 2 Frequency", ref WorldGen.MainNoise2Freq, 0.02f, 0.1f);
+                ImGui.InputFloat("Main Noise 3 Frequency", ref WorldGen.MainNoise3Freq, 0.02f, 0.1f);
+                ImGui.InputFloat("Cave Noise Frequency", ref WorldGen.CaveNoiseFreq, 0.02f, 0.1f);
+                ImGui.InputFloat("Cave Noise Threshold", ref WorldGen.CaveNoiseThreshold, 0.02f, 0.1f);
+                ImGui.InputFloat("Cave Wall Thickness", ref WorldGen.CaveWallThickness, 0.02f, 0.1f);
                 
                 if (ImGui.Button("Regenerate Level"))
                 {

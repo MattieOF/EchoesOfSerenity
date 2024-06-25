@@ -10,5 +10,7 @@ public class TestLayer : ILayer
     {
         if (Raylib.IsKeyPressed(KeyboardKey.J))
             SoundManager.PlaySound(ContentManager.GetSound("Content/Sounds/jerma.wav"));
+        if (Raylib.IsKeyPressed(KeyboardKey.O))
+            SoundManager.PlaySound(ContentManager.GetSound("Content/Sounds/ow.wav"));
     }
 }

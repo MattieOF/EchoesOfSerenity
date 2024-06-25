@@ -29,10 +29,6 @@ public class Tilemap : IDisposable
         Width = width;
         Height = height;
         _tiles = new Tile[width, height];
-
-        int chunkCount = (width / ChunkSize) * (height / ChunkSize);
-        for (int i = 0; i < chunkCount; i++)
-            RenderChunk(i);
     }
 
     public void SetTile(int x, int y, Tile tile)
@@ -158,9 +154,36 @@ public class Tilemap : IDisposable
         Raylib.EndTextureMode();
     }
 
+    public void Clear()
+    {
+        _tiles = new Tile[Width, Height];
+    }
+
+    public void RerenderAll()
+    {
+        int chunkCount = (Width / ChunkSize) * (Height / ChunkSize);
+        for (int i = 0; i < chunkCount; i++)
+            RenderChunk(i);
+        _dirtyChunks.Clear();
+    }
+
     public void Dispose()
     {
         foreach (var texture in Chunks)
             Raylib.UnloadRenderTexture(texture);
+    }
+
+    public bool TileTouches(int x, int y, Tile tile)
+    {
+        if (_tiles[x + 1, y] == tile)
+            return true;
+        if (_tiles[x, y + 1] == tile)
+            return true;
+        if (_tiles[x - 1, y] == tile)
+            return true;
+        if (_tiles[x, y - 1] == tile)
+            return true;
+
+        return false;
     }
 }
