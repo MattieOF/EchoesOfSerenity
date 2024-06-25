@@ -84,12 +84,7 @@ public class Tilemap : IDisposable
             if (Raylib.CheckCollisionRecs(cameraRect, chunkRect))
             {
                 Raylib.DrawTextureRec(Chunks[index].Texture, source, new Vector2(x, y), Color.White);
-#if DEBUG
-                if (DrawChunkOutlines)
-                    Raylib.DrawRectangleLines(x, y, ChunkSize * Tileset.TileWidth, ChunkSize * Tileset.TileHeight,
-                        Color.Red);
-#endif
-
+                
                 // Draw animated tiles
                 // int chunkX = (index % (Width / ChunkSize)) * ChunkSize;
                 // int chunkY = (index / (Width / ChunkSize)) * ChunkSize;
@@ -106,6 +101,12 @@ public class Tilemap : IDisposable
                             tilesetY);
                     }
                 }
+                
+#if DEBUG
+                if (DrawChunkOutlines)
+                    Raylib.DrawRectangleLines(x, y, ChunkSize * Tileset.TileWidth, ChunkSize * Tileset.TileHeight,
+                        Color.Red);
+#endif
 
                 RenderedChunks++;
             }
