@@ -33,7 +33,7 @@ public class Tilemap : IDisposable
         _tiles = new Tile[width, height];
     }
 
-    public void SetTile(int x, int y, Tile tile)
+    public void SetTile(int x, int y, Tile? tile)
     {
         if (x < 0 || x >= Width || y < 0 || y >= Height)
         {

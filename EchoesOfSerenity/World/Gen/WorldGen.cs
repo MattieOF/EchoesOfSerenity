@@ -164,8 +164,16 @@ public class WorldGen
             playerX = rnd.Next((int)(centerPoint.X - 128), (int)(centerPoint.X + 128));
             playerY = rnd.Next((int)(centerPoint.Y - 128), (int)(centerPoint.Y + 128));
         }
+
+        if (tries <= 0)
+        {
+            world.BaseLayer.SetTile(playerX, playerY, Tiles.Tiles.Grass);
+            world.TopLayer.SetTile(playerX, playerY, null);
+        }
+        
         PlayerEntity player = new();
-        player.Center = new(playerX * Tiles.Tiles.TerrainTileset.TileWidth, playerY * Tiles.Tiles.TerrainTileset.TileHeight);
+        player.Center = new((playerX * Tiles.Tiles.TerrainTileset.TileWidth) + (Tiles.Tiles.TerrainTileset.TileWidth / 2.0f),
+            (playerY * Tiles.Tiles.TerrainTileset.TileHeight) + (Tiles.Tiles.TerrainTileset.TileHeight / 2.0f));
         Game.Instance.SetCameraTarget(player.Center);
         world.AddEntity(player);
         

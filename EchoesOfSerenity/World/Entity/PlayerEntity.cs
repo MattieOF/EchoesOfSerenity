@@ -27,6 +27,8 @@ public class PlayerEntity : Mob
 
     public override void Update()
     {
+        base.Update();
+        
         // Check if we're in water
         bool inWater = World.BaseLayer.TileAtWorldCoord(Center) == Tiles.Tiles.Water;
         if (inWater)
@@ -68,7 +70,7 @@ public class PlayerEntity : Mob
             movement.X += 1;
         
         if (Raylib.IsKeyPressed(KeyboardKey.H))
-            Health -= 1;
+            Hurt(1);
         
         if (movement != Vector2.Zero)
         {
