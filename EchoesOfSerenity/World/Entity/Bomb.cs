@@ -45,7 +45,7 @@ public class Bomb : Core.Entity.AnimatedEntity
                 }
             }
             
-            World.ParticleSystem.AddParticle("Content/Spritesheets/ExplosionSpritesheet.png", Center, Vector2.Zero, 0.5f, new Rectangle(0, 0, 32, 32), 11, 32, 0.5f / 11.0f);
+            World.ParticleSystem.AddParticle("Content/Spritesheets/ExplosionSpritesheet.png", Center - Vector2.One * 16, Vector2.Zero, 0.5f, new Rectangle(0, 0, 32, 32), 11, 32, 0.5f / 11.0f, false);
             World.RemoveEntity(this);
         }
     }

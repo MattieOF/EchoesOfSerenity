@@ -12,6 +12,7 @@ public struct Particle
     public Vector2 Position;
     public Vector2 Velocity;
     public float Life;
+    public bool EnableTransparency;
 
     public int Frames;
     public int FrameWidth;
@@ -25,7 +26,7 @@ public class ParticleSystemLayer : ILayer
     private readonly List<Texture2D> _textures = new();
     private readonly Dictionary<string, int> _textureListIndexes = new();
     
-    public void AddParticle(string texture, Vector2 pos, Vector2 velocity, float life, Rectangle texRect, int frames = 0, int frameWidth = 16, float frameTime = 1)
+    public void AddParticle(string texture, Vector2 pos, Vector2 velocity, float life, Rectangle texRect, int frames = 0, int frameWidth = 16, float frameTime = 1, bool transparency = true)
     {
         int tex = 0;
         if (_textureListIndexes.ContainsKey(texture))
@@ -53,7 +54,8 @@ public class ParticleSystemLayer : ILayer
             Frames = frames,
             FrameWidth = frameWidth,
             FrameTime = frameTime,
-            RemainingFrameTime = frameTime
+            RemainingFrameTime = frameTime,
+            EnableTransparency = transparency
         };
         _particles.Add(particle);
     }
@@ -98,7 +100,7 @@ public class ParticleSystemLayer : ILayer
                 particle.Position += particle.Velocity * delta;
                 particle.Velocity -= particle.Velocity * delta * 5;
                 
-                Raylib.DrawTextureRec(_textures[particle.TextureIndex], particle.TextureRect, particle.Position, Color.White);
+                Raylib.DrawTextureRec(_textures[particle.TextureIndex], particle.TextureRect, particle.Position, new Color(255, 255, 255, particle is { EnableTransparency: true, Life: > 0 and < 1 } ? (byte) Raymath.Lerp(0, 255, particle.Life) : 255));
             }
 
             _particles[i] = particle;

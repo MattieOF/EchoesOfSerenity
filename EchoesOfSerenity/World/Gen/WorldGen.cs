@@ -7,8 +7,6 @@ using Raylib_cs;
 
 namespace EchoesOfSerenity.World.Gen;
 
-// TODO: Zoom in at start
-
 public class WorldGen
 {
     public static float IslandThreshold = 0.35f, IslandNoiseFrequency = 0.01f, IslandNoiseMix = 0.7f;
