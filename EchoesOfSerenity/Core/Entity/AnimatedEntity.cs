@@ -19,7 +19,7 @@ public class AnimatedEntity : Entity
         if (!Raylib.CheckCollisionRecs(Game.Instance.CameraBounds, BoundingBox))
             return;
 
-        if (CurrentAnimation.Length > 1)
+        if (CurrentAnimation.Length > 1 && !Game.Instance.IsPaused)
         {
             FrameTimer -= Raylib.GetFrameTime();
             if (FrameTimer <= 0)

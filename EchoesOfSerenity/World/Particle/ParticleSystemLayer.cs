@@ -76,7 +76,7 @@ public class ParticleSystemLayer : ILayer
                 continue;
             }
             
-            if (particle.Life > 0)
+            if (particle.Life > 0 && !Game.Instance.IsPaused)
             {
                 particle.Life -= delta;
                 if (particle.Life <= 0)
@@ -99,9 +99,9 @@ public class ParticleSystemLayer : ILayer
 
                 particle.Position += particle.Velocity * delta;
                 particle.Velocity -= particle.Velocity * delta * 5;
-                
-                Raylib.DrawTextureRec(_textures[particle.TextureIndex], particle.TextureRect, particle.Position, new Color(255, 255, 255, particle is { EnableTransparency: true, Life: > 0 and < 1 } ? (byte) Raymath.Lerp(0, 255, particle.Life) : 255));
             }
+            
+            Raylib.DrawTextureRec(_textures[particle.TextureIndex], particle.TextureRect, particle.Position, new Color(255, 255, 255, particle is { EnableTransparency: true, Life: > 0 and < 1 } ? (byte) Raymath.Lerp(0, 255, particle.Life) : 255));
 
             _particles[i] = particle;
         }
