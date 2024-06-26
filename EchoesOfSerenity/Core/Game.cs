@@ -81,7 +81,7 @@ public class Game
                     layer.OnWindowResized();
             }
 
-            CameraZoom = Math.Clamp(CameraZoom + Raylib.GetMouseWheelMoveV().Y * 0.2f, 0.1f, 5f);
+            // CameraZoom = Math.Clamp(CameraZoom + Raylib.GetMouseWheelMoveV().Y * 0.2f, 0.1f, 5f);
             
             // Move camera towards target
             Camera.Target = (Camera.Target - CameraTarget) * float.Pow(CameraLerpSpeed, Raylib.GetFrameTime()) + CameraTarget;

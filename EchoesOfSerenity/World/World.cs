@@ -108,4 +108,19 @@ public class World : IDisposable
         BaseLayer.Dispose();
         TopLayer.Dispose();
     }
+
+    public bool IsTileWithinRange(Tile tile, Vector2 Origin, int Range)
+    {
+        (int x, int y) = TopLayer.WorldCoordToTileCoord(Origin);
+        for (int cy = y - Range; cy < y + Range; cy++)
+        {
+            for (int cx = x - Range; cx < x + Range; cx++)
+            {
+                if (TopLayer.TileAtTileCoord(cx, cy) == tile || BaseLayer.TileAtTileCoord(cx, cy) == tile)
+                    return true;
+            }
+        }
+
+        return false;
+    }
 }

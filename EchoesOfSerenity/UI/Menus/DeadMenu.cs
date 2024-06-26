@@ -55,7 +55,7 @@ public class DeadMenu : Menu
         Button quit = new();
         quit.OnPressed.Add(_ =>
         {
-            Echoes.EchoesInstance.AttachLayer(new MenuLayer(new LoadingMenu(LoadingMenu.LoadTo.Menu)));
+            Echoes.EchoesInstance.AttachLayer(new MenuLayer(new LoadingMenu(LoadingMenu.LoadTo.Menu)), Game.Instance.GetLayerCount() - 1);
             RemoveFromParent();
             return true;
         });

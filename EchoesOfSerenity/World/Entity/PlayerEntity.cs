@@ -4,6 +4,7 @@ using EchoesOfSerenity.Core.Entity;
 using EchoesOfSerenity.Core.Tilemap;
 using EchoesOfSerenity.UI;
 using EchoesOfSerenity.UI.Menus;
+using EchoesOfSerenity.World.Item;
 using Raylib_cs;
 
 namespace EchoesOfSerenity.World.Entity;
@@ -12,6 +13,8 @@ public class PlayerEntity : LivingEntity
 {
     public float MoveSpeed = 96;
     public float SpeedMultiplier = 1;
+    public int SelectedHotbarSlot = 0;
+    public Inventory Inventory = new(18);
     private Vector2 _lastMovement, _lastLerpedMovement;
 
     public static float IntroAnimInitialZoom = 0.3f, IntroAnimTargetZoom = 1.4f, IntroAnimZoomSpeed = 0.4f, IntroAnimZoomDelay = 2.5f;
@@ -81,6 +84,22 @@ public class PlayerEntity : LivingEntity
             movement.X -= 1;
         if (Raylib.IsKeyDown(KeyboardKey.D))
             movement.X += 1;
+
+        if (Raylib.IsKeyDown(KeyboardKey.One))
+            SelectedHotbarSlot = 0;
+        if (Raylib.IsKeyDown(KeyboardKey.Two))
+            SelectedHotbarSlot = 1;
+        if (Raylib.IsKeyDown(KeyboardKey.Three))
+            SelectedHotbarSlot = 2;
+        if (Raylib.IsKeyDown(KeyboardKey.Four))
+            SelectedHotbarSlot = 3;
+        if (Raylib.IsKeyDown(KeyboardKey.Five))
+            SelectedHotbarSlot = 4;
+        if (Raylib.IsKeyDown(KeyboardKey.Six))
+            SelectedHotbarSlot = 5;
+
+        SelectedHotbarSlot += (int)Raylib.GetMouseWheelMove();
+        SelectedHotbarSlot = Math.Clamp(SelectedHotbarSlot, 0, Inventory.RowSize - 1);
         
         if (Raylib.IsKeyPressed(KeyboardKey.H))
             Hurt(1);
@@ -148,9 +167,9 @@ public class PlayerEntity : LivingEntity
         SetAnimation(_drowned ? "drowned" : "dead");
         
         if (_drowned)
-            Game.Instance.AttachLayer(new MenuLayer(new DeadMenu(this, "YOU DROWNED", "Deep water will kill you")));
+            Game.Instance.AttachLayer(new MenuLayer(new DeadMenu(this, "YOU DROWNED", "Deep water will kill you")), Game.Instance.GetLayerCount() - 1);
         else
-            Game.Instance.AttachLayer(new MenuLayer(new DeadMenu(this)));
+            Game.Instance.AttachLayer(new MenuLayer(new DeadMenu(this)), Game.Instance.GetLayerCount() - 1);
     }
 
     public void Respawn()
