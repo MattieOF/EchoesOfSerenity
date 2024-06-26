@@ -173,6 +173,7 @@ public class WorldGen
         player.Center = new((playerX * Tiles.Tiles.TerrainTileset.TileWidth) + (Tiles.Tiles.TerrainTileset.TileWidth / 2.0f),
             (playerY * Tiles.Tiles.TerrainTileset.TileHeight) + (Tiles.Tiles.TerrainTileset.TileHeight / 2.0f));
         Game.Instance.SetCameraTarget(player.Center);
+        world.SpawnPoint = player.Center;
         world.AddEntity(player);
         
         sw.Stop();

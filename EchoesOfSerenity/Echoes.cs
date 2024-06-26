@@ -14,6 +14,7 @@ public class Echoes : Game
     public static Echoes EchoesInstance = null!;
     public World.World World = null!;
     public HUDLayer? HUD = null;
+    public WorldLayer? WorldLayer = null;
     
     protected override void OnInit()
     {
@@ -42,5 +43,16 @@ public class Echoes : Game
     {
         if (Raylib.IsKeyPressed(KeyboardKey.F11))
             Raylib.ToggleBorderlessWindowed();
+    }
+
+    public void ReturnToMenu()
+    {
+        if (HUD is not null)
+            DetachLayer(HUD);
+        if (WorldLayer is not null)
+            DetachLayer(WorldLayer);
+        World.Dispose();
+        
+        AttachLayer(new MenuLayer(new MainMenu()));
     }
 }

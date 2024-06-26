@@ -6,13 +6,14 @@ using Raylib_cs;
 
 namespace EchoesOfSerenity.World;
 
-public class World
+public class World : IDisposable
 {
     public Tilemap BaseLayer = null!;
     public Tilemap TopLayer = null!;
     public ParticleSystemLayer ParticleSystem = new();
     public int Width, Height;
     public int Seed = 0;
+    public Vector2 SpawnPoint;
 
     private List<Core.Entity.Entity> _entities = new();
     private List<Core.Entity.Entity> _queuedFrees = new();
@@ -100,5 +101,11 @@ public class World
     public Vector2 GetCenterPoint()
     {
         return new((Width * TopLayer.Tileset.TileWidth) / 2.0f, (Height * TopLayer.Tileset.TileHeight) / 2.0f);
+    }
+
+    public void Dispose()
+    {
+        BaseLayer.Dispose();
+        TopLayer.Dispose();
     }
 }

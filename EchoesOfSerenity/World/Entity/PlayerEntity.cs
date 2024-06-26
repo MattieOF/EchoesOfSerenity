@@ -2,6 +2,8 @@ using System.Numerics;
 using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Entity;
 using EchoesOfSerenity.Core.Tilemap;
+using EchoesOfSerenity.UI;
+using EchoesOfSerenity.UI.Menus;
 using Raylib_cs;
 
 namespace EchoesOfSerenity.World.Entity;
@@ -29,6 +31,9 @@ public class PlayerEntity : LivingEntity
     public override void Update()
     {
         base.Update();
+
+        if (Health <= 0)
+            return;
         
         // Check if we're in water
         bool inWater = World.BaseLayer.TileAtWorldCoord(Center) == Tiles.Tiles.Water;
@@ -123,5 +128,10 @@ public class PlayerEntity : LivingEntity
         Rot = (float)Math.Atan2(lerpedMovement.Y, lerpedMovement.X) * (180 / MathF.PI);
         
         Game.Instance.CameraTarget = Center;
+    }
+
+    public override void Die()
+    {
+        Game.Instance.AttachLayer(new MenuLayer(new DeadMenu()));
     }
 }

@@ -24,7 +24,7 @@ public class MainMenu : Menu
         Button newWorld = new();
         newWorld.OnPressed.Add(_ =>
         {
-            Echoes.EchoesInstance.AttachLayer(new MenuLayer(new LoadingMenu()));
+            Echoes.EchoesInstance.AttachLayer(new MenuLayer(new LoadingMenu(LoadingMenu.LoadTo.Game)));
             RemoveFromParent();
             return true;
         });

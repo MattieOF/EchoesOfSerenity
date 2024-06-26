@@ -6,19 +6,27 @@ namespace EchoesOfSerenity.UI.Menus;
 
 public class LoadingMenu : Menu
 {
+    public enum LoadTo
+    {
+        Game,
+        Menu
+    }
+    
     public float LoadTimer = 0.05f;
     public float FadeOut = 1.2f;
 
     private Label _title, _tip;
     private bool _inGame = false;
-
-    public List<string> Tips =
+    private LoadTo _loadTo;
+    
+    public static List<string> Tips =
     [
         "Just use an engine, for your own sake"
     ];
     
-    public LoadingMenu()
+    public LoadingMenu(LoadTo loadTo)
     {
+        _loadTo = loadTo;
         Background = Color.Black;
         
         _title = new();
@@ -53,7 +61,17 @@ public class LoadingMenu : Menu
         {
             LoadTimer -= Raylib.GetFrameTime();
             if (LoadTimer <= 0)
-                Echoes.EchoesInstance.StartGame();
+            {
+                switch (_loadTo)
+                {
+                    case LoadTo.Menu:
+                        Echoes.EchoesInstance.ReturnToMenu();
+                        break;
+                    case LoadTo.Game:
+                        Echoes.EchoesInstance.StartGame();
+                        break;
+                }
+            }
         }
         else
         {
