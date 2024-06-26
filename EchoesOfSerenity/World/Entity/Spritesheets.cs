@@ -6,6 +6,7 @@ namespace EchoesOfSerenity.World.Entity;
 public static class Spritesheets
 {
     public static Spritesheet Player = new(30, 30);
+    public static Spritesheet Bomb = new(16, 16);
     
     public static void Init()
     {
@@ -13,5 +14,8 @@ public static class Spritesheets
         Player.AddAnimation("idle", 0, 0, 1, 1);
         Player.AddAnimation("walk", 1, 0, 2, 3);
         Player.AddAnimation("in_water", 0, 1, 4, 4);
+        
+        Bomb.SetTexture(ContentManager.GetTexture("Content/Spritesheets/Bomb.png"));
+        Bomb.AddAnimation("blow", 0, 0, 5, 2.5f);
     }
 }

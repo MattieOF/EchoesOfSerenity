@@ -7,10 +7,10 @@ public class Animation
     public string Name;
     public (int, int) StartSprite;
     public int Length;
-    public int FPS;
+    public float FPS;
     public Rectangle[] Frames;
     
-    public Animation(string name, int startX, int startY, int spriteWidth, int spriteHeight, int length, int fps)
+    public Animation(string name, int startX, int startY, int spriteWidth, int spriteHeight, int length, float fps)
     {
         Name = name;
         StartSprite = (startX, startY);
@@ -42,7 +42,7 @@ public class Spritesheet(int spriteWidth = 16, int spriteHeight = 16)
         Texture = texture;
     }
     
-    public void AddAnimation(string name, int startX, int startY, int length, int fps)
+    public void AddAnimation(string name, int startX, int startY, int length, float fps)
     {
         Animations.Add(name, new Animation(name, startX, startY, SpriteWidth, SpriteHeight, length, fps));
     }

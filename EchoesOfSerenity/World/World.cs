@@ -16,6 +16,7 @@ public class World
 
     private List<Core.Entity.Entity> _entities = new();
     private List<Core.Entity.Entity> _queuedFrees = new();
+    private List<Core.Entity.Entity> _queuedAdds = new();
     private bool _isUpdating = false;
 
     public static World CreateEmpty()
@@ -29,7 +30,11 @@ public class World
     public void AddEntity(Core.Entity.Entity entity)
     {
         entity.World = this;
-        _entities.Add(entity);
+        
+        if (_isUpdating)
+            _queuedAdds.Add(entity);
+        else
+            _entities.Add(entity);
     }
 
     public void RemoveEntity(Core.Entity.Entity entity)
@@ -62,6 +67,10 @@ public class World
         foreach (var entity in _queuedFrees)
             _entities.Remove(entity);
         _queuedFrees.Clear();
+        
+        foreach (var entity in _queuedAdds)
+            _entities.Add(entity);
+        _queuedAdds.Clear();
     }
     
     public void PreRender()

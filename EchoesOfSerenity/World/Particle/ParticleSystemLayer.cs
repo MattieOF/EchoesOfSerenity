@@ -12,6 +12,11 @@ public struct Particle
     public Vector2 Position;
     public Vector2 Velocity;
     public float Life;
+
+    public int Frames;
+    public int FrameWidth;
+    public float FrameTime;
+    public float RemainingFrameTime;
 }
 
 public class ParticleSystemLayer : ILayer
@@ -20,7 +25,7 @@ public class ParticleSystemLayer : ILayer
     private readonly List<Texture2D> _textures = new();
     private readonly Dictionary<string, int> _textureListIndexes = new();
     
-    public void AddParticle(string texture, Vector2 pos, Vector2 velocity, float life, Rectangle texRect)
+    public void AddParticle(string texture, Vector2 pos, Vector2 velocity, float life, Rectangle texRect, int frames = 0, int frameWidth = 16, float frameTime = 1)
     {
         int tex = 0;
         if (_textureListIndexes.ContainsKey(texture))
@@ -44,7 +49,11 @@ public class ParticleSystemLayer : ILayer
             TextureRect = texRect,
             Position = pos,
             Velocity = velocity,
-            Life = life
+            Life = life,
+            Frames = frames,
+            FrameWidth = frameWidth,
+            FrameTime = frameTime,
+            RemainingFrameTime = frameTime
         };
         _particles.Add(particle);
     }
@@ -72,6 +81,18 @@ public class ParticleSystemLayer : ILayer
                 {
                     _particles.RemoveAt(i);
                     continue;
+                }
+                
+                if (particle.Frames > 0)
+                {
+                    particle.RemainingFrameTime -= delta;
+                    if (particle.RemainingFrameTime <= 0)
+                    {
+                        particle.TextureRect.X += particle.FrameWidth;
+                        if (particle.TextureRect.X >= particle.FrameWidth * particle.Frames)
+                            particle.TextureRect.X -= particle.FrameWidth * particle.Frames;
+                        particle.RemainingFrameTime = particle.FrameTime;
+                    }
                 }
 
                 particle.Position += particle.Velocity * delta;

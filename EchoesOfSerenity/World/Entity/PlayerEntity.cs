@@ -73,6 +73,15 @@ public class PlayerEntity : Mob
         if (Raylib.IsKeyPressed(KeyboardKey.H))
             Hurt(1);
 
+        if (Raylib.IsKeyPressed(KeyboardKey.B))
+        {
+            Bomb bomb = new();
+            bomb.Position = Position;
+            var mousePos = Game.Instance.ScreenPosToWorld(Raylib.GetMousePosition());
+            bomb.Velocity = Vector2.Normalize(mousePos - Position) * 100;
+            World.AddEntity(bomb);
+        }
+
         if (Raylib.IsMouseButtonPressed(MouseButton.Left))
         {
             Vector2 worldPos = Game.Instance.ScreenPosToWorld(Raylib.GetMousePosition());

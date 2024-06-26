@@ -153,7 +153,7 @@ public class Tilemap : IDisposable
         Raylib.EndTextureMode();
     }
 
-    public void DestroyTile(int x, int y)
+    public void DestroyTile(int x, int y, float violence = 1.0f)
     {
         Tile? tile = _tiles[x, y];
         if (tile is null) return;
@@ -164,7 +164,7 @@ public class Tilemap : IDisposable
         for (int i = 0; i < rnd.Next(15, 20); i++)
         {
             Echoes.EchoesInstance.World.ParticleSystem.AddParticle("Content/Spritesheets/TerrainSpritesheet.png",
-                new Vector2(x * Tileset.TileWidth + rnd.Next(Tileset.TileWidth), y * Tileset.TileHeight + rnd.Next(Tileset.TileHeight)), new Vector2(rnd.NextSingle() * 60 - 30, rnd.NextSingle() * 60 - 30), rnd.NextSingle() * 3 + 3, new Rectangle(tilesheetX + rnd.Next(0, Tileset.TileWidth - 3), tilesheetY + rnd.Next(0, Tileset.TileHeight - 3), 3, 3));
+                new Vector2(x * Tileset.TileWidth + rnd.Next(Tileset.TileWidth), y * Tileset.TileHeight + rnd.Next(Tileset.TileHeight)), new Vector2(rnd.NextSingle() * 60 - 30, rnd.NextSingle() * 60 - 30) * violence, rnd.NextSingle() * 3 + 3, new Rectangle(tilesheetX + rnd.Next(0, Tileset.TileWidth - 3), tilesheetY + rnd.Next(0, Tileset.TileHeight - 3), 3, 3));
         }
         
         SetTile(x, y, null);
