@@ -178,11 +178,11 @@ public class WorldGen
 
     public static bool IsTileValidSpawn(World world, int x, int y)
     {
-        var top = world.TopLayer.TileAt(x, y);
+        var top = world.TopLayer.TileAtTileCoord(x, y);
         if (top is not null && top.IsSolid)
             return false;
         
-        var baseTile = world.BaseLayer.TileAt(x, y);
+        var baseTile = world.BaseLayer.TileAtTileCoord(x, y);
         if (baseTile is null || baseTile.IsSolid || baseTile == Tiles.Tiles.Water || baseTile == Tiles.Tiles.DeepWater || baseTile == Tiles.Tiles.StoneFloor)
             return false;
         

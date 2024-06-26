@@ -4,8 +4,8 @@ using Raylib_cs;
 namespace EchoesOfSerenity.Core.Entity;
 
 public class Mob : Entity
-{
-    public float Health = 100;
+{   
+    public float Health = 10;
     public Spritesheet Spritesheet = null!;
     public Animation CurrentAnimation = null!;
     public int CurrentFrame = 0;
@@ -17,8 +17,6 @@ public class Mob : Entity
 
     public override void Render()
     {
-        base.Render();
-        
         if (!Raylib.CheckCollisionRecs(Game.Instance.CameraBounds, BoundingBox))
             return;
 
@@ -41,11 +39,14 @@ public class Mob : Entity
         Rectangle dest = new(Position.X + Size.X / 2, Position.Y + Size.Y / 2, frame.Width, frame.Height);
         Vector2 offset = new( frame.Width / 2,  frame.Height / 2);
         Raylib.DrawTexturePro(Spritesheet.Texture, frame, dest, offset, Rot, Color.White);
+        
+        base.Render();
     }
 
     public void SetAnimation(string name)
     {
         Animation anim = Spritesheet.Animations[name];
+        if (CurrentAnimation == anim) return;
         CurrentFrame = 0;
         FrameTimer = 1f / anim.FPS;
         CurrentAnimation = anim;

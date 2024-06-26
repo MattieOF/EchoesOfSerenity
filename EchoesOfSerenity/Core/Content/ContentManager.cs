@@ -6,6 +6,7 @@ namespace EchoesOfSerenity.Core.Content;
 public class ContentManager
 {
     private static Dictionary<string, Texture2D> _textures = new();
+    private static Dictionary<string, Image> _images = new();
     private static Dictionary<string, Font> _fonts = new();
     private static Dictionary<string, Sound> _sounds = new();
 
@@ -21,7 +22,8 @@ public class ContentManager
         var allFiles = Directory.GetFiles("Content/", "*.*", SearchOption.AllDirectories);
         foreach (var file in allFiles)
         {
-            if (Path.GetFileName(file).StartsWith('_')) // TODO: ew
+            char first = Path.GetFileName(file)[0];
+            if (first == '_') // TODO: ew
                 continue;
 
 #if DEBUG
@@ -31,10 +33,14 @@ public class ContentManager
             switch (extension)
             {
                 case ".png":
+                    bool isImage = first == 'I';
 #if DEBUG
-                    loadType = "texture";
+                    loadType = isImage ? "image" : "texture";
 #endif
-                    RegisterTexture(file, Raylib.LoadTexture(file));
+                    if (isImage)
+                        RegisterImage(file, Raylib.LoadImage(file));
+                    else
+                        RegisterTexture(file, Raylib.LoadTexture(file));
                     break;
                 case ".ttf":
 #if DEBUG
@@ -68,6 +74,9 @@ public class ContentManager
     {
         foreach (var texture in _textures.Values)
             Raylib.UnloadTexture(texture);
+        
+        foreach (var image in _images.Values)
+            Raylib.UnloadImage(image);
 
         foreach (var font in _fonts.Values)
             Raylib.UnloadFont(font);
@@ -83,6 +92,14 @@ public class ContentManager
     }
 
     public static Texture2D GetTexture(string path) => _textures[path];
+
+    public static void RegisterImage(string path, Image image)
+    {
+        path = path.Replace('\\', '/');
+        _images.Add(path, image);
+    }
+
+    public static Image GetImage(string path) => _images[path];
 
     public static void RegisterFont(string path, Font font)
     {

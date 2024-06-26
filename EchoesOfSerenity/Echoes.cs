@@ -1,5 +1,6 @@
 using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Layers;
+using EchoesOfSerenity.UI;
 using EchoesOfSerenity.World;
 using EchoesOfSerenity.World.Gen;
 using EchoesOfSerenity.World.Tiles;
@@ -11,6 +12,7 @@ public class Echoes : Game
 {
     public static Echoes EchoesInstance = null!;
     public World.World World = null!;
+    public HUDLayer HUD = null!;
     
     protected override void OnInit()
     {
@@ -20,6 +22,7 @@ public class Echoes : Game
 
         ConstructLayer<TestLayer>();
         ConstructLayer<DebugLayer>();
+        HUD = ConstructLayer<HUDLayer>();
 
         // TODO: async load
         World = WorldGen.GenerateWorld(32, 32);

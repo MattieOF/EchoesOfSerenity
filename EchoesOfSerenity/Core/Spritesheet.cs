@@ -4,20 +4,22 @@ namespace EchoesOfSerenity.Core;
 
 public class Animation
 {
+    public string Name;
     public (int, int) StartSprite;
     public int Length;
     public int FPS;
     public Rectangle[] Frames;
     
-    public Animation(int startX, int startY, int spriteWidth, int spriteHeight, int length, int fps)
+    public Animation(string name, int startX, int startY, int spriteWidth, int spriteHeight, int length, int fps)
     {
+        Name = name;
         StartSprite = (startX, startY);
         Length = length;
         FPS = fps;
         
         Frames = new Rectangle[length];
         for (int i = 0; i < length; i++)
-            Frames[i] = new Rectangle(startX + i * spriteWidth, startY, spriteWidth, spriteHeight);
+            Frames[i] = new Rectangle((startX + i) * spriteWidth, startY * spriteHeight, spriteWidth, spriteHeight);
     }
 }
 
@@ -42,6 +44,6 @@ public class Spritesheet(int spriteWidth = 16, int spriteHeight = 16)
     
     public void AddAnimation(string name, int startX, int startY, int length, int fps)
     {
-        Animations.Add(name, new Animation(startX, startY, SpriteWidth, SpriteHeight, length, fps));
+        Animations.Add(name, new Animation(name, startX, startY, SpriteWidth, SpriteHeight, length, fps));
     }
 }

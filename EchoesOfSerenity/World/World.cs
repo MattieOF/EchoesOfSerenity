@@ -1,7 +1,5 @@
 using System.Diagnostics;
 using System.Numerics;
-using EchoesOfSerenity.Core;
-using EchoesOfSerenity.Core.Entity;
 using EchoesOfSerenity.Core.Tilemap;
 using Raylib_cs;
 

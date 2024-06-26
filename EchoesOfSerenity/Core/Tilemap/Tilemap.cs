@@ -208,5 +208,18 @@ public class Tilemap : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Tile? TileAt(int x, int y) => _tiles[x, y];
+    public Tile? TileAtTileCoord(int x, int y) => _tiles[x, y];
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Tile? TileAtWorldCoord(float x, float y) => _tiles[(int) (x / Tileset.TileWidth), (int) (y / Tileset.TileHeight)];
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Tile? TileAtWorldCoord(Vector2 pos) => TileAtWorldCoord(pos.X, pos.Y);
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void SetTileAtWorldCoord(float x, float y, Tile tile)
+    {
+        _tiles[(int) (x / Tileset.TileWidth), (int) (y / Tileset.TileHeight)] = tile;
+        _dirtyChunks.Add(((int) (x / Tileset.TileWidth) / ChunkSize) + ((int) (y / Tileset.TileHeight) / ChunkSize) * (Width / ChunkSize));
+    }
 }

@@ -5,6 +5,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <ApplicationIcon>AppIcon.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,6 +15,12 @@
 
     <ItemGroup>
       <Folder Include="World\Item\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\AppIcon.png">
+        <Link>AppIcon.png</Link>
+      </None>
     </ItemGroup>
 
 </Project>

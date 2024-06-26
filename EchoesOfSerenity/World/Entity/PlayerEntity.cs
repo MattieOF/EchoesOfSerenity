@@ -17,15 +17,25 @@ public class PlayerEntity : Mob
     
     public PlayerEntity()
     {
-        Size = new(20, 20);
+        Size = new(15, 15);
         Spritesheet = Spritesheets.Player;
         SetAnimation("idle");
         _introAnimTimer = IntroAnimZoomDelay;
         Game.Instance.CameraZoom = IntroAnimInitialZoom;
+        Echoes.EchoesInstance.HUD.Player = this;
     }
 
     public override void Update()
     {
+        // Check if we're in water
+        bool inWater = World.BaseLayer.TileAtWorldCoord(Center) == Tiles.Tiles.Water;
+        if (inWater)
+        {
+            SetAnimation("in_water");
+            SpeedMultiplier = 0.3f;
+        }
+        else SpeedMultiplier = 1;
+        
         if (_introAnimActive)
         {
             float howClose = MathF.Abs(Game.Instance.CameraZoom - IntroAnimTargetZoom);
@@ -71,11 +81,11 @@ public class PlayerEntity : Mob
                 newPos.Y = Position.Y;
             Position = newPos;
 
-            // SetAnimation("walk");
+            if (!inWater) SetAnimation("walk");
         }
         else
         {
-            // SetAnimation("idle");
+            if (!inWater) SetAnimation("idle");
         }
         
         Vector2 lerpedMovement = Utility.LerpSmooth(_lastLerpedMovement, _lastMovement, 0.02f);

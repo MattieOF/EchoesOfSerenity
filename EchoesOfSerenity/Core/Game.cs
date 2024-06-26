@@ -1,6 +1,5 @@
 using System.Numerics;
 using EchoesOfSerenity.Core.Content;
-using EchoesOfSerenity.World;
 using EchoesOfSerenity.World.Entity;
 using Raylib_cs;
 using rlImGui_cs;
@@ -31,6 +30,7 @@ public class Game
     private float _baseCameraZoom = 1, _cameraZoom = 1;
     private readonly List<ILayer> _layers = [];
     private readonly List<ILayer> _layersToDetach = [];
+    private int _lastWindowWidth;
     
     public Game()
     {
@@ -53,20 +53,23 @@ public class Game
         // Initialize camera
         Camera.Zoom = 1f;
         Camera.Target = new Vector2(0, 0);
-        Camera.Offset = new Vector2(Raylib.GetScreenWidth() / 2f, Raylib.GetScreenHeight() / 2f);;
+        Camera.Offset = new Vector2(Raylib.GetScreenWidth() / 2f, Raylib.GetScreenHeight() / 2f);
         Camera.Rotation = 0f;
         
         ContentManager.LoadContent();
+        Raylib.SetWindowIcon(ContentManager.GetImage("Content/UI/IAppIcon.png"));
         Spritesheets.Init();
         OnInit();
         
         while (!Raylib.WindowShouldClose() && IsRunning)
         {
-            if (Raylib.IsWindowResized())
+            int windowWidth = Raylib.GetScreenWidth();
+            if (Raylib.GetScreenWidth() != _lastWindowWidth)
             {
-                Camera.Offset = new Vector2(Raylib.GetScreenWidth() / 2f, Raylib.GetScreenHeight() / 2f);
-                _baseCameraZoom = Raylib.GetScreenWidth() / DefaultScreenSize.X;
+                Camera.Offset = new Vector2(windowWidth / 2f, Raylib.GetScreenHeight() / 2f);
+                _baseCameraZoom = windowWidth / DefaultScreenSize.X;
                 Camera.Zoom = _baseCameraZoom * CameraZoom;
+                _lastWindowWidth = windowWidth;
             }
 
             CameraZoom = Math.Clamp(CameraZoom + Raylib.GetMouseWheelMoveV().Y * 0.2f, 0.1f, 5f);
