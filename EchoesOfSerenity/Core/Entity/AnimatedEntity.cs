@@ -3,24 +3,16 @@ using Raylib_cs;
 
 namespace EchoesOfSerenity.Core.Entity;
 
-public class Mob : Entity
-{   
-    public float Health = 10;
+public class AnimatedEntity : Entity
+{
     public Spritesheet Spritesheet = null!;
     public Animation CurrentAnimation = null!;
     public int CurrentFrame = 0;
     public float FrameTimer = 0;
     public float TargetRot = 0;
     public bool EnableRotLerp = true;
-    public float ImmunityTimer = 0;
     
     protected float Rot = 0;
-
-    public override void Update()
-    {
-        if (ImmunityTimer >= 0)
-            ImmunityTimer -= Raylib.GetFrameTime();
-    }
 
     public override void Render()
     {
@@ -50,24 +42,6 @@ public class Mob : Entity
         base.Render();
     }
 
-    public void Hurt(float damage)
-    {
-        if (ImmunityTimer >= 0)
-            return;
-        
-        Health -= damage;
-        
-        if (Health <= 0)
-            Die();
-        else
-            ImmunityTimer = .3f;
-    }
-
-    public virtual void Die()
-    {
-        World.RemoveEntity(this);
-    }
-    
     public void SetAnimation(string name)
     {
         Animation anim = Spritesheet.Animations[name];

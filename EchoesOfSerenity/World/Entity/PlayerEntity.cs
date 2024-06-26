@@ -6,7 +6,7 @@ using Raylib_cs;
 
 namespace EchoesOfSerenity.World.Entity;
 
-public class PlayerEntity : Mob
+public class PlayerEntity : LivingEntity
 {
     public float MoveSpeed = 96;
     public float SpeedMultiplier = 1;

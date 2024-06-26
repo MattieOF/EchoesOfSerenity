@@ -3,7 +3,7 @@ using Raylib_cs;
 
 namespace EchoesOfSerenity.World.Entity;
 
-public class Bomb : Core.Entity.Mob
+public class Bomb : Core.Entity.AnimatedEntity
 {
     public Vector2 Velocity;
     public float fuse = 2;
