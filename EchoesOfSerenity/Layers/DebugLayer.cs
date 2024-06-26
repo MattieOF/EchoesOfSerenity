@@ -2,6 +2,7 @@ using System.Numerics;
 using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Content;
 using EchoesOfSerenity.Core.Tilemap;
+using EchoesOfSerenity.World.Entity;
 using EchoesOfSerenity.World.Gen;
 using EchoesOfSerenity.World.Tiles;
 using ImGuiNET;
@@ -64,11 +65,26 @@ public class DebugLayer : ILayer
             if (ImGui.Button("Close"))
                 Game.Instance.CloseGame();
 
-            ImGui.Text($"Camera position: {Game.Instance.CameraTarget}");
-            float camZoom = Game.Instance.CameraZoom;
-            if (ImGui.DragFloat("Camera Zoom", ref camZoom, 0.1f, 4f))
-                Game.Instance.CameraZoom = camZoom;
-            ImGui.SliderFloat("Camera Lerp Speed", ref Game.Instance.CameraLerpSpeed, 0, 1);
+            if (ImGui.CollapsingHeader("Camera Tools"))
+            {
+                ImGui.Text($"Camera position: {Game.Instance.CameraTarget}");
+                float camZoom = Game.Instance.CameraZoom;
+                if (ImGui.DragFloat("Camera Zoom", ref camZoom, 0.1f, 4f))
+                    Game.Instance.CameraZoom = camZoom;
+                ImGui.SliderFloat("Camera Lerp Speed", ref Game.Instance.CameraLerpSpeed, 0, 1);
+                ImGui.DragFloat("Target Zoom for Spawn Anim", ref PlayerEntity.IntroAnimTargetZoom, 0.1f, 0.1f, 5f);
+                ImGui.DragFloat("Speed for Spawn Anim", ref PlayerEntity.IntroAnimZoomSpeed, 0.01f, 0, 1);
+                ImGui.DragFloat("Delay for Spawn Anim", ref PlayerEntity.IntroAnimZoomDelay, 0.1f, 0, 3);
+                
+                if (ImGui.Button("Use Debugging Camera"))
+                {
+                    Game.Instance.CameraZoom = 0.1f;
+                    Game.Instance.CameraLerpSpeed = 0;
+                    PlayerEntity.IntroAnimTargetZoom = 0.1f;
+                    PlayerEntity.IntroAnimZoomSpeed = 0;
+                    PlayerEntity.IntroAnimZoomDelay = 0;
+                }
+            }
 
             if (ImGui.CollapsingHeader("Tileset Debugging"))
             {
@@ -113,18 +129,27 @@ public class DebugLayer : ILayer
 
             if (ImGui.CollapsingHeader("World Gen Debugging"))
             {
-                ImGui.SliderFloat("Island Threshold", ref WorldGen.IslandThreshold, 0, 1);
-                ImGui.InputFloat("Island Noise Frequency", ref WorldGen.IslandNoiseFrequency, 0, 1);
-                ImGui.SliderFloat("Island Noise Mix", ref WorldGen.IslandNoiseMix, 0, 1);
-                ImGui.InputFloat("Lake Threshold", ref WorldGen.LakeThreshold, 0.02f, 0.1f);
-                ImGui.InputFloat("Deep Lake Threshold", ref WorldGen.DeepLakeThreshold, 0.02f, 0.1f);
-                ImGui.InputFloat("Sand Threshold", ref WorldGen.SandThreshold, 0.02f, 0.1f);
-                ImGui.InputFloat("Main Noise 1 Frequency", ref WorldGen.MainNoiseFreq, 0.02f, 0.1f);
-                ImGui.InputFloat("Main Noise 2 Frequency", ref WorldGen.MainNoise2Freq, 0.02f, 0.1f);
-                ImGui.InputFloat("Main Noise 3 Frequency", ref WorldGen.MainNoise3Freq, 0.02f, 0.1f);
-                ImGui.InputFloat("Cave Noise Frequency", ref WorldGen.CaveNoiseFreq, 0.02f, 0.1f);
-                ImGui.InputFloat("Cave Noise Threshold", ref WorldGen.CaveNoiseThreshold, 0.02f, 0.1f);
-                ImGui.InputFloat("Cave Wall Thickness", ref WorldGen.CaveWallThickness, 0.02f, 0.1f);
+                if (ImGui.CollapsingHeader("Generation Settings"))
+                {
+                    ImGui.SliderFloat("Island Threshold", ref WorldGen.IslandThreshold, 0, 1);
+                    ImGui.InputFloat("Island Noise Frequency", ref WorldGen.IslandNoiseFrequency, 0, 1);
+                    ImGui.SliderFloat("Island Noise Mix", ref WorldGen.IslandNoiseMix, 0, 1);
+                    ImGui.InputFloat("Beach Bias", ref WorldGen.BeachBias, 0.02f, 0.1f);
+                    ImGui.InputFloat("Beach Size", ref WorldGen.BeachSize, 0.01f, 0.1f);
+                    ImGui.InputFloat("Lake Threshold", ref WorldGen.LakeThreshold, 0.02f, 0.1f);
+                    ImGui.InputFloat("Deep Lake Threshold", ref WorldGen.DeepLakeThreshold, 0.02f, 0.1f);
+                    ImGui.InputFloat("Sand Threshold", ref WorldGen.SandThreshold, 0.02f, 0.1f);
+                    ImGui.InputFloat("Main Noise 1 Frequency", ref WorldGen.MainNoiseFreq, 0.02f, 0.1f);
+                    ImGui.InputFloat("Main Noise 2 Frequency", ref WorldGen.MainNoise2Freq, 0.02f, 0.1f);
+                    ImGui.InputFloat("Main Noise 3 Frequency", ref WorldGen.MainNoise3Freq, 0.02f, 0.1f);
+                    ImGui.InputFloat("Cave Noise Frequency", ref WorldGen.CaveNoiseFreq, 0.02f, 0.1f);
+                    ImGui.InputFloat("Cave Noise Threshold", ref WorldGen.CaveNoiseThreshold, 0.02f, 0.1f);
+                    ImGui.InputFloat("Cave Wall Thickness", ref WorldGen.CaveWallThickness, 0.02f, 0.1f);
+                    ImGui.InputFloat("Flowery Grass Threshold", ref WorldGen.FloweryGrassWeight, 0.02f, 0.1f);
+                    ImGui.InputInt("Flowery Grass Chance", ref WorldGen.FloweryGrassChance, 1);
+                    ImGui.InputInt("Rock Chance", ref WorldGen.RockChance, 1);
+                    ImGui.InputInt("Pebble Chance", ref WorldGen.PebbleChance, 1);
+                }
                 
                 if (ImGui.Button("Regenerate Level"))
                 {

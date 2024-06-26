@@ -15,6 +15,9 @@ public class WorldGen
     public static float LakeThreshold = 0.2f, DeepLakeThreshold = 0.015f, SandThreshold = 0.2f;
     public static float MainNoiseFreq = 0.04f, MainNoise2Freq = 0.1f, MainNoise3Freq = 0.02f;
     public static float CaveNoiseFreq = 0.04f, CaveNoiseThreshold = 0.65f, CaveWallThickness = 0.12f;
+    public static float FloweryGrassWeight = 0.2f; 
+    public static int FloweryGrassChance = 3, RockChance = 10, PebbleChance = 6;
+    public static float BeachBias = 0.6f, BeachSize = 0.05f;
     
     public static World GenerateWorld(int chunkCountX, int chunkCountY, int seed = 0)
     {
@@ -84,7 +87,7 @@ public class WorldGen
 
                 float mainNoiseVal = mainNoise.GetNoise(x, y);
                 
-                if (islandVal < IslandThreshold + Math.Clamp(((mainNoiseVal + 0.6f) * 0.05f), 0, 1))
+                if (islandVal < IslandThreshold + Math.Clamp(((mainNoiseVal + BeachBias) * BeachSize), 0, 1))
                 {
                     world.BaseLayer.SetTile(x, y, Tiles.Tiles.Sand);
                     continue;
@@ -96,11 +99,11 @@ public class WorldGen
                 void AddRocks()
                 {
                     if (mainNoise3Val is > 0.6f and < 0.8f
-                        && rnd.Next(0, 6) == 0)
+                        && rnd.Next(0, PebbleChance) == 0)
                     {
                         world.TopLayer.SetTile(x, y, Tiles.Tiles.Pebbles);
                     } else if (mainNoise3Val is > 0.5f and < 0.55f
-                            && rnd.Next(0, 10) == 0)
+                            && rnd.Next(0, RockChance) == 0)
                     {
                         world.TopLayer.SetTile(x, y, Tiles.Tiles.Rock);
                     }
@@ -126,7 +129,7 @@ public class WorldGen
                 }
                 
                 float mainNoise2Val = mainNoise2.GetNoise(x, y);
-                if (mainNoiseVal > 0.3f && mainNoiseVal < 0.3f + LakeThreshold && mainNoise2Val is < 0.25f)
+                if (mainNoiseVal > 0.3f && mainNoiseVal < 0.3f + LakeThreshold && mainNoise2Val < LakeThreshold * 1.25f)
                 {
                     bool isDeep = mainNoiseVal > 0.3 + (LakeThreshold / 2) - DeepLakeThreshold
                         && mainNoiseVal < 0.3 + (LakeThreshold / 2) + DeepLakeThreshold;
@@ -141,8 +144,8 @@ public class WorldGen
                     continue;
                 }
 
-                if (mainNoise2Val is > 0.4f and < 0.6f
-                    && rnd.Next(0, 3) == 0)
+                if (mainNoise2Val  > 0.4f && mainNoise2Val < 0.4f + FloweryGrassWeight
+                    && rnd.Next(0, FloweryGrassChance) == 0)
                 {
                     world.BaseLayer.SetTile(x, y, Tiles.Tiles.FloweryGrass);
                 } 
