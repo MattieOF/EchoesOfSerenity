@@ -67,6 +67,9 @@ public class PlayerEntity : Mob
         if (Raylib.IsKeyDown(KeyboardKey.D))
             movement.X += 1;
         
+        if (Raylib.IsKeyPressed(KeyboardKey.H))
+            Health -= 1;
+        
         if (movement != Vector2.Zero)
         {
             movement = Vector2.Normalize(movement) * (MoveSpeed * SpeedMultiplier * Raylib.GetFrameTime());
