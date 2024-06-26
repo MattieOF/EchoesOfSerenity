@@ -7,7 +7,7 @@ public class ContentManager
 {
     private static Dictionary<string, Texture2D> _textures = new();
     private static Dictionary<string, Image> _images = new();
-    private static Dictionary<string, Font> _fonts = new();
+    private static Dictionary<string, Dictionary<int, Font>> _fonts = new();
     private static Dictionary<string, Sound> _sounds = new();
 
     public static void LoadContent()
@@ -46,8 +46,7 @@ public class ContentManager
 #if DEBUG
                     loadType = "font";
 #endif
-                    var font = Raylib.LoadFontEx(file, 18, [], 250);
-                    RegisterFont(file, font);
+                    RegisterFont(file);
                     break;
                 case ".wav":
 #if DEBUG
@@ -78,8 +77,13 @@ public class ContentManager
         foreach (var image in _images.Values)
             Raylib.UnloadImage(image);
 
-        foreach (var font in _fonts.Values)
-            Raylib.UnloadFont(font);
+        foreach (var fonts in _fonts.Values)
+        {
+            foreach (var font in fonts.Values)
+            {
+                Raylib.UnloadFont(font);
+            }
+        }
 
         foreach (var sound in _sounds.Values)
             Raylib.UnloadSound(sound);
@@ -101,13 +105,22 @@ public class ContentManager
 
     public static Image GetImage(string path) => _images[path];
 
-    public static void RegisterFont(string path, Font font)
+    public static void RegisterFont(string path)
     {
         path = path.Replace('\\', '/');
-        _fonts.Add(path, font);
+        _fonts.Add(path, []);
     }
 
-    public static Font GetFont(string path) => _fonts[path];
+    public static Font GetFont(string path, int size)
+    {
+        var sizes = _fonts[path];
+        if (!sizes.ContainsKey(size))
+        {
+            sizes.Add(size, Raylib.LoadFontEx(path, size, [], 250));
+        }
+
+        return sizes[size];
+    }
 
     public static void RegisterSound(string path, Sound sound)
     {

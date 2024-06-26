@@ -30,8 +30,9 @@ public class Game
 
     private float _baseCameraZoom = 1, _cameraZoom = 1;
     private readonly List<ILayer> _layers = [];
+    private readonly List<(ILayer, int)> _layersToAttach = [];
     private readonly List<ILayer> _layersToDetach = [];
-    private int _lastWindowWidth;
+    private int _lastWindowWidth, _lastWindowHeight;
     
     public Game()
     {
@@ -65,12 +66,18 @@ public class Game
         while (!Raylib.WindowShouldClose() && IsRunning)
         {
             int windowWidth = Raylib.GetScreenWidth();
-            if (Raylib.GetScreenWidth() != _lastWindowWidth)
+            int windowHeight = Raylib.GetScreenHeight();
+            if (windowWidth != _lastWindowWidth
+                || windowHeight != _lastWindowWidth)
             {
-                Camera.Offset = new Vector2(windowWidth / 2f, Raylib.GetScreenHeight() / 2f);
+                Camera.Offset = new Vector2(windowWidth / 2f, windowHeight / 2f);
                 _baseCameraZoom = windowWidth / DefaultScreenSize.X;
                 Camera.Zoom = _baseCameraZoom * CameraZoom;
                 _lastWindowWidth = windowWidth;
+                _lastWindowHeight = windowHeight;
+                
+                foreach (var layer in _layers)
+                    layer.OnWindowResized();
             }
 
             CameraZoom = Math.Clamp(CameraZoom + Raylib.GetMouseWheelMoveV().Y * 0.2f, 0.1f, 5f);
@@ -117,6 +124,13 @@ public class Game
             
             // Post frame stuff
             // Perform queued destructions
+            foreach (var (layer, index) in _layersToAttach)
+            {
+                _layers.Insert(index, layer);
+                layer.OnAttach();
+            }
+            _layersToAttach.Clear();
+            
             foreach (var layer in _layersToDetach)
             {
                 layer.OnDetach();
@@ -149,15 +163,19 @@ public class Game
     
     public void AttachLayer(ILayer layer, int index = 0)
     {
-        _layers.Insert(index, layer);
-        layer.OnAttach();
+        _layersToAttach.Add((layer, index));
     }
 
     public T ConstructLayer<T>(int index = 0) where T : ILayer, new()
     {
         T layer = new();
-        AttachLayer(layer, index);
+        _layersToAttach.Add((layer, index));
         return layer;
+    }
+
+    public void DetachLayer(ILayer layer)
+    {
+        _layersToDetach.Add(layer);
     }
     
     public void QueueDetach(ILayer layer)

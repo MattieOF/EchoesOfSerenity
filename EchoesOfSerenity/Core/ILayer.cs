@@ -29,4 +29,8 @@ public interface ILayer
     public void RenderImGUI()
     {
     }
+
+    public void OnWindowResized()
+    {
+    }
 }

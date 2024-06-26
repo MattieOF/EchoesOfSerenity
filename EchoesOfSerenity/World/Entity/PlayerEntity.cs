@@ -23,7 +23,7 @@ public class PlayerEntity : LivingEntity
         SetAnimation("idle");
         _introAnimTimer = IntroAnimZoomDelay;
         Game.Instance.CameraZoom = IntroAnimInitialZoom;
-        Echoes.EchoesInstance.HUD.Player = this;
+        Echoes.EchoesInstance.HUD!.Player = this;
     }
 
     public override void Update()
@@ -85,12 +85,15 @@ public class PlayerEntity : LivingEntity
         if (Raylib.IsMouseButtonPressed(MouseButton.Left))
         {
             Vector2 worldPos = Game.Instance.ScreenPosToWorld(Raylib.GetMousePosition());
-            (int x, int y) tilePos = World.TopLayer.WorldCoordToTileCoord(worldPos);
-            Tile? tile = World.TopLayer.TileAtTileCoord(tilePos.x, tilePos.y);
-
-            if (tile is not null)
+            (int x, int y) = World.TopLayer.WorldCoordToTileCoord(worldPos);
+            if (x > 0 && x < World.TopLayer.Width && y > 0 && y < World.TopLayer.Height)
             {
-                World.TopLayer.DestroyTile(tilePos.x, tilePos.y);
+                Tile? tile = World.TopLayer.TileAtTileCoord(x, y);
+
+                if (tile is not null)
+                {
+                    World.TopLayer.DestroyTile(x, y);
+                }
             }
         }
         

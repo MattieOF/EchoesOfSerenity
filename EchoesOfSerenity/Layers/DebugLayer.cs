@@ -26,8 +26,8 @@ public class DebugLayer : ILayer
 
     public void OnAttach()
     {
-        _font = ContentManager.GetFont("Content/Fonts/OpenSans-Regular.ttf");
-        _boldFont = ContentManager.GetFont("Content/Fonts/OpenSans-Bold.ttf");
+        _font = ContentManager.GetFont("Content/Fonts/OpenSans-Regular.ttf", 18);
+        _boldFont = ContentManager.GetFont("Content/Fonts/OpenSans-Bold.ttf", 18);
         _titleSize = Raylib.MeasureTextEx(_boldFont, "EoS Stats", 18, 1);
     }
 
