@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Numerics;
 using EchoesOfSerenity.Core.Tilemap;
+using EchoesOfSerenity.World.Particle;
 using Raylib_cs;
 
 namespace EchoesOfSerenity.World;
@@ -9,6 +10,7 @@ public class World
 {
     public Tilemap BaseLayer = null!;
     public Tilemap TopLayer = null!;
+    public ParticleSystemLayer ParticleSystem = new();
     public int Width, Height;
     public int Seed = 0;
 
@@ -23,7 +25,7 @@ public class World
         world.TopLayer = new Tilemap(Tilemap.ChunkSize, Tilemap.ChunkSize, Tiles.Tiles.TerrainTileset);
         return world;
     }
-
+    
     public void AddEntity(Core.Entity.Entity entity)
     {
         entity.World = this;
@@ -71,6 +73,7 @@ public class World
     public void Render()
     {
         BaseLayer.Render();
+        ParticleSystem.Render();
         TopLayer.Render();
         
         foreach (var entity in _entities)

@@ -1,6 +1,7 @@
 using System.Numerics;
 using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Entity;
+using EchoesOfSerenity.Core.Tilemap;
 using Raylib_cs;
 
 namespace EchoesOfSerenity.World.Entity;
@@ -71,6 +72,18 @@ public class PlayerEntity : Mob
         
         if (Raylib.IsKeyPressed(KeyboardKey.H))
             Hurt(1);
+
+        if (Raylib.IsMouseButtonPressed(MouseButton.Left))
+        {
+            Vector2 worldPos = Game.Instance.ScreenPosToWorld(Raylib.GetMousePosition());
+            (int x, int y) tilePos = World.TopLayer.WorldCoordToTileCoord(worldPos);
+            Tile? tile = World.TopLayer.TileAtTileCoord(tilePos.x, tilePos.y);
+
+            if (tile is not null)
+            {
+                World.TopLayer.DestroyTile(tilePos.x, tilePos.y);
+            }
+        }
         
         if (movement != Vector2.Zero)
         {

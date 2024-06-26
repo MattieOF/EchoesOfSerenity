@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using EchoesOfSerenity.Core.Content;
 using EchoesOfSerenity.World.Entity;
 using Raylib_cs;
@@ -136,6 +137,12 @@ public class Game
     {
         CameraTarget = target;
         Camera.Target = CameraTarget;
+    }
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Vector2 ScreenPosToWorld(Vector2 screenPos)
+    {
+        return Raymath.Vector2Transform(screenPos, Raymath.MatrixInvert(Raylib.GetCameraMatrix2D(Camera)));
     }
 
     public int GetLayerCount() => _layers.Count;

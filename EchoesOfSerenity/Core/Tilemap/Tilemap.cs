@@ -77,8 +77,6 @@ public class Tilemap : IDisposable
                 Raylib.DrawTextureRec(Chunks[index].Texture, source, new Vector2(x, y), Color.White);
                 
                 // Draw animated tiles
-                // int chunkX = (index % (Width / ChunkSize)) * ChunkSize;
-                // int chunkY = (index / (Width / ChunkSize)) * ChunkSize;
                 int chunkX = x / Tileset.TileWidth;
                 int chunkY = y / Tileset.TileHeight;
                 for (int cy = chunkY; cy < chunkY + ChunkSize; cy++) // Loop y first for cache efficiency
@@ -155,6 +153,23 @@ public class Tilemap : IDisposable
         Raylib.EndTextureMode();
     }
 
+    public void DestroyTile(int x, int y)
+    {
+        Tile? tile = _tiles[x, y];
+        if (tile is null) return;
+
+        Random rnd = new();
+        int tilesheetX = (tile.TileSetIndex % Tileset.TileRows) * Tileset.TileWidth;
+        int tilesheetY = (tile.TileSetIndex / Tileset.TileRows) * Tileset.TileHeight;
+        for (int i = 0; i < rnd.Next(15, 20); i++)
+        {
+            Echoes.EchoesInstance.World.ParticleSystem.AddParticle("Content/Spritesheets/TerrainSpritesheet.png",
+                new Vector2(x * Tileset.TileWidth + rnd.Next(Tileset.TileWidth), y * Tileset.TileHeight + rnd.Next(Tileset.TileHeight)), new Vector2(rnd.NextSingle() * 60 - 30, rnd.NextSingle() * 60 - 30), rnd.NextSingle() * 3 + 3, new Rectangle(tilesheetX + rnd.Next(0, Tileset.TileWidth - 3), tilesheetY + rnd.Next(0, Tileset.TileHeight - 3), 3, 3));
+        }
+        
+        SetTile(x, y, null);
+    }
+
     public void Clear()
     {
         _tiles = new Tile[Width, Height];
@@ -207,6 +222,12 @@ public class Tilemap : IDisposable
         return false;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public (int, int) WorldCoordToTileCoord(float x, float y) => ((int) (x / Tileset.TileWidth), (int) (y / Tileset.TileHeight));
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public (int, int) WorldCoordToTileCoord(Vector2 pos) => ((int) (pos.X / Tileset.TileWidth), (int) (pos.Y / Tileset.TileHeight));
+    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Tile? TileAtTileCoord(int x, int y) => _tiles[x, y];
     

@@ -66,4 +66,9 @@ public static class Utility
     {
         return (a - b) * float.Pow(t, Raylib.GetFrameTime()) + b;
     }
+    
+    public static bool IsPointInRect(Vector2 point, Rectangle rect)
+    {
+        return point.X >= rect.X && point.X <= rect.X + rect.Width && point.Y >= rect.Y && point.Y <= rect.Y + rect.Height;
+    }
 }
