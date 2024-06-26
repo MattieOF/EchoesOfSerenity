@@ -13,6 +13,7 @@ public class Game
     public static readonly Vector2 DefaultScreenSize = new(1280, 600);
     
     public bool IsRunning { get; private set; } = true;
+    public bool IsPaused { get; set; } = false;
     public Camera2D Camera;
     public Vector2 CameraTarget = Vector2.Zero;
     public float CameraLerpSpeed = 0.05f;

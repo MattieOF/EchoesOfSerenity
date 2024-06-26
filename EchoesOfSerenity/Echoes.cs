@@ -30,6 +30,7 @@ public class Echoes : Game
 
     public void StartGame()
     {
+        IsPaused = false;
         if (HUD is not null)
             DetachLayer(HUD);
         HUD = ConstructLayer<HUDLayer>();
