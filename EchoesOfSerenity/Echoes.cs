@@ -33,10 +33,9 @@ public class Echoes : Game
         if (HUD is not null)
             DetachLayer(HUD);
         HUD = ConstructLayer<HUDLayer>();
-        // TODO: async load
         World = WorldGen.GenerateWorld(32, 32);
-        WorldLayer worldLayer = new(World);
-        AttachLayer(worldLayer);
+        WorldLayer = new(World);
+        AttachLayer(WorldLayer);
     }
 
     protected override void OnUpdate()
