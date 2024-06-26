@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using EchoesOfSerenity.World.Entity;
+using EchoesOfSerenity.World.Item;
 using Raylib_cs;
 
 namespace EchoesOfSerenity.Core.Tilemap;
@@ -166,6 +168,17 @@ public class Tilemap : IDisposable
         {
             Echoes.EchoesInstance.World.ParticleSystem.AddParticle("Content/Spritesheets/TerrainSpritesheet.png",
                 new Vector2(x * Tileset.TileWidth + rnd.Next(Tileset.TileWidth), y * Tileset.TileHeight + rnd.Next(Tileset.TileHeight)), new Vector2(rnd.NextSingle() * 60 - 30, rnd.NextSingle() * 60 - 30) * violence, rnd.NextSingle() * 3 + 3, new Rectangle(tilesheetX + rnd.Next(0, Tileset.TileWidth - 3), tilesheetY + rnd.Next(0, Tileset.TileHeight - 3), 3, 3));
+        }
+
+        foreach ((Item item, int min, int max) in tile.Drops)
+        {
+            int count = rnd.Next(min, max);
+            if (count > 0)
+            {
+                var entity = new ItemEntity(item, count);
+                entity.Center = new Vector2((x * Tileset.TileWidth) + Tileset.TileWidth / 2.0f, (y * Tileset.TileHeight) + Tileset.TileHeight / 2.0f);
+                Echoes.EchoesInstance.World.AddEntity(entity);
+            }
         }
         
         SetTile(x, y, null);

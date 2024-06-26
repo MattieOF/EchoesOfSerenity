@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Numerics;
 using EchoesOfSerenity.Core.Tilemap;
+using EchoesOfSerenity.World.Entity;
 using EchoesOfSerenity.World.Particle;
 using Raylib_cs;
 
@@ -14,6 +15,7 @@ public class World : IDisposable
     public int Width, Height;
     public int Seed = 0;
     public Vector2 SpawnPoint;
+    public PlayerEntity Player = null!;
 
     private List<Core.Entity.Entity> _entities = new();
     private List<Core.Entity.Entity> _queuedFrees = new();
@@ -35,7 +37,10 @@ public class World : IDisposable
         if (_isUpdating)
             _queuedAdds.Add(entity);
         else
+        {
             _entities.Add(entity);
+            entity.OnAddedToWorld();
+        }
     }
 
     public void RemoveEntity(Core.Entity.Entity entity)
@@ -68,9 +73,12 @@ public class World : IDisposable
         foreach (var entity in _queuedFrees)
             _entities.Remove(entity);
         _queuedFrees.Clear();
-        
+
         foreach (var entity in _queuedAdds)
+        {
             _entities.Add(entity);
+            entity.OnAddedToWorld();
+        }
         _queuedAdds.Clear();
     }
     

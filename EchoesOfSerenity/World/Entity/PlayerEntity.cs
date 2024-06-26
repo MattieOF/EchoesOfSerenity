@@ -36,6 +36,11 @@ public class PlayerEntity : LivingEntity
         Inventory.Contents[2] = (Items.JakeVoodooDoll, 1);
     }
 
+    public override void OnAddedToWorld()
+    {
+        World.Player = this;
+    }
+
     public override void Update()
     {
         base.Update();

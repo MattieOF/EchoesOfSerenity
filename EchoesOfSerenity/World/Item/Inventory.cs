@@ -13,4 +13,43 @@ public class Inventory
         for (int i = 0; i < Size; i++)
             Contents.Add((null, 0));
     }
+
+    public bool CanPickUp(Item item)
+    {
+        for (int i = 0; i < Size; i++)
+        {
+            if (Contents[i].Item1 == null)
+                return true;
+            if (Contents[i].Item1 == item && Contents[i].Item2 < item.MaxStack)
+                return true;
+        }
+
+        return false;
+    }
+
+    public int AddItem(Item item, int count)
+    {
+        for (int i = 0; i < Size; i++)
+        {
+            if (Contents[i].Item1 == null)
+            {
+                Contents[i] = (item, count);
+                return 0;
+            }
+            if (Contents[i].Item1 == item && Contents[i].Item2 < item.MaxStack)
+            {
+                int space = item.MaxStack - Contents[i].Item2;
+                if (space >= count)
+                {
+                    Contents[i] = (item, Contents[i].Item2 + count);
+                    return 0;
+                }
+
+                Contents[i] = (item, item.MaxStack);
+                count -= space;
+            }
+        }
+
+        return count;
+    }
 }

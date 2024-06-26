@@ -20,6 +20,9 @@ public class Entity
 
     public World.World World = null!;
     
+    public virtual void OnAddedToWorld()
+    { }
+    
     public virtual void Update()
     { }
 

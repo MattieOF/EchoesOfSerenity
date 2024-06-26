@@ -1,4 +1,5 @@
 using EchoesOfSerenity.Core.Tilemap;
+using EchoesOfSerenity.World.Item;
 
 namespace EchoesOfSerenity.World.Tiles;
 
@@ -14,9 +15,9 @@ public static class Tiles
     public static Tile DeepWater = new Tile { IsSolid = false, TileSetIndex = 18, Animated = true, Frames = 6, FPS = 3};
 
     public static Tile StoneFloor = new Tile { IsSolid = false, TileSetIndex = 8, RandomRotation = true };
-    public static Tile StoneWall = new Tile { IsSolid = true, TileSetIndex = 9, RandomRotation = true };
-    public static Tile Pebbles = new Tile { IsSolid = false, TileSetIndex = 11, RandomRotation = false };
-    public static Tile Rock = new Tile { IsSolid = true, TileSetIndex = 12, RandomRotation = false };
+    public static Tile StoneWall = new Tile { IsSolid = true, TileSetIndex = 9, RandomRotation = true, Strength = 5, RequiredTool = ToolType.Pickaxe, Drops = [(Items.Bomb, 1, 2)] };
+    public static Tile Pebbles = new Tile { IsSolid = false, TileSetIndex = 11, RandomRotation = false, Strength = 3, CanBePunched = true, RequiredTool = ToolType.Pickaxe };
+    public static Tile Rock = new Tile { IsSolid = true, TileSetIndex = 12, RandomRotation = false, CanBePunched = false, RequiredTool = ToolType.Pickaxe, Strength = 4 };
     
     // TODO: Deep water, around of edge of map and where water gets deep. Kills player.
 
