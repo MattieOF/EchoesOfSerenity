@@ -40,6 +40,8 @@ public class WorldGen
         Random rnd = new(seed);
         world.Seed = seed;
         
+        world.RemoveAllEntities();
+        
         world.TopLayer.Clear();
         int tilesX = world.Width, tilesY = world.Height;
         

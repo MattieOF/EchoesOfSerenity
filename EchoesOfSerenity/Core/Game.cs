@@ -9,10 +9,13 @@ namespace EchoesOfSerenity.Core;
 public class Game
 {
     public static Game Instance = null!;
+    public static readonly Vector2 DefaultScreenSize = new(1280, 600);
+    
     public bool IsRunning { get; private set; } = true;
     public Camera2D Camera;
+    public Vector2 CameraTarget = Vector2.Zero;
+    public float CameraLerpSpeed = 0.05f;
     public Rectangle CameraBounds { get; private set; }
-    public static readonly Vector2 DefaultScreenSize = new(1280, 600);
 
     public float CameraZoom
     {
@@ -69,14 +72,17 @@ public class Game
             if (Raylib.IsKeyDown(KeyboardKey.LeftShift))
                 moveSpeed *= 3;
             if (Raylib.IsKeyDown(KeyboardKey.A))
-                Camera.Target -= new Vector2(moveSpeed * Raylib.GetFrameTime(), 0);
+                CameraTarget -= new Vector2(moveSpeed * Raylib.GetFrameTime(), 0);
             if (Raylib.IsKeyDown(KeyboardKey.D))
-                Camera.Target += new Vector2(moveSpeed * Raylib.GetFrameTime(), 0);
+                CameraTarget += new Vector2(moveSpeed * Raylib.GetFrameTime(), 0);
             if (Raylib.IsKeyDown(KeyboardKey.W))
-                Camera.Target -= new Vector2(0, moveSpeed * Raylib.GetFrameTime());
+                CameraTarget -= new Vector2(0, moveSpeed * Raylib.GetFrameTime());
             if (Raylib.IsKeyDown(KeyboardKey.S))
-                Camera.Target += new Vector2(0, moveSpeed * Raylib.GetFrameTime());
+                CameraTarget += new Vector2(0, moveSpeed * Raylib.GetFrameTime());
             CameraZoom = Math.Clamp(CameraZoom + Raylib.GetMouseWheelMoveV().Y * 0.2f, 0.1f, 5f);
+            
+            // Move camera towards target
+            Camera.Target = (Camera.Target - CameraTarget) * float.Pow(CameraLerpSpeed, Raylib.GetFrameTime()) + CameraTarget;
             
             // Make camera rectangle
             var mat = Raylib.GetCameraMatrix2D(Game.Instance.Camera);
@@ -131,6 +137,12 @@ public class Game
         ContentManager.UnloadAssets();
         rlImGui.Shutdown();
         Raylib.CloseWindow();
+    }
+    
+    public void SetCameraTarget(Vector2 target)
+    {
+        CameraTarget = target;
+        Camera.Target = CameraTarget;
     }
 
     public int GetLayerCount() => _layers.Count;

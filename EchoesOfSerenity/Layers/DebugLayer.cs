@@ -41,7 +41,7 @@ public class DebugLayer : ILayer
         if (_fpsVisible)
         {
             // Proper UI system would make this way better, but this is a jam baybee
-            string fpsString = $"FPS: {Raylib.GetFPS()}\nEntities: 0";
+            string fpsString = $"FPS: {Raylib.GetFPS()}\nEntities: {Echoes.EchoesInstance.World.GetEntityCount()}";
             Vector2 size = Raylib.MeasureTextEx(_font, fpsString, FontSize, 1);
             Raylib.DrawRectangle(15, 15, (int)(MathF.Max(size.X, _titleSize.X) + 20), (int)(size.Y + _titleSize.Y + 15),
                 new Color(0, 0, 0, 130));
@@ -67,6 +67,7 @@ public class DebugLayer : ILayer
             float camZoom = Game.Instance.CameraZoom;
             if (ImGui.DragFloat("Camera Zoom", ref camZoom, 0.1f, 4f))
                 Game.Instance.CameraZoom = camZoom;
+            ImGui.SliderFloat("Camera Lerp Speed", ref Game.Instance.CameraLerpSpeed, 0, 1);
 
             if (ImGui.CollapsingHeader("Tileset Debugging"))
             {
@@ -88,6 +89,8 @@ public class DebugLayer : ILayer
                     if (ImGui.CollapsingHeader(name))
                     {
                         ImGui.Text($"Rendered Chunks: {tilemap.RenderedChunks}");
+                        if (ImGui.Button("Rerender"))
+                            tilemap.RerenderAll();
                         if (ImGui.CollapsingHeader("Tilemap Chunk Preview"))
                         {
                             ImGui.SliderInt("Chunk Index", ref _tilemapChunkPreviewIndex, 0, tilemap.Chunks.Count - 1);
@@ -99,6 +102,8 @@ public class DebugLayer : ILayer
                 TilemapDebugger("Base Layer", Echoes.EchoesInstance.World.BaseLayer);
                 TilemapDebugger("Top Layer", Echoes.EchoesInstance.World.TopLayer);
                 
+                if (ImGui.Button("Rerender World"))
+                    Echoes.EchoesInstance.World.RerenderAll();
 #if DEBUG
                 ImGui.Checkbox("Draw Chunk Outlines", ref Tilemap.DrawChunkOutlines);
                 ImGui.Checkbox("Enable Random Rotation", ref Tilemap.EnableRandomRotation);
@@ -127,7 +132,7 @@ public class DebugLayer : ILayer
                 
                 if (ImGui.Button("View Full Map"))
                 {
-                    Game.Instance.Camera.Target = Echoes.EchoesInstance.World.GetCenterPoint();
+                    Game.Instance.SetCameraTarget(Echoes.EchoesInstance.World.GetCenterPoint());
                     Game.Instance.CameraZoom = 0.1f;
                 }
             }

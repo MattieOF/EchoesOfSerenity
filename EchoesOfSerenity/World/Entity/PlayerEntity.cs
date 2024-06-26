@@ -8,4 +8,9 @@ public class PlayerEntity : Mob
     {
         Size = new(16, 16);
     }
+
+    public override void Update()
+    {
+        
+    }
 }

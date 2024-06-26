@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Numerics;
 using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Entity;
@@ -14,6 +15,7 @@ public class World
 
     private List<Core.Entity.Entity> _entities = new();
     private List<Core.Entity.Entity> _queuedFrees = new();
+    private bool _isUpdating = false;
 
     public static World CreateEmpty()
     {
@@ -33,13 +35,23 @@ public class World
     {
         _queuedFrees.Add(entity);
     }
+    
+    public void RemoveAllEntities()
+    {
+        Debug.Assert(_isUpdating is false);
+        _entities.Clear();
+    }
 
+    public int GetEntityCount() => _entities.Count;
+    
     public void Update()
     {
+        _isUpdating = true;
         foreach (var entity in _entities)
         {
             entity.Update();
         }
+        _isUpdating = false;
         
         foreach (var entity in _queuedFrees)
             _entities.Remove(entity);
@@ -61,6 +73,12 @@ public class World
         {
             entity.Render();
         }
+    }
+
+    public void RerenderAll()
+    {
+        BaseLayer.RerenderAll();
+        TopLayer.RerenderAll();
     }
 
     public Vector2 GetCenterPoint()
