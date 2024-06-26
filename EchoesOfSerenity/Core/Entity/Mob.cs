@@ -1,3 +1,4 @@
+using System.Numerics;
 using Raylib_cs;
 
 namespace EchoesOfSerenity.Core.Entity;
@@ -9,6 +10,10 @@ public class Mob : Entity
     public Animation CurrentAnimation = null!;
     public int CurrentFrame = 0;
     public float FrameTimer = 0;
+    public float TargetRot = 0;
+    public bool EnableRotLerp = true;
+    
+    protected float Rot = 0;
 
     public override void Render()
     {
@@ -26,6 +31,14 @@ public class Mob : Entity
                     CurrentFrame = 0;
             }
         }
+
+        if (EnableRotLerp)
+            Rot = Utility.LerpSmooth(Rot, TargetRot, 0.03f);
+        
+        Rectangle frame = CurrentAnimation.Frames[CurrentFrame];
+        Rectangle dest = new(Position.X + Size.X / 2, Position.Y + Size.Y / 2, frame.Width, frame.Height);
+        Vector2 offset = new( frame.Width / 2,  frame.Height / 2);
+        Raylib.DrawTexturePro(Spritesheet.Texture, frame, dest, offset, Rot, Color.White);
     }
 
     public void SetAnimation(string name)

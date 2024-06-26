@@ -10,6 +10,12 @@ public class Entity
 
     public Rectangle BoundingBox => new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
 
+    public Vector2 Center
+    {
+        get => new(Position.X + Size.X / 2, Position.Y + Size.Y / 2);
+        set => Position = new Vector2(value.X - Size.X / 2, value.Y - Size.Y / 2);
+    }
+
     public World.World World = null!;
     
     public virtual void Update()

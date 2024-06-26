@@ -2,11 +2,23 @@ using Raylib_cs;
 
 namespace EchoesOfSerenity.Core;
 
-public class Animation(int startX, int startY, int length, int fps)
+public class Animation
 {
-    public (int, int) StartSprite = (startX, startY);
-    public int Length = length;
-    public int FPS = fps;
+    public (int, int) StartSprite;
+    public int Length;
+    public int FPS;
+    public Rectangle[] Frames;
+    
+    public Animation(int startX, int startY, int spriteWidth, int spriteHeight, int length, int fps)
+    {
+        StartSprite = (startX, startY);
+        Length = length;
+        FPS = fps;
+        
+        Frames = new Rectangle[length];
+        for (int i = 0; i < length; i++)
+            Frames[i] = new Rectangle(startX + i * spriteWidth, startY, spriteWidth, spriteHeight);
+    }
 }
 
 public class Spritesheet(int spriteWidth = 16, int spriteHeight = 16)
@@ -30,6 +42,6 @@ public class Spritesheet(int spriteWidth = 16, int spriteHeight = 16)
     
     public void AddAnimation(string name, int startX, int startY, int length, int fps)
     {
-        Animations.Add(name, new Animation(startX, startY, length, fps));
+        Animations.Add(name, new Animation(startX, startY, SpriteWidth, SpriteHeight, length, fps));
     }
 }

@@ -6,6 +6,11 @@ public class WorldLayer(World world) : ILayer
 {
     public World World { get; private set; } = world;
 
+    public void Update()
+    {
+        World.Update();
+    }
+
     public void PreRender()
     {
         World.PreRender();

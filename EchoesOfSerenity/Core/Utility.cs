@@ -1,3 +1,7 @@
+using System.Numerics;
+using System.Runtime.CompilerServices;
+using Raylib_cs;
+
 namespace EchoesOfSerenity.Core;
 
 public static class Utility
@@ -48,5 +52,18 @@ public static class Utility
         int h = seed + x*374761393 + y*668265263;
         h = (h^(h >> 13))*1274126177;
         return h^(h >> 16);
+    }
+
+    // Thanks to Freya Holmer: https://www.youtube.com/watch?v=LSNQuFEDOyQ
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 LerpSmooth(Vector2 a, Vector2 b, float t = 0.05f)
+    {
+        return (a - b) * float.Pow(t, Raylib.GetFrameTime()) + b;
+    }
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float LerpSmooth(float a, float b, float t = 0.05f)
+    {
+        return (a - b) * float.Pow(t, Raylib.GetFrameTime()) + b;
     }
 }

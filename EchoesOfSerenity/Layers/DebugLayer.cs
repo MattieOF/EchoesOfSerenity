@@ -64,6 +64,7 @@ public class DebugLayer : ILayer
             if (ImGui.Button("Close"))
                 Game.Instance.CloseGame();
 
+            ImGui.Text($"Camera position: {Game.Instance.CameraTarget}");
             float camZoom = Game.Instance.CameraZoom;
             if (ImGui.DragFloat("Camera Zoom", ref camZoom, 0.1f, 4f))
                 Game.Instance.CameraZoom = camZoom;

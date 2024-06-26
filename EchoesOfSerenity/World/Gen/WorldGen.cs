@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Numerics;
 using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Tilemap;
+using EchoesOfSerenity.World.Entity;
 using Raylib_cs;
 
 namespace EchoesOfSerenity.World.Gen;
@@ -152,10 +153,36 @@ public class WorldGen
             }
         }
         
+        // Spawn player
+        int tries = 30;
+        int playerX = rnd.Next((int)(centerPoint.X - 128), (int)(centerPoint.X + 128)), playerY = rnd.Next((int)(centerPoint.Y - 128), (int)(centerPoint.Y + 128));
+        while (!IsTileValidSpawn(world, playerX, playerY) && tries-- > 0)
+        {
+            playerX = rnd.Next((int)(centerPoint.X - 128), (int)(centerPoint.X + 128));
+            playerY = rnd.Next((int)(centerPoint.Y - 128), (int)(centerPoint.Y + 128));
+        }
+        PlayerEntity player = new();
+        player.Center = new(playerX * Tiles.Tiles.TerrainTileset.TileWidth, playerY * Tiles.Tiles.TerrainTileset.TileHeight);
+        Game.Instance.SetCameraTarget(player.Center);
+        world.AddEntity(player);
+        
         sw.Stop();
         Utility.WriteLineColour(ConsoleColor.Green, $"Took {sw.Elapsed.TotalMilliseconds:F}ms to generate level");
         
         world.BaseLayer.RerenderAll();
         world.TopLayer.RerenderAll();
+    }
+
+    public static bool IsTileValidSpawn(World world, int x, int y)
+    {
+        var top = world.TopLayer.TileAt(x, y);
+        if (top is not null && top.IsSolid)
+            return false;
+        
+        var baseTile = world.BaseLayer.TileAt(x, y);
+        if (baseTile is null || baseTile.IsSolid || baseTile == Tiles.Tiles.Water || baseTile == Tiles.Tiles.DeepWater || baseTile == Tiles.Tiles.StoneFloor)
+            return false;
+        
+        return true;
     }
 }

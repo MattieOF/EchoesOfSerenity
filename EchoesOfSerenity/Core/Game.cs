@@ -1,6 +1,7 @@
 using System.Numerics;
 using EchoesOfSerenity.Core.Content;
 using EchoesOfSerenity.World;
+using EchoesOfSerenity.World.Entity;
 using Raylib_cs;
 using rlImGui_cs;
 
@@ -56,6 +57,7 @@ public class Game
         Camera.Rotation = 0f;
         
         ContentManager.LoadContent();
+        Spritesheets.Init();
         OnInit();
         
         while (!Raylib.WindowShouldClose() && IsRunning)
@@ -67,18 +69,6 @@ public class Game
                 Camera.Zoom = _baseCameraZoom * CameraZoom;
             }
 
-            // Temp camera movement
-            float moveSpeed = 100;
-            if (Raylib.IsKeyDown(KeyboardKey.LeftShift))
-                moveSpeed *= 3;
-            if (Raylib.IsKeyDown(KeyboardKey.A))
-                CameraTarget -= new Vector2(moveSpeed * Raylib.GetFrameTime(), 0);
-            if (Raylib.IsKeyDown(KeyboardKey.D))
-                CameraTarget += new Vector2(moveSpeed * Raylib.GetFrameTime(), 0);
-            if (Raylib.IsKeyDown(KeyboardKey.W))
-                CameraTarget -= new Vector2(0, moveSpeed * Raylib.GetFrameTime());
-            if (Raylib.IsKeyDown(KeyboardKey.S))
-                CameraTarget += new Vector2(0, moveSpeed * Raylib.GetFrameTime());
             CameraZoom = Math.Clamp(CameraZoom + Raylib.GetMouseWheelMoveV().Y * 0.2f, 0.1f, 5f);
             
             // Move camera towards target

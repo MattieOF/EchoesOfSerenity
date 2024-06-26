@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Raylib_cs;
 
 namespace EchoesOfSerenity.Core.Tilemap;
@@ -120,7 +121,9 @@ public class Tilemap : IDisposable
             if (Chunks.Count != index)
                 Utility.WriteLineColour(ConsoleColor.Red, "Chunk index is out of order.");
 
-            Chunks.Add(Raylib.LoadRenderTexture(ChunkSize * Tileset.TileWidth, ChunkSize * Tileset.TileHeight));
+            var tex = Raylib.LoadRenderTexture(ChunkSize * Tileset.TileWidth, ChunkSize * Tileset.TileHeight);
+            Raylib.SetTextureWrap(tex.Texture, TextureWrap.Clamp);
+            Chunks.Add(tex);
         }
 
         Raylib.BeginTextureMode(Chunks[index]);
@@ -184,4 +187,7 @@ public class Tilemap : IDisposable
 
         return false;
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Tile? TileAt(int x, int y) => _tiles[x, y];
 }
