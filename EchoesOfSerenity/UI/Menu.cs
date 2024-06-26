@@ -257,7 +257,7 @@ public class ImageButton : Button
         {
             var mousePos = Raylib.GetMousePosition();
             var size = Raylib.MeasureTextEx(Font, Tooltip, TooltipSize, 0);
-            Raylib.DrawRectangle((int)(mousePos.X + 20), (int)mousePos.Y, (int)(size.X + 20), (int)(size.Y + 10), Color.White);
+            Raylib.DrawRectangle((int)(mousePos.X + 20), (int)mousePos.Y, (int)(size.X + 20), (int)(size.Y + 20), Color.White);
             Raylib.DrawTextEx(Font, Tooltip, new Vector2(mousePos.X + 30, mousePos.Y + 5), TooltipSize, 0, Color.Black);
         }
     }

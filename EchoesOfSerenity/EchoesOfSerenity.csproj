@@ -14,10 +14,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="World\Item\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <None Include="..\AppIcon.png">
         <Link>AppIcon.png</Link>
       </None>

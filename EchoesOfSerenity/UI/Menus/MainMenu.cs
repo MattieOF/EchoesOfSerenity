@@ -78,7 +78,7 @@ public class MainMenu : Menu
         ugjLogo.Font = ContentManager.GetFont("Content/Fonts/OpenSans-Regular.ttf", 30);
         ugjLogo.Texture = ContentManager.GetTexture("Content/UI/UGJLogo.png");
         ugjLogo.Rect.Size = new Vector2(120, 120);
-        ugjLogo.Tooltip = "Created for the 2024 University Game Jam";
+        ugjLogo.Tooltip = "Created for the 2024 University Game Jam\nClick to view their website";
         ugjLogo.Position = new Vector2(20, 20);
         ugjLogo.HorizontalAlignment = HorizontalAlignment.Left;
         ugjLogo.VerticalAlignment = VerticalAlignment.Bottom;
@@ -95,7 +95,7 @@ public class MainMenu : Menu
         raylibLogo.Font = ContentManager.GetFont("Content/Fonts/OpenSans-Regular.ttf", 30);
         raylibLogo.Texture = ContentManager.GetTexture("Content/UI/RaylibLogo.png");
         raylibLogo.Rect.Size = new Vector2(120, 120);
-        raylibLogo.Tooltip = "Created with Raylib";
+        raylibLogo.Tooltip = "Created with Raylib\nClick to view their website";
         raylibLogo.Position = new Vector2(150, 20);
         raylibLogo.HorizontalAlignment = HorizontalAlignment.Left;
         raylibLogo.VerticalAlignment = VerticalAlignment.Bottom;

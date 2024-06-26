@@ -30,6 +30,9 @@ public class PlayerEntity : LivingEntity
         _introAnimTimer = IntroAnimZoomDelay;
         Game.Instance.CameraZoom = IntroAnimInitialZoom;
         Echoes.EchoesInstance.HUD!.Player = this;
+
+        Inventory.Contents[0] = (Items.TestItem1, 1);
+        Inventory.Contents[2] = (Items.JakeVoodooDoll, 1);
     }
 
     public override void Update()
@@ -115,6 +118,9 @@ public class PlayerEntity : LivingEntity
 
         if (Raylib.IsMouseButtonPressed(MouseButton.Left))
         {
+            (Item.Item? heldItem, _) = Inventory.Contents[SelectedHotbarSlot];
+            heldItem?.OnUsed();
+            
             Vector2 worldPos = Game.Instance.ScreenPosToWorld(Raylib.GetMousePosition());
             (int x, int y) = World.TopLayer.WorldCoordToTileCoord(worldPos);
             if (x > 0 && x < World.TopLayer.Width && y > 0 && y < World.TopLayer.Height)
