@@ -42,7 +42,7 @@ public class PauseMenu : Menu
         quit.OnPressed.Add(_ =>
         {
             Game.Instance.IsPaused = false;
-            Echoes.EchoesInstance.AttachLayer(new MenuLayer(new LoadingMenu(LoadingMenu.LoadTo.Menu)));
+            Echoes.EchoesInstance.AttachLayer(new MenuLayer(new LoadingMenu(LoadingMenu.LoadTo.Menu)), Echoes.EchoesInstance.GetLayerCount() - 1);
             RemoveFromParent();
             return true;
         });

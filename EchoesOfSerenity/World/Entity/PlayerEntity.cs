@@ -32,6 +32,7 @@ public class PlayerEntity : LivingEntity
         Echoes.EchoesInstance.HUD!.Player = this;
 
         Inventory.Contents[0] = (Items.TestItem1, 1);
+        Inventory.Contents[1] = (Items.Bomb, 5);
         Inventory.Contents[2] = (Items.JakeVoodooDoll, 1);
     }
 
@@ -109,7 +110,7 @@ public class PlayerEntity : LivingEntity
 
         if (Raylib.IsKeyPressed(KeyboardKey.B))
         {
-            Bomb bomb = new();
+            BombEntity bomb = new();
             bomb.Position = Position;
             var mousePos = Game.Instance.ScreenPosToWorld(Raylib.GetMousePosition());
             bomb.Velocity = Vector2.Normalize(mousePos - Position) * 100;
@@ -118,8 +119,7 @@ public class PlayerEntity : LivingEntity
 
         if (Raylib.IsMouseButtonPressed(MouseButton.Left))
         {
-            (Item.Item? heldItem, _) = Inventory.Contents[SelectedHotbarSlot];
-            heldItem?.OnUsed();
+            UseSelectedItem();
             
             Vector2 worldPos = Game.Instance.ScreenPosToWorld(Raylib.GetMousePosition());
             (int x, int y) = World.TopLayer.WorldCoordToTileCoord(worldPos);
@@ -160,6 +160,21 @@ public class PlayerEntity : LivingEntity
         Rot = (float)Math.Atan2(lerpedMovement.Y, lerpedMovement.X) * (180 / MathF.PI);
         
         Game.Instance.CameraTarget = Center;
+    }
+
+    public void UseSelectedItem()
+    {
+        (Item.Item? heldItem, int count) = Inventory.Contents[SelectedHotbarSlot];
+        if (heldItem is null) return;
+        var used = heldItem.OnUsed(this);
+        if (used && heldItem.Consumable)
+        {
+            count--;
+            if (count <= 0)
+                Inventory.Contents[SelectedHotbarSlot] = (null, 0);
+            else
+                Inventory.Contents[SelectedHotbarSlot] = (heldItem, count);
+        }
     }
 
     public void Drown()

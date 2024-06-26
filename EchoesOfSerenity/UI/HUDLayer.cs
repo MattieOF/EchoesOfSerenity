@@ -40,17 +40,29 @@ public class HUDLayer : ILayer
             }
         }
 
-        (Item? item, _) = Player.Inventory.Contents[Player.SelectedHotbarSlot];
-        if (item is not null)
+        (Item? selectedItem, _) = Player.Inventory.Contents[Player.SelectedHotbarSlot];
+        if (selectedItem is not null)
         {
-            var size = Raylib.MeasureTextEx(_itemNameFont, item.Name, 20, 0);
-            Raylib.DrawTextEx(_itemNameFont, item.Name, new Vector2(Raylib.GetScreenWidth() / 2.0f - size.X / 2, 20), 20, 0, Color.Black);
+            var size = Raylib.MeasureTextEx(_itemNameFont, selectedItem.Name, 20, 0);
+            Raylib.DrawTextEx(_itemNameFont, selectedItem.Name, new Vector2(Raylib.GetScreenWidth() / 2.0f - size.X / 2, 20), 20, 0, Color.White);
         }
         
         int invBarX = ((int)(Raylib.GetScreenWidth()) / 2) - SlotSize * (Inventory.RowSize / 2);
         for (int i = 0; i < Inventory.RowSize; i++)
         {
+            (Item? item, int count) = Player.Inventory.Contents[i];
             Raylib.DrawRectangle(invBarX, 50, SlotSize, SlotSize, Player.SelectedHotbarSlot == i ? Color.Gray : Color.DarkGray);
+            if (item is not null)
+            {
+                Raylib.DrawTexturePro(item.Texture, new Rectangle(0, 0, item.Texture.Width, item.Texture.Height),
+                    new Rectangle(invBarX + 5, 50 + 5, SlotSize - 10, SlotSize - 10), new Vector2(0, 0), 0, Color.White);
+                
+                if (count is not 1)
+                {
+                    Raylib.DrawTextEx(_itemNameFont, count.ToString(), new Vector2(invBarX + 5, 50 + 2), 20, 0, Color.White);
+                }
+            }
+            
             Raylib.DrawRectangleLinesEx(new Rectangle(invBarX, 50, SlotSize, SlotSize), 2, Color.Black);
             invBarX += SlotSize;
         }

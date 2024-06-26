@@ -161,7 +161,8 @@ public class Tilemap : IDisposable
         Random rnd = new();
         int tilesheetX = (tile.TileSetIndex % Tileset.TileRows) * Tileset.TileWidth;
         int tilesheetY = (tile.TileSetIndex / Tileset.TileRows) * Tileset.TileHeight;
-        for (int i = 0; i < rnd.Next(15, 20); i++)
+        int particleCount = (int)(rnd.Next(30, 40) * violence * 0.5f);
+        for (int i = 0; i < particleCount; i++)
         {
             Echoes.EchoesInstance.World.ParticleSystem.AddParticle("Content/Spritesheets/TerrainSpritesheet.png",
                 new Vector2(x * Tileset.TileWidth + rnd.Next(Tileset.TileWidth), y * Tileset.TileHeight + rnd.Next(Tileset.TileHeight)), new Vector2(rnd.NextSingle() * 60 - 30, rnd.NextSingle() * 60 - 30) * violence, rnd.NextSingle() * 3 + 3, new Rectangle(tilesheetX + rnd.Next(0, Tileset.TileWidth - 3), tilesheetY + rnd.Next(0, Tileset.TileHeight - 3), 3, 3));

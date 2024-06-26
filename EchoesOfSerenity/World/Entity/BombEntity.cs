@@ -3,12 +3,12 @@ using Raylib_cs;
 
 namespace EchoesOfSerenity.World.Entity;
 
-public class Bomb : Core.Entity.AnimatedEntity
+public class BombEntity : Core.Entity.AnimatedEntity
 {
     public Vector2 Velocity;
     public float fuse = 2;
     
-    public Bomb()
+    public BombEntity()
     {
         Size = new(16, 16);
         Spritesheet = Spritesheets.Bomb;

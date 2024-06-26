@@ -106,4 +106,6 @@ public class ParticleSystemLayer : ILayer
             _particles[i] = particle;
         }
     }
+    
+    public int GetParticleCount() => _particles.Count;
 }
