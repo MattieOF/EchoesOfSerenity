@@ -1,6 +1,7 @@
 using System.Numerics;
 using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Content;
+using EchoesOfSerenity.Core.Entity;
 using EchoesOfSerenity.Core.Tilemap;
 using EchoesOfSerenity.World.Entity;
 using EchoesOfSerenity.World.Gen;
@@ -21,6 +22,7 @@ public class DebugLayer : ILayer
     private int _tileX, _tileY;
     private Vector2 _tileLocation;
     private int _tilemapChunkPreviewIndex = 0;
+    private int _targetFPS = 0;
 
     public void OnAttach()
     {
@@ -64,6 +66,13 @@ public class DebugLayer : ILayer
 
             if (ImGui.Button("Close"))
                 Game.Instance.CloseGame();
+            
+            ImGui.DragInt("Max FPS", ref _targetFPS, 1, 0, 1000);
+            if (ImGui.IsItemHovered(ImGuiHoveredFlags.AllowWhenDisabled))
+                ImGui.SetTooltip("0 for unlimited");
+            ImGui.SameLine();
+            if (ImGui.Button("Set"))
+                Raylib.SetTargetFPS(_targetFPS);
 
             if (ImGui.CollapsingHeader("Camera Tools"))
             {
@@ -161,6 +170,11 @@ public class DebugLayer : ILayer
                     Game.Instance.SetCameraTarget(Echoes.EchoesInstance.World.GetCenterPoint());
                     Game.Instance.CameraZoom = 0.1f;
                 }
+            }
+
+            if (ImGui.CollapsingHeader("Entity Debugging"))
+            {
+                ImGui.Checkbox("Draw Entity Bounding Boxes", ref Entity.DrawBoundingBoxes);
             }
 
             ImGui.End();

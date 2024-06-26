@@ -9,6 +9,8 @@ public class Entity
     public Vector2 Size;
 
     public Rectangle BoundingBox => new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
+    
+    public static bool DrawBoundingBoxes = false;
 
     public Vector2 Center
     {
@@ -20,9 +22,12 @@ public class Entity
     
     public virtual void Update()
     { }
-    
+
     public virtual void Render()
-    { }
+    {
+        if (DrawBoundingBoxes)
+            Raylib.DrawRectangleLinesEx(BoundingBox, 1, Color.Red);
+    }
 
     public virtual void Kill()
     {

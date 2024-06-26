@@ -188,6 +188,25 @@ public class Tilemap : IDisposable
         return false;
     }
 
+    public bool CheckCollision(Rectangle rect)
+    {
+        int x1 = (int) rect.X / Tileset.TileWidth;
+        int y1 = (int) rect.Y / Tileset.TileHeight;
+        int x2 = (int) (rect.X + rect.Width) / Tileset.TileWidth;
+        int y2 = (int) (rect.Y + rect.Height) / Tileset.TileHeight;
+
+        for (int y = y1; y <= y2; y++)
+        {
+            for (int x = x1; x <= x2; x++)
+            {
+                if (_tiles[x, y] is {IsSolid: true})
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Tile? TileAt(int x, int y) => _tiles[x, y];
 }

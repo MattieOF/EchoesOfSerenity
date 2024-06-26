@@ -17,6 +17,8 @@ public class Mob : Entity
 
     public override void Render()
     {
+        base.Render();
+        
         if (!Raylib.CheckCollisionRecs(Game.Instance.CameraBounds, BoundingBox))
             return;
 

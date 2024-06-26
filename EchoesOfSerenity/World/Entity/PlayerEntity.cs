@@ -61,7 +61,16 @@ public class PlayerEntity : Mob
         {
             movement = Vector2.Normalize(movement) * (MoveSpeed * SpeedMultiplier * Raylib.GetFrameTime());
             _lastMovement = movement;
-            Position += movement;
+
+            var newPos = Position;
+            newPos.X += movement.X;
+            if (World.CheckCollision(new Rectangle(newPos.X, newPos.Y, Size.X, Size.Y)))
+                newPos.X = Position.X;
+            newPos.Y += movement.Y;
+            if (World.CheckCollision(new Rectangle(newPos.X, newPos.Y, Size.X, Size.Y)))
+                newPos.Y = Position.Y;
+            Position = newPos;
+
             // SetAnimation("walk");
         }
         else

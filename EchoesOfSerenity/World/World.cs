@@ -3,6 +3,7 @@ using System.Numerics;
 using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Entity;
 using EchoesOfSerenity.Core.Tilemap;
+using Raylib_cs;
 
 namespace EchoesOfSerenity.World;
 
@@ -43,6 +44,11 @@ public class World
     }
 
     public int GetEntityCount() => _entities.Count;
+
+    public bool CheckCollision(Rectangle rectangle)
+    {
+        return TopLayer.CheckCollision(rectangle) || BaseLayer.CheckCollision(rectangle);
+    }
     
     public void Update()
     {
