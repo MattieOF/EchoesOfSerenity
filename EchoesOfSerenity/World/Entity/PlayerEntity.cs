@@ -17,6 +17,7 @@ public class PlayerEntity : LivingEntity
     public static float IntroAnimInitialZoom = 0.3f, IntroAnimTargetZoom = 1.4f, IntroAnimZoomSpeed = 0.4f, IntroAnimZoomDelay = 2.5f;
     private float _introAnimTimer = 0;
     private bool _introAnimActive = true;
+    private bool _drowned = false;
     
     public PlayerEntity()
     {
@@ -43,6 +44,12 @@ public class PlayerEntity : LivingEntity
             SpeedMultiplier = 0.3f;
         }
         else SpeedMultiplier = 1;
+
+        if (World.BaseLayer.TileAtWorldCoord(Center) == Tiles.Tiles.DeepWater)
+        {
+            Drown();
+            return;
+        }
         
         if (_introAnimActive)
         {
@@ -116,11 +123,11 @@ public class PlayerEntity : LivingEntity
                 newPos.Y = Position.Y;
             Position = newPos;
 
-            if (!inWater) SetAnimation("walk");
+            if (!inWater && Health > 0) SetAnimation("walk");
         }
         else
         {
-            if (!inWater) SetAnimation("idle");
+            if (!inWater && Health > 0) SetAnimation("idle");
         }
         
         Vector2 lerpedMovement = Utility.LerpSmooth(_lastLerpedMovement, _lastMovement, 0.02f);
@@ -130,15 +137,27 @@ public class PlayerEntity : LivingEntity
         Game.Instance.CameraTarget = Center;
     }
 
+    public void Drown()
+    {
+        _drowned = true;
+        Hurt(Health);
+    }
+
     public override void Die()
     {
-        Game.Instance.AttachLayer(new MenuLayer(new DeadMenu(this)));
+        SetAnimation(_drowned ? "drowned" : "dead");
+        
+        if (_drowned)
+            Game.Instance.AttachLayer(new MenuLayer(new DeadMenu(this, "YOU DROWNED", "Deep water will kill you")));
+        else
+            Game.Instance.AttachLayer(new MenuLayer(new DeadMenu(this)));
     }
 
     public void Respawn()
     {
         Center = World.SpawnPoint;
         Health = 10;
+        _drowned = false;
         ImmunityTimer = 3f;
     }
 }

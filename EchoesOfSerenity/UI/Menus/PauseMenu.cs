@@ -15,7 +15,7 @@ public class PauseMenu : Menu
         title.Text = "Game Paused";
         title.Font = ContentManager.GetFont("Content/Fonts/OpenSans-Bold.ttf", 40);
         title.FontSize = 40;
-        title.Position = new Vector2(150, 50);
+        title.Position = new Vector2(80, 50);
         title.HorizontalAlignment = HorizontalAlignment.Left;
         title.HorizontalAnchor = HorizontalAlignment.Left;
         AddElement(title);
@@ -31,7 +31,7 @@ public class PauseMenu : Menu
         resume.FontSize = 30;
         resume.Padding = new Vector2(20, 10);
         resume.Text = "Resume";
-        resume.Position = new Vector2(150, 150);
+        resume.Position = new Vector2(80, 150);
         resume.HorizontalAlignment = HorizontalAlignment.Left;
         resume.VerticalAlignment = VerticalAlignment.Bottom;
         resume.HorizontalAnchor = HorizontalAlignment.Left;
@@ -50,7 +50,7 @@ public class PauseMenu : Menu
         quit.FontSize = 30;
         quit.Padding = new Vector2(20, 10);
         quit.Text = "Return to Menu";
-        quit.Position = new Vector2(150, 100);
+        quit.Position = new Vector2(80, 100);
         quit.HorizontalAlignment = HorizontalAlignment.Left;
         quit.VerticalAlignment = VerticalAlignment.Bottom;
         quit.HorizontalAnchor = HorizontalAlignment.Left;

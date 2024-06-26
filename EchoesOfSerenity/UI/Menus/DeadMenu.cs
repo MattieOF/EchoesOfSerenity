@@ -10,19 +10,29 @@ public class DeadMenu : Menu
 {
     private PlayerEntity _player;
     
-    public DeadMenu(PlayerEntity player)
+    public DeadMenu(PlayerEntity player, string message = "YOU DIED", string subMessage = "Rest in peace")
     {
         _player = player;
         Background = new Color(255, 0, 0, 100);
         
         Label title = new();
-        title.Text = "YOU DIED";
+        title.Text = message;
         title.Font = ContentManager.GetFont("Content/Fonts/OpenSans-Bold.ttf", 40);
         title.FontSize = 40;
         title.Position = new Vector2(0, 50);
         title.HorizontalAlignment = HorizontalAlignment.Center;
         title.HorizontalAnchor = HorizontalAlignment.Center;
         AddElement(title);
+        
+        Label subtitle = new();
+        subtitle.Text = subMessage;
+        subtitle.Colour = new Color(210, 210, 210, 255);
+        subtitle.Font = ContentManager.GetFont("Content/Fonts/OpenSans-Bold.ttf", 20);
+        subtitle.FontSize = 20;
+        subtitle.Position = new Vector2(0, 100);
+        subtitle.HorizontalAlignment = HorizontalAlignment.Center;
+        subtitle.HorizontalAnchor = HorizontalAlignment.Center;
+        AddElement(subtitle);
         
         Button repsawn = new();
         repsawn.OnPressed.Add(_ =>
