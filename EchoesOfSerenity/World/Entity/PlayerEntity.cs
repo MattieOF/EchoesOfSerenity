@@ -132,6 +132,13 @@ public class PlayerEntity : LivingEntity
 
     public override void Die()
     {
-        Game.Instance.AttachLayer(new MenuLayer(new DeadMenu()));
+        Game.Instance.AttachLayer(new MenuLayer(new DeadMenu(this)));
+    }
+
+    public void Respawn()
+    {
+        Center = World.SpawnPoint;
+        Health = 10;
+        ImmunityTimer = 3f;
     }
 }

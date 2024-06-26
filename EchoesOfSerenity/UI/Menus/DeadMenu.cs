@@ -1,14 +1,18 @@
 using System.Numerics;
 using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Content;
+using EchoesOfSerenity.World.Entity;
 using Raylib_cs;
 
 namespace EchoesOfSerenity.UI.Menus;
 
 public class DeadMenu : Menu
 {
-    public DeadMenu()
+    private PlayerEntity _player;
+    
+    public DeadMenu(PlayerEntity player)
     {
+        _player = player;
         Background = new Color(255, 0, 0, 100);
         
         Label title = new();
@@ -23,6 +27,8 @@ public class DeadMenu : Menu
         Button repsawn = new();
         repsawn.OnPressed.Add(_ =>
         {
+            _player.Respawn();
+            RemoveFromParent();
             return true;
         });
         repsawn.Font = ContentManager.GetFont("Content/Fonts/OpenSans-Regular.ttf", 30);
