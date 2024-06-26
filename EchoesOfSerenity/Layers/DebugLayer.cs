@@ -101,6 +101,7 @@ public class DebugLayer : ILayer
                 
 #if DEBUG
                 ImGui.Checkbox("Draw Chunk Outlines", ref Tilemap.DrawChunkOutlines);
+                ImGui.Checkbox("Enable Random Rotation", ref Tilemap.EnableRandomRotation);
 #endif
             }
 

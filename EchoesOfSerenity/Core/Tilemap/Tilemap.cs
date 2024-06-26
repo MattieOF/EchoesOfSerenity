@@ -16,6 +16,7 @@ public class Tilemap : IDisposable
     private HashSet<int> _dirtyChunks = new();
 
     public static bool DrawChunkOutlines = false;
+    public static bool EnableRandomRotation = true;
     public int RenderedChunks { get; private set; }
 
     public Tilemap(int width, int height, Tileset tileset)
@@ -62,13 +63,6 @@ public class Tilemap : IDisposable
     {
         RenderedChunks = 0;
         
-        // Make camera rectangle
-        var mat = Raylib.GetCameraMatrix2D(Game.Instance.Camera);
-        mat = Raymath.MatrixInvert(mat);
-        var topLeft = Raymath.Vector2Transform(new(0, 0), mat);
-        var bottomRight = Raymath.Vector2Transform(new(Raylib.GetScreenWidth(), Raylib.GetScreenHeight()), mat);
-        Rectangle cameraRect = new(topLeft.X, topLeft.Y, bottomRight.X - topLeft.X, bottomRight.Y - topLeft.Y);
-        
         // Render the chunks
         int x = 0, y = 0;
         Rectangle source = new Rectangle(0, 0, ChunkSize * Tileset.TileWidth, -ChunkSize * Tileset.TileHeight);
@@ -77,7 +71,7 @@ public class Tilemap : IDisposable
             // Make chunk bounding box
             Rectangle chunkRect = new(x, y, ChunkSize * Tileset.TileWidth, ChunkSize * Tileset.TileHeight);
             // And check if it's in the camera
-            if (Raylib.CheckCollisionRecs(cameraRect, chunkRect))
+            if (Raylib.CheckCollisionRecs(Game.Instance.CameraBounds, chunkRect))
             {
                 Raylib.DrawTextureRec(Chunks[index].Texture, source, new Vector2(x, y), Color.White);
                 
@@ -141,7 +135,11 @@ public class Tilemap : IDisposable
                 var (tilesetX, tilesetY) = Tileset.GetTileCoordinates(tile.TileSetIndex);
 
                 float rot = 0;
+                #if DEBUG
+                if (tile.RandomRotation && EnableRandomRotation)
+                #else
                 if (tile.RandomRotation)
+                #endif
                 {
                     rot = Utility.ChaosHash(x, y) % 4 * 90;
                 }

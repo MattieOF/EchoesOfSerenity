@@ -11,6 +11,7 @@ public class Game
     public static Game Instance = null!;
     public bool IsRunning { get; private set; } = true;
     public Camera2D Camera;
+    public Rectangle CameraBounds { get; private set; }
     public static readonly Vector2 DefaultScreenSize = new(1280, 600);
 
     public float CameraZoom
@@ -76,6 +77,13 @@ public class Game
             if (Raylib.IsKeyDown(KeyboardKey.S))
                 Camera.Target += new Vector2(0, moveSpeed * Raylib.GetFrameTime());
             CameraZoom = Math.Clamp(CameraZoom + Raylib.GetMouseWheelMoveV().Y * 0.2f, 0.1f, 5f);
+            
+            // Make camera rectangle
+            var mat = Raylib.GetCameraMatrix2D(Game.Instance.Camera);
+            mat = Raymath.MatrixInvert(mat);
+            var topLeft = Raymath.Vector2Transform(new(0, 0), mat);
+            var bottomRight = Raymath.Vector2Transform(new(Raylib.GetScreenWidth(), Raylib.GetScreenHeight()), mat);
+            CameraBounds = new(topLeft.X, topLeft.Y, bottomRight.X - topLeft.X, bottomRight.Y - topLeft.Y);
             
             SoundManager.Update();
             foreach (var layer in _layers)
