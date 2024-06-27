@@ -176,17 +176,15 @@ public class InventoryMenu : Menu
                 if (Raylib.IsMouseButtonPressed(MouseButton.Left))
                 {
                     foreach (var requirement in recipe.Requirements)
-                    {
                         Player.Inventory.RemoveItem(requirement.Item1, requirement.Item2);
-                        int leftover = Player.Inventory.AddItem(recipe.Result, recipe.ResultCount);
-                        if (leftover > 0)
+                    int leftover = Player.Inventory.AddItem(recipe.Result, recipe.ResultCount);
+                    if (leftover > 0)
+                    {
+                        ItemEntity itemEntity = new(recipe.Result, leftover)
                         {
-                            ItemEntity itemEntity = new(recipe.Result, leftover)
-                            {
-                                Position = Player.Position
-                            };
-                            Player.World.Entities.Add(itemEntity);
-                        }
+                            Position = Player.Position
+                        };
+                        Player.World.Entities.Add(itemEntity);
                     }
                     didCraft = true;
                 }
@@ -231,7 +229,7 @@ public class InventoryMenu : Menu
                 pos.Y += sizeIncrease.Y + 2;
             }
             
-            DrawText($"{tooltipRecipe.ResultCount.ToString()} {tooltipRecipe.Result.Name}", _tooltipBoldFont);
+            DrawText($"{(tooltipRecipe.ResultCount == 1 ? "" : $"{tooltipRecipe.ResultCount} ")}{tooltipRecipe.Result.Name}", _tooltipBoldFont);
             DrawText(tooltipRecipe.Result.Description, _tooltipFont);
 
             DrawText("Requires: ", _tooltipFont);

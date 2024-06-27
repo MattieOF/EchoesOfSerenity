@@ -125,12 +125,11 @@ public class Inventory
         // Loop through all tiles within 16x16 of the context entity
         var nearbyTiles = new HashSet<Tile>();
         (int tx, int ty) = context.World.TopLayer.WorldCoordToTileCoord(context.Center);
-        var contextTile = context.World.TopLayer.TileAtTileCoord(tx, ty);
         for (int x = -8; x < 8; x++)
         {
             for (int y = -8; y < 8; y++)
             {
-                var tile = context.World.TopLayer.TileAtWorldCoord(tx + x, ty + y);
+                var tile = context.World.TopLayer.TileAtTileCoord(tx + x, ty + y);
                 if (tile != null)
                     nearbyTiles.Add(tile);
             }
@@ -141,15 +140,14 @@ public class Inventory
             bool canCraft = true;
             bool hasDiscovered = false;
             
-            foreach ((Item item, int count) in recipe.Requirements)
+            foreach ((Item item, int count, bool canUnlock) in recipe.Requirements)
             {
-                if (DiscoveredItems.Contains(item))
+                if (canUnlock && DiscoveredItems.Contains(item))
                     hasDiscovered = true;
                 
                 if (!items.ContainsKey(item) || items[item] < count)
                 {
                     canCraft = false;
-                    break;
                 }
             }
             

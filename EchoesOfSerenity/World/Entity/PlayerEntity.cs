@@ -45,8 +45,7 @@ public class PlayerEntity : LivingEntity
         Game.Instance.CameraZoom = IntroAnimInitialZoom;
         Echoes.EchoesInstance.HUD!.Player = this;
 
-        Inventory.AddItem(Items.Bomb, 5);
-        Inventory.AddItem(Items.JakeVoodooDoll, 1);
+        Inventory.Contents[17] = (Item.Items.Bomb, 15);
     }
 
     public override void OnAddedToWorld()
@@ -239,7 +238,7 @@ public class PlayerEntity : LivingEntity
                 {
                     X = _breakInfo.Value.X,
                     Y = _breakInfo.Value.Y,
-                    RemainingHits = Math.Max(0, _breakInfo.Value.RemainingHits - 1),
+                    RemainingHits = Math.Max(0, _breakInfo.Value.RemainingHits - (strength < tile.MinimumToolStrength ? 0 : 1)),
                     MaxHits = _breakInfo.Value.MaxHits
                 };
 

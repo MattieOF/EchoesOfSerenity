@@ -23,7 +23,11 @@ public class TileItem : Item
             var targetedTile = Game.Instance.ScreenPosToWorld(Raylib.GetMousePosition());
             if (Raymath.Vector2DistanceSqr(player.Center, targetedTile) < player.PlaceRange * player.PlaceRange)
             {
-                Tile? tileAt = player.World.TopLayer.TileAtWorldCoord(targetedTile);
+                (int x, int y) = player.World.TopLayer.WorldCoordToTileCoord(targetedTile);
+                Tile? tileAt = player.World.TopLayer.TileAtTileCoord(x, y);
+                if (Tile.IsSolid && Raylib.CheckCollisionRecs(player.BoundingBox, new Rectangle(x * player.World.TopLayer.Tileset.TileWidth, y * player.World.TopLayer.Tileset.TileHeight, player.World.TopLayer.Tileset.TileWidth, player.World.TopLayer.Tileset.TileHeight)))
+                    return false;
+                
                 if ((tileAt is null || tileAt.Replaceable) && tileAt != Tile)
                 {
                     player.World.TopLayer.SetTileAtWorldCoord((int)MathF.Floor(targetedTile.X), (int)MathF.Floor(targetedTile.Y), Tile);

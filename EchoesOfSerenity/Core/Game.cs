@@ -60,7 +60,7 @@ public class Game
         Camera.Rotation = 0f;
         
         ContentManager.LoadContent();
-        Raylib.SetWindowIcon(ContentManager.GetImage("Content/UI/IAppIcon.png"));
+        Raylib.SetWindowIcon(ContentManager.GetImage("Content/UI/IMGAppIcon.png"));
         Spritesheets.Init();
         OnInit();
         

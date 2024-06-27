@@ -33,7 +33,7 @@ public class ContentManager
             switch (extension)
             {
                 case ".png":
-                    bool isImage = first == 'I';
+                    bool isImage = Path.GetFileName(file).StartsWith("IMG");
 #if DEBUG
                     loadType = isImage ? "image" : "texture";
 #endif

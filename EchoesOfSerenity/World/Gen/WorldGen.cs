@@ -121,7 +121,13 @@ public class WorldGen
                     }
                     else
                     {
-                        AddRocks();
+                        if (mainNoise3Val < 0.25f)
+                        {
+                            if (rnd.Next(0, 2) == 0)
+                                world.TopLayer.SetTile(x, y, rnd.Next(0, 2) == 0 ? Tiles.Tiles.IronOre : Tiles.Tiles.CoalOre);
+                        }
+                        else
+                            AddRocks();
                     }
                     
                     continue;
