@@ -10,7 +10,7 @@ public class InventoryMenu : Menu
 {
     private PlayerEntity Player;
     private Font _font, _tooltipBoldFont, _tooltipFont, _headerFont;
-    private Texture2D _frame;
+    private Texture2D _frame, _trash;
     private (Item? item, int count) _pickedUpItem = (null, 0);
 
     private List<Recipe> _craftable = [], _visible = [];
@@ -24,6 +24,7 @@ public class InventoryMenu : Menu
         _tooltipFont = ContentManager.GetFont("Content/Fonts/OpenSans-Regular.ttf", 18);
         _headerFont = ContentManager.GetFont("Content/Fonts/OpenSans-Bold.ttf", 40);
         _frame = ContentManager.GetTexture("Content/UI/Frame.png");
+        _trash = ContentManager.GetTexture("Content/UI/TrashSlot.png");
     }
 
     public override void Render()
@@ -137,6 +138,15 @@ public class InventoryMenu : Menu
                 }
             }
         }
+
+        x += (int)(slotSize * 1.5f);
+        Rectangle trashDest = new(x, y, slotSize, slotSize);
+        bool trashHovered = Raylib.CheckCollisionPointRec(mousePos, trashDest);
+        Raylib.DrawRectanglePro(trashDest, Vector2.Zero, 0, trashHovered ? Color.DarkGray : new Color(20, 20, 20, 255));
+        Raylib.DrawRectangleLinesEx(trashDest, 2, Color.Black);
+        Raylib.DrawTexturePro(_trash, new Rectangle(0, 0, _trash.Width, _trash.Height), trashDest, Vector2.Zero, 0, Color.White);
+        if (trashHovered && Raylib.IsMouseButtonDown(MouseButton.Left))
+            _pickedUpItem = (null, 0);
         
         if (_pickedUpItem.item is not null)
         {
