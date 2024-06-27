@@ -1,2 +1,4 @@
 Remove hurt debug key
-Cave gen, use noise to generate cave walls or ore when inside cave
+Sounds
+A bit more content:
+    - sulfur for bombs

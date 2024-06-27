@@ -96,7 +96,8 @@ public static class Items
         ToolType = ToolType.Pickaxe,
         ToolStrength = 1,
         UseType = UseType.Tool,
-        MaxStack = 1
+        MaxStack = 1,
+        UseSpeed = .5f,
     };
 
     public static Item WoodenAxe = new Item()
@@ -107,7 +108,8 @@ public static class Items
         ToolType = ToolType.Axe,
         ToolStrength = 2,
         UseType = UseType.Tool,
-        MaxStack = 1
+        MaxStack = 1,
+        UseSpeed = .5f,
     };
     
     public static Item StonePickaxe = new Item()
@@ -118,7 +120,8 @@ public static class Items
         ToolType = ToolType.Pickaxe,
         ToolStrength = 3,
         UseType = UseType.Tool,
-        MaxStack = 1
+        MaxStack = 1,
+        UseSpeed = .3f,
     };
 
     public static Item StoneAxe = new Item()
@@ -128,7 +131,8 @@ public static class Items
         ToolType = ToolType.Axe,
         ToolStrength = 3,
         UseType = UseType.Tool,
-        MaxStack = 1
+        MaxStack = 1,
+        UseSpeed = .3f,
     };
     
     public static Item IronPickaxe = new Item()
@@ -138,7 +142,8 @@ public static class Items
         ToolType = ToolType.Pickaxe,
         ToolStrength = 6,
         UseType = UseType.Tool,
-        MaxStack = 1
+        MaxStack = 1,
+        UseSpeed = .25f,
     };
 
     public static Item IronAxe = new Item()
@@ -148,7 +153,8 @@ public static class Items
         ToolType = ToolType.Axe,
         ToolStrength = 6,
         UseType = UseType.Tool,
-        MaxStack = 1
+        MaxStack = 1,
+        UseSpeed = .25f,
     };
 
     public static void PostTileInit()
