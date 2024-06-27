@@ -25,7 +25,6 @@ public class Echoes : Game
         Items.PostTileInit();
         Recipes.Init();
 
-        ConstructLayer<TestLayer>();
         ConstructLayer<DebugLayer>();
         
         AttachLayer(new MenuLayer(new MainMenu()));

@@ -4,6 +4,7 @@ using EchoesOfSerenity.Core.Entity;
 using EchoesOfSerenity.Core.Tilemap;
 using EchoesOfSerenity.UI;
 using EchoesOfSerenity.UI.Menus;
+using EchoesOfSerenity.World.Achievement;
 using EchoesOfSerenity.World.Item;
 using Raylib_cs;
 
@@ -21,12 +22,13 @@ public class PlayerEntity : LivingEntity
     public float PlaceRange = 48;
     public int SelectedHotbarSlot = 0;
     public Inventory Inventory = new(18);
-    private Vector2 _lastMovement, _lastLerpedMovement;
-
+    public Achievements Achievements = new();
+    public Stats Stats = new();
+    
     public static float IntroAnimInitialZoom = 0.3f,
         IntroAnimTargetZoom = 1.4f,
         IntroAnimZoomSpeed = 0.4f,
-        IntroAnimZoomDelay = 2.5f;
+        IntroAnimZoomDelay = 5f;
 
     private float _introAnimTimer = 0;
     private bool _introAnimActive = true;
@@ -34,6 +36,8 @@ public class PlayerEntity : LivingEntity
     private Animation _breakAnimation;
     private TileBreakInfo? _breakInfo = null;
     private float _useTimer = 0;
+    private Vector2 _lastMovement, _lastLerpedMovement;
+    private float _achievementUpdateTimer = 0.5f;
 
     public PlayerEntity()
     {
@@ -57,6 +61,13 @@ public class PlayerEntity : LivingEntity
     {
         base.Update();
 
+        _achievementUpdateTimer -= Raylib.GetFrameTime();
+        if (_achievementUpdateTimer <= 0)
+        {
+            Achievements.Update(Stats);
+            _achievementUpdateTimer = 0.5f;
+        }
+        
         if (Health <= 0)
             return;
 
@@ -128,7 +139,7 @@ public class PlayerEntity : LivingEntity
 
         if (Raylib.IsKeyPressed(KeyboardKey.B))
         {
-            BombEntity bomb = new();
+            BombEntity bomb = new(this);
             bomb.Position = Position;
             var mousePos = Game.Instance.ScreenPosToWorld(Raylib.GetMousePosition());
             bomb.Velocity = Vector2.Normalize(mousePos - Position) * 100;
@@ -246,7 +257,7 @@ public class PlayerEntity : LivingEntity
                 {
                     if (tile.BreakSound.FrameCount != 0)
                         SoundManager.PlaySound(tile!.BreakSound);
-                    World.TopLayer.DestroyTile(_breakInfo.Value.X, _breakInfo.Value.Y);
+                    World.TopLayer.DestroyTile(_breakInfo.Value.X, _breakInfo.Value.Y, source: this);
                     _breakInfo = null;
                 }
                 else

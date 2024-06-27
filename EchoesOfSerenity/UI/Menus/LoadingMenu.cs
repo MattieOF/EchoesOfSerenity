@@ -21,7 +21,10 @@ public class LoadingMenu : Menu
     
     public static List<string> Tips =
     [
-        "Just use an engine, for your own sake"
+        "Just use an engine, for your own sake",
+        "The ultimate goal is to make a Jake Voodoo Doll",
+        "Check the achievements panel for objectives (press Tab!)",
+        "Bombs can be made with Sulfur and Iron for easier mining!",
     ];
     
     public LoadingMenu(LoadTo loadTo)

@@ -155,7 +155,7 @@ public class Tilemap : IDisposable
         Raylib.EndTextureMode();
     }
 
-    public void DestroyTile(int x, int y, float violence = 1.0f)
+    public void DestroyTile(int x, int y, float violence = 1.0f, Entity.Entity? source = null)
     {
         Tile? tile = _tiles[x, y];
         if (tile is null) return;
@@ -181,6 +181,7 @@ public class Tilemap : IDisposable
             }
         }
         
+        tile.OnBroken(this, x, y, source);
         SetTile(x, y, null);
     }
 

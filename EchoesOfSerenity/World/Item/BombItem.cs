@@ -20,7 +20,7 @@ public class BombItem : Item
     
     public override bool OnUsed(LivingEntity user)
     {
-        BombEntity bomb = new()
+        BombEntity bomb = new(user)
         {
             Position = user.Center
         };

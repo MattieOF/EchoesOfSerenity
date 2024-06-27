@@ -7,10 +7,12 @@ namespace EchoesOfSerenity.World.Entity;
 public class BombEntity : Core.Entity.AnimatedEntity
 {
     public Vector2 Velocity;
-    public float fuse = 2;
+    private float _fuse = 2;
+    private Core.Entity.Entity? _source;
     
-    public BombEntity()
+    public BombEntity(Core.Entity.Entity? source)
     {
+        _source = source;
         Size = new(16, 16);
         Spritesheet = Spritesheets.Bomb;
         SetAnimation("blow");
@@ -32,19 +34,26 @@ public class BombEntity : Core.Entity.AnimatedEntity
             Velocity -= Velocity * delta;
         }
         
-        fuse -= delta;
-        if (fuse <= 0)
+        _fuse -= delta;
+        if (_fuse <= 0)
         {
             (int x, int y) = World.TopLayer.WorldCoordToTileCoord(Center);
             
             // Iterate over a 6x6 area around the bomb
+            int destroyedTiles = 0;
             for (int cy = y - 3; cy < y + 3; cy++)
             {
                 for (int cx = x - 3; cx < x + 3; cx++)
                 {
-                    World.TopLayer.DestroyTile(cx, cy, 7);
+                    if (World.TopLayer.TileAtTileCoord(cx, cy) is not null)
+                        destroyedTiles++;
+                        
+                    World.TopLayer.DestroyTile(cx, cy, 7, _source);
                 }
             }
+            
+            if (_source is PlayerEntity player)
+                player.Stats.AddStat("tiles_blown_up", destroyedTiles);
 
             float explosionRadius = 64 * 64;
             foreach (var entity in World.Entities)

@@ -13,8 +13,8 @@ public class PlayerMenu : TabMenu
         
         Tabs = [
             ("Inventory", new InventoryMenu(playerEntity)),
-            ("Achievements", new Menu()),
-            ("Stats", new Menu())
+            ("Achievements", new AchievementMenu(playerEntity)),
+            ("Stats", new StatMenu())
         ];
     }
 

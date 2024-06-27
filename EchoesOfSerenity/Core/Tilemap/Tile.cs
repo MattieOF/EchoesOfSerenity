@@ -23,4 +23,8 @@ public class Tile
     public List<(Item, int, int)> Drops = [];
 
     public Sound HitSound, BreakSound;
+
+    public virtual void OnBroken(Tilemap tilemap, int x, int y, Entity.Entity? cause)
+    {
+    }
 }
