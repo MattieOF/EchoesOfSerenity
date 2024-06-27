@@ -29,13 +29,9 @@ public class Inventory
 
     public int AddItem(Item item, int count)
     {
+        // Stacking phase
         for (int i = 0; i < Size; i++)
         {
-            if (Contents[i].Item1 == null)
-            {
-                Contents[i] = (item, count);
-                return 0;
-            }
             if (Contents[i].Item1 == item && Contents[i].Item2 < item.MaxStack)
             {
                 int space = item.MaxStack - Contents[i].Item2;
@@ -44,12 +40,32 @@ public class Inventory
                     Contents[i] = (item, Contents[i].Item2 + count);
                     return 0;
                 }
-
-                Contents[i] = (item, item.MaxStack);
-                count -= space;
+                else
+                {
+                    Contents[i] = (item, item.MaxStack);
+                    count -= space;
+                }
             }
         }
-
+        
+        // Filling phase
+        for (int i = 0; i < Size; i++)
+        {
+            if (Contents[i].Item1 == null)
+            {
+                if (count >= item.MaxStack)
+                {
+                    Contents[i] = (item, item.MaxStack);
+                    count -= item.MaxStack;
+                }
+                else
+                {
+                    Contents[i] = (item, count);
+                    return 0;
+                }
+            }
+        }
+        
         return count;
     }
 
