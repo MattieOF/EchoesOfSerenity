@@ -24,10 +24,8 @@ public class ItemEntity : Core.Entity.Entity
 
         Size = new Vector2(16, 16);
         
-        if (_tooltipFont is null)
-            _tooltipFont = ContentManager.GetFont("Content/Fonts/OpenSans-Regular.ttf", 18);
-        if (_frame is null)
-            _frame = ContentManager.GetTexture("Content/UI/Frame.png");
+        _tooltipFont ??= ContentManager.GetFont("Content/Fonts/OpenSans-Regular.ttf", 18);
+        _frame ??= ContentManager.GetTexture("Content/UI/Frame.png");
         
         Random rnd = new();
         Velocity = new Vector2(rnd.Next(-48, 48), rnd.Next(-48, 48));

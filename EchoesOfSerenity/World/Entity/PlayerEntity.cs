@@ -45,9 +45,8 @@ public class PlayerEntity : LivingEntity
         Game.Instance.CameraZoom = IntroAnimInitialZoom;
         Echoes.EchoesInstance.HUD!.Player = this;
 
-        Inventory.Contents[0] = (Items.TestItem1, 1);
-        Inventory.Contents[1] = (Items.Bomb, 5);
-        Inventory.Contents[2] = (Items.JakeVoodooDoll, 1);
+        Inventory.Contents[0] = (Items.Bomb, 5);
+        Inventory.Contents[1] = (Items.JakeVoodooDoll, 2);
     }
 
     public override void OnAddedToWorld()
@@ -212,7 +211,11 @@ public class PlayerEntity : LivingEntity
             if (_breakInfo is null || tileX != _breakInfo.Value.X || tileY != _breakInfo.Value.Y)
             {
                 // Switched tile
-                if (tile.CanBePunched || (selected is not null && selected.UseType == UseType.Tool))
+                if (Raymath.Vector2DistanceSqr(mousePos, Center) > PlaceRange * PlaceRange)
+                {
+                    _breakInfo = null;
+                }
+                else if (tile.CanBePunched || (selected is not null && selected.UseType == UseType.Tool))
                 {
                     int maxHits = tile.Strength;
                     if (tile.RequiredTool == toolType)
