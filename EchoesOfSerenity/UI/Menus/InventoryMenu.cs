@@ -128,12 +128,12 @@ public class InventoryMenu : Menu
         if (_pickedUpItem.item is not null)
         {
             var origin = Raylib.GetMousePosition() - new Vector2(slotSize / 2.0f);
-            if (_pickedUpItem.count > 1)
-                Raylib.DrawTextEx(_font, _pickedUpItem.count.ToString(), new Vector2(origin.X + 4, origin.Y + 4), 18, 0, Color.White);
             Raylib.DrawTexturePro(_pickedUpItem.item.Texture,
                 new Rectangle(0, 0, _pickedUpItem.item.Texture.Width, _pickedUpItem.item.Texture.Height),
                 new Rectangle(origin, slotSize,
                     slotSize), Vector2.Zero, 0, Color.White);
+            if (_pickedUpItem.count > 1)
+                Raylib.DrawTextEx(_font, _pickedUpItem.count.ToString(), new Vector2(origin.X + 4, origin.Y + 4), 18, 0, Color.White);
         } else if (tooltipItem.item is not null)
         {
             var titleSize = Raylib.MeasureTextEx(_tooltipBoldFont, tooltipItem.item.Name, 18, 0);
