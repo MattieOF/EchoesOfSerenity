@@ -69,7 +69,7 @@ public class Game
             int windowWidth = Raylib.GetScreenWidth();
             int windowHeight = Raylib.GetScreenHeight();
             if (windowWidth != _lastWindowWidth
-                || windowHeight != _lastWindowWidth)
+                || windowHeight != _lastWindowHeight)
             {
                 Camera.Offset = new Vector2(windowWidth / 2f, windowHeight / 2f);
                 _baseCameraZoom = windowWidth / DefaultScreenSize.X;

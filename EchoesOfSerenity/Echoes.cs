@@ -23,6 +23,7 @@ public class Echoes : Game
         
         Tiles.Init();
         Items.PostTileInit();
+        Recipes.Init();
 
         ConstructLayer<TestLayer>();
         ConstructLayer<DebugLayer>();

@@ -45,8 +45,8 @@ public class PlayerEntity : LivingEntity
         Game.Instance.CameraZoom = IntroAnimInitialZoom;
         Echoes.EchoesInstance.HUD!.Player = this;
 
-        Inventory.Contents[0] = (Items.Bomb, 5);
-        Inventory.Contents[1] = (Items.JakeVoodooDoll, 2);
+        Inventory.AddItem(Items.Bomb, 5);
+        Inventory.AddItem(Items.JakeVoodooDoll, 1);
     }
 
     public override void OnAddedToWorld()

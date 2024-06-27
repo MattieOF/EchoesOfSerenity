@@ -21,7 +21,15 @@ public class TabMenu : Menu
     {
         TabNameFont = ContentManager.GetFont("Content/Fonts/OpenSans-Bold.ttf", TabNameSize);
     }
-    
+
+    public override void Layout()
+    {
+        base.Layout();
+        
+        foreach (var (_, menu) in Tabs)
+            menu.Layout();
+    }
+
     public override void Update()
     {
         base.Update();

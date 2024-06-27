@@ -31,9 +31,16 @@ public static class Items
         Texture = ContentManager.GetTexture("Content/Items/WoodPlank.png"),
     };
 
+    public static TileItem WorkBench = new TileItem()
+    {
+        Name = "Work Bench",
+        Texture = ContentManager.GetTexture("Content/Items/WorkBench.png"),
+    };
+
     public static void PostTileInit()
     {
         Pebbles.Tile = Tiles.Tiles.Pebbles;
         WoodPlank.Tile = Tiles.Tiles.WoodPlank;
+        WorkBench.Tile = Tiles.Tiles.WorkBench;
     }
 }

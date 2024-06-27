@@ -19,7 +19,8 @@ public static class Tiles
     public static Tile Pebbles = new Tile { IsSolid = false, TileSetIndex = 11, RandomRotation = false, Strength = 3, CanBePunched = true, RequiredTool = ToolType.Pickaxe, Drops = [(Items.Pebbles, 1, 1)] };
     public static Tile Rock = new Tile { IsSolid = true, TileSetIndex = 12, RandomRotation = false, CanBePunched = false, RequiredTool = ToolType.Pickaxe, Strength = 4 };
     public static Tile Tree = new Tile { IsSolid = true, TileSetIndex = 13, RandomRotation = false, CanBePunched = true, RequiredTool = ToolType.Axe, Strength = 7, Drops = [(Items.Wood, 3, 6)] };
-    public static Tile WoodPlank = new Tile { IsSolid = true, TileSetIndex = 14, RandomRotation = false, CanBePunched = true, RequiredTool = ToolType.Axe, Strength = 7, Drops = [(Items.WoodPlank, 1, 1)] };
+    public static Tile WoodPlank = new Tile { IsSolid = true, TileSetIndex = 14, RandomRotation = false, CanBePunched = true, RequiredTool = ToolType.Axe, Strength = 4, Drops = [(Items.WoodPlank, 1, 1)] };
+    public static Tile WorkBench = new Tile { IsSolid = true, TileSetIndex = 15, RandomRotation = false, CanBePunched = true, RequiredTool = ToolType.Axe, Strength = 7, Drops = [(Items.WorkBench, 1, 1)], Name = "Work Bench" };
     
     // TODO: Deep water, around of edge of map and where water gets deep. Kills player.
 

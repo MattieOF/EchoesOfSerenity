@@ -5,6 +5,8 @@ namespace EchoesOfSerenity.Core.Tilemap;
 
 public class Tile
 {
+    public string Name = "";
+    
     public bool IsSolid = false;
     public bool HasBorder = false;
     public int TileSetIndex = 0;

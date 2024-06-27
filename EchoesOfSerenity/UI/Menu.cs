@@ -299,7 +299,7 @@ public class Menu
         Parent?.Remove();
     }
 
-    public void Layout()
+    public virtual void Layout()
     {
         foreach (var element in UIElements)
             element.Layout();
