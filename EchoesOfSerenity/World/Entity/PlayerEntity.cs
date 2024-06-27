@@ -145,6 +145,9 @@ public class PlayerEntity : LivingEntity
             if (Raylib.IsMouseButtonDown(MouseButton.Left))
                 hasUsed = UseSelectedItem();
 
+            if (Raylib.IsMouseButtonDown(MouseButton.Right))
+                AltUseSelectedItem();
+
             if (!hasUsed)
                 UpdateTileBreak();
         }
@@ -281,6 +284,18 @@ public class PlayerEntity : LivingEntity
         }
 
         return used && heldItem.UseType != UseType.Tool;
+    }
+
+    public bool AltUseSelectedItem()
+    {
+        (Item.Item? heldItem, int count) = Inventory.Contents[SelectedHotbarSlot];
+        if (heldItem is null) return false;
+        var used = heldItem.OnAltUsed(this);
+
+        if (used)
+            _useTimer = heldItem.UseSpeed;
+
+        return used;
     }
 
     public override void Render()

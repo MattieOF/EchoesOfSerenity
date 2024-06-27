@@ -92,16 +92,17 @@ public class WorldGen
                 }
                 
                 float mainNoise3Val = mainNoise3.GetNoise(x, y);
+                float mainNoise2Val = mainNoise2.GetNoise(x, y);
                 float caveNoiseVal = caveNoise.GetNoise(x, y);
 
                 void AddRocks()
                 {
-                    if (mainNoise3Val is > 0.6f and < 0.8f
+                    if (mainNoise2Val is > 0.6f and < 0.8f
                         && rnd.Next(0, PebbleChance) == 0)
                     {
                         world.TopLayer.SetTile(x, y, Tiles.Tiles.Pebbles);
-                    } else if (mainNoise3Val is > 0.5f and < 0.55f
-                            && rnd.Next(0, RockChance) == 0)
+                    } else if (mainNoise2Val is > 0.5f and < 0.55f
+                               && rnd.Next(0, RockChance) == 0)
                     {
                         world.TopLayer.SetTile(x, y, Tiles.Tiles.Rock);
                     }
@@ -126,7 +127,6 @@ public class WorldGen
                     continue;
                 }
                 
-                float mainNoise2Val = mainNoise2.GetNoise(x, y);
                 if (mainNoiseVal > 0.3f && mainNoiseVal < 0.3f + LakeThreshold && mainNoise2Val < LakeThreshold * 1.25f)
                 {
                     bool isDeep = mainNoiseVal > 0.3 + (LakeThreshold / 2) - DeepLakeThreshold

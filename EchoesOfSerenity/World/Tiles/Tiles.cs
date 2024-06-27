@@ -16,7 +16,7 @@ public static class Tiles
 
     public static Tile StoneFloor = new Tile { IsSolid = false, TileSetIndex = 8, RandomRotation = true };
     public static Tile StoneWall = new Tile { IsSolid = true, TileSetIndex = 9, RandomRotation = true, Strength = 5, RequiredTool = ToolType.Pickaxe, Drops = [(Items.Bomb, 1, 2)] };
-    public static Tile Pebbles = new Tile { IsSolid = false, TileSetIndex = 11, RandomRotation = false, Strength = 3, CanBePunched = true, RequiredTool = ToolType.Pickaxe };
+    public static Tile Pebbles = new Tile { IsSolid = false, TileSetIndex = 11, RandomRotation = false, Strength = 3, CanBePunched = true, RequiredTool = ToolType.Pickaxe, Drops = [(Items.Pebbles, 1, 1)] };
     public static Tile Rock = new Tile { IsSolid = true, TileSetIndex = 12, RandomRotation = false, CanBePunched = false, RequiredTool = ToolType.Pickaxe, Strength = 4 };
     public static Tile Tree = new Tile { IsSolid = true, TileSetIndex = 13, RandomRotation = false, CanBePunched = true, RequiredTool = ToolType.Axe, Strength = 7, Drops = [(Items.Wood, 3, 6)] };
     

@@ -36,4 +36,9 @@ public class Item
     {
         return false;
     }
+
+    public virtual bool OnAltUsed(LivingEntity user)
+    {
+        return false;
+    }
 }

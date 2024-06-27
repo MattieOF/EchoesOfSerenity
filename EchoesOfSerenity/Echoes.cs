@@ -4,6 +4,7 @@ using EchoesOfSerenity.UI;
 using EchoesOfSerenity.UI.Menus;
 using EchoesOfSerenity.World;
 using EchoesOfSerenity.World.Gen;
+using EchoesOfSerenity.World.Item;
 using EchoesOfSerenity.World.Tiles;
 using Raylib_cs;
 
@@ -21,6 +22,7 @@ public class Echoes : Game
         EchoesInstance = this;
         
         Tiles.Init();
+        Items.PostTileInit();
 
         ConstructLayer<TestLayer>();
         ConstructLayer<DebugLayer>();
