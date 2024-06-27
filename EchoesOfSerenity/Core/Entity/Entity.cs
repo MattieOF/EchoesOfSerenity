@@ -31,6 +31,9 @@ public class Entity
         if (DrawBoundingBoxes)
             Raylib.DrawRectangleLinesEx(BoundingBox, 1, Color.Red);
     }
+    
+    public virtual void RenderUI()
+    { }
 
     public virtual void Kill()
     {

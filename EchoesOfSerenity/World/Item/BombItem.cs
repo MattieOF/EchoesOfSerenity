@@ -12,8 +12,10 @@ public class BombItem : Item
     public BombItem()
     {
         Name = "Bomb";
+        Description = "Will explode after a short delay when thrown.";
         Texture = ContentManager.GetTexture("Content/Items/Bomb.png");
         Consumable = true;
+        UseType = UseType.Consumable;
     }
     
     public override bool OnUsed(LivingEntity user)

@@ -15,7 +15,7 @@ public class LivingEntity : AnimatedEntity
     
     public void Hurt(float damage)
     {
-        if (ImmunityTimer >= 0)
+        if (ImmunityTimer >= 0 || Health <= 0)
             return;
         
         Health -= damage;

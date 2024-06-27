@@ -1,3 +1,5 @@
+using EchoesOfSerenity.Core.Content;
+
 namespace EchoesOfSerenity.World.Item;
 
 public static class Items
@@ -7,6 +9,12 @@ public static class Items
         Name = "Test Item 1"
     };
 
+    public static Item Wood = new Item
+    {
+        Name = "Wood",
+        Texture = ContentManager.GetTexture("Content/Items/Wood.png"),
+    };
+    
     public static Item JakeVoodooDoll = new JakeVoodooDollItem();
     public static Item Bomb = new BombItem();
 }

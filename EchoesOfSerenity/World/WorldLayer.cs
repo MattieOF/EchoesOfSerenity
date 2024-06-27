@@ -33,4 +33,9 @@ public class WorldLayer(World world) : ILayer
     {
         World.Render();
     }
+
+    public void RenderUI()
+    {
+        World.RenderUI();
+    }
 }

@@ -1,2 +1,2 @@
 Remove hurt debug key
-BOMB
+Cave gen, use noise to generate cave walls or ore when inside cave

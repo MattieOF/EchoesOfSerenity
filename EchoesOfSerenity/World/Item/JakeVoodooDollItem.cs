@@ -9,6 +9,8 @@ public class JakeVoodooDollItem : Item
     public JakeVoodooDollItem()
     {
         Name = "Jake Voodoo Doll";
+        UseType = UseType.Unconsumable;
+        Texture = ContentManager.GetTexture("Content/Items/Jake.png");
     }
     
     public override bool OnUsed(LivingEntity user)

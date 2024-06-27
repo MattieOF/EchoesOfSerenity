@@ -1,4 +1,5 @@
 using System.Numerics;
+using EchoesOfSerenity.Core.Entity;
 using Raylib_cs;
 
 namespace EchoesOfSerenity.World.Entity;
@@ -42,6 +43,19 @@ public class BombEntity : Core.Entity.AnimatedEntity
                 for (int cx = x - 3; cx < x + 3; cx++)
                 {
                     World.TopLayer.DestroyTile(cx, cy, 7);
+                }
+            }
+
+            float explosionRadius = 64 * 64;
+            foreach (var entity in World.Entities)
+            {
+                if (entity is LivingEntity livingEntity)
+                {
+                    var dist = Vector2.DistanceSquared(Center, livingEntity.Center);
+                    if (dist < explosionRadius)
+                    {
+                        livingEntity.Hurt(Raymath.Lerp(12, 0, Math.Clamp(dist / explosionRadius, 0, 1)));
+                    }
                 }
             }
             

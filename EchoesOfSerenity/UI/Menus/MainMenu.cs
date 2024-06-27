@@ -14,8 +14,8 @@ public class MainMenu : Menu
         
         Label title = new();
         title.Text = "Echoes of Serenity";
-        title.Font = ContentManager.GetFont("Content/Fonts/OpenSans-Bold.ttf", 40);
-        title.FontSize = 40;
+        title.Font = ContentManager.GetFont("Content/Fonts/Tiny5-Regular.ttf", 70);
+        title.FontSize = 70;
         title.Position = new Vector2(0, 50);
         title.HorizontalAlignment = HorizontalAlignment.Center;
         title.HorizontalAnchor = HorizontalAlignment.Center;

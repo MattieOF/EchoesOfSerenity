@@ -81,7 +81,7 @@ public class LoadingMenu : Menu
                 return;
             }
 
-            FadeOut -= Raylib.GetFrameTime();
+            FadeOut -= Math.Clamp(Raylib.GetFrameTime(), 0, 1 / 60.0f);
             _tip.Colour.A = (byte)Raymath.Lerp(0, 255, Math.Clamp(FadeOut, 0, 1));
             _title.Colour.A = (byte)Raymath.Lerp(0, 255, Math.Clamp(FadeOut, 0, 1));
             Background.A = (byte)Raymath.Lerp(0, 255, Math.Clamp(FadeOut, 0, 1));

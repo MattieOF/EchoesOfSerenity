@@ -7,6 +7,7 @@ public static class Spritesheets
 {
     public static Spritesheet Player = new(30, 30);
     public static Spritesheet Bomb = new(16, 16);
+    public static Spritesheet Breaking = new(16, 16);
     
     public static void Init()
     {
@@ -19,5 +20,8 @@ public static class Spritesheets
         
         Bomb.SetTexture(ContentManager.GetTexture("Content/Spritesheets/Bomb.png"));
         Bomb.AddAnimation("blow", 0, 0, 5, 2.5f);
+        
+        Breaking.SetTexture(ContentManager.GetTexture("Content/Spritesheets/BreakAnim.png"));
+        Breaking.AddAnimation("break", 0, 0, 5, 1);
     }
 }

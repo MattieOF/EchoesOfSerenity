@@ -52,4 +52,10 @@ public class Inventory
 
         return count;
     }
+
+    public void Empty()
+    {
+        for (int i = 0; i < Size; i++)
+            Contents[i] = (null, 0);
+    }
 }

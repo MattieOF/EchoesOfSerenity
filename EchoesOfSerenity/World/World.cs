@@ -17,7 +17,8 @@ public class World : IDisposable
     public Vector2 SpawnPoint;
     public PlayerEntity Player = null!;
 
-    private List<Core.Entity.Entity> _entities = new();
+    public List<Core.Entity.Entity> Entities { get; } = new();
+    
     private List<Core.Entity.Entity> _queuedFrees = new();
     private List<Core.Entity.Entity> _queuedAdds = new();
     private bool _isUpdating = false;
@@ -38,7 +39,7 @@ public class World : IDisposable
             _queuedAdds.Add(entity);
         else
         {
-            _entities.Add(entity);
+            Entities.Add(entity);
             entity.OnAddedToWorld();
         }
     }
@@ -51,10 +52,10 @@ public class World : IDisposable
     public void RemoveAllEntities()
     {
         Debug.Assert(_isUpdating is false);
-        _entities.Clear();
+        Entities.Clear();
     }
 
-    public int GetEntityCount() => _entities.Count;
+    public int GetEntityCount() => Entities.Count;
 
     public bool CheckCollision(Rectangle rectangle)
     {
@@ -64,19 +65,19 @@ public class World : IDisposable
     public void Update()
     {
         _isUpdating = true;
-        foreach (var entity in _entities)
+        foreach (var entity in Entities)
         {
             entity.Update();
         }
         _isUpdating = false;
         
         foreach (var entity in _queuedFrees)
-            _entities.Remove(entity);
+            Entities.Remove(entity);
         _queuedFrees.Clear();
 
         foreach (var entity in _queuedAdds)
         {
-            _entities.Add(entity);
+            Entities.Add(entity);
             entity.OnAddedToWorld();
         }
         _queuedAdds.Clear();
@@ -94,10 +95,14 @@ public class World : IDisposable
         ParticleSystem.Render();
         TopLayer.Render();
         
-        foreach (var entity in _entities)
-        {
+        foreach (var entity in Entities)
             entity.Render();
-        }
+    }
+
+    public void RenderUI()
+    {
+        foreach (var entity in Entities)
+            entity.RenderUI();
     }
 
     public void RerenderAll()

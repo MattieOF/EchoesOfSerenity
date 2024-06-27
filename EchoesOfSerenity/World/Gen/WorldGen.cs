@@ -142,13 +142,19 @@ public class WorldGen
                     continue;
                 }
 
-                if (mainNoise2Val  > 0.4f && mainNoise2Val < 0.4f + FloweryGrassWeight
+                if (mainNoise2Val  > 0.6f && mainNoise2Val < 0.6f + FloweryGrassWeight
                     && rnd.Next(0, FloweryGrassChance) == 0)
                 {
                     world.BaseLayer.SetTile(x, y, Tiles.Tiles.FloweryGrass);
                 } 
                 else
-                    world.BaseLayer.SetTile(x, y, Tiles.Tiles.Grass); 
+                    world.BaseLayer.SetTile(x, y, Tiles.Tiles.Grass);
+
+                if (mainNoise2Val < 0.8f
+                    && Raymath.Lerp(mainNoise3Val, rnd.NextSingle() * 0.5f + 0.25f, 0.6f) > 0.5f)
+                {
+                    world.TopLayer.SetTile(x, y, Tiles.Tiles.Tree);
+                }
                 
                 AddRocks();
             }

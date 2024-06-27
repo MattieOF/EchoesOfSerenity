@@ -13,6 +13,7 @@ public class PlayerEntity : LivingEntity
 {
     public float MoveSpeed = 96;
     public float SpeedMultiplier = 1;
+    public float PlaceRange = 48;
     public int SelectedHotbarSlot = 0;
     public Inventory Inventory = new(18);
     private Vector2 _lastMovement, _lastLerpedMovement;
@@ -138,6 +139,11 @@ public class PlayerEntity : LivingEntity
                 }
             }
         }
+
+        if (Raylib.IsKeyPressed(KeyboardKey.Tab))
+        {
+            Game.Instance.AttachLayer(new MenuLayer(new PlayerMenu(this)), Game.Instance.GetLayerCount() - 1);
+        }
         
         if (movement != Vector2.Zero)
         {
@@ -191,6 +197,20 @@ public class PlayerEntity : LivingEntity
     public override void Die()
     {
         SetAnimation(_drowned ? "drowned" : "dead");
+        
+        // Drop all items
+        foreach (var (item, count) in Inventory.Contents)
+        {
+            if (item is not null)
+            {
+                ItemEntity itemEntity = new(item, count);
+                itemEntity.Position = Position;
+                itemEntity.Velocity *= 4;
+                World.AddEntity(itemEntity);
+            }
+        }
+
+        Inventory.Empty();
         
         if (_drowned)
             Game.Instance.AttachLayer(new MenuLayer(new DeadMenu(this, "YOU DROWNED", "Deep water will kill you")), Game.Instance.GetLayerCount() - 1);

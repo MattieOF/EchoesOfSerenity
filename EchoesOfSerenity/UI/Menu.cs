@@ -1,5 +1,6 @@
 using System.Numerics;
 using EchoesOfSerenity.Core;
+using EchoesOfSerenity.Core.Content;
 using Raylib_cs;
 
 namespace EchoesOfSerenity.UI;
@@ -265,6 +266,16 @@ public class ImageButton : Button
 
 public class Menu
 {
+    public static NPatchInfo FrameNPatch = new()
+    {
+        Bottom = 10,
+        Left = 10,
+        Right = 10,
+        Top = 10,
+        Source = new Rectangle(0, 0, 32, 32),
+        Layout = NPatchLayout.NinePatch
+    };
+    
     public List<UIElement> UIElements = [];
     public MenuLayer? Parent = null;
     public Color Background = Color.Blank;
@@ -311,4 +322,7 @@ public class Menu
         foreach (var element in UIElements)
             element.PostRender();
     }
+    
+    public virtual void OnClosed()
+    { }
 }

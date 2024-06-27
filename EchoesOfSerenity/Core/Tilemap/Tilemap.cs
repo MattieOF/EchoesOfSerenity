@@ -249,7 +249,7 @@ public class Tilemap : IDisposable
     public Tile? TileAtWorldCoord(float x, float y) => _tiles[(int) (x / Tileset.TileWidth), (int) (y / Tileset.TileHeight)];
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Tile? TileAtWorldCoord(Vector2 pos) => TileAtWorldCoord(pos.X, pos.Y);
+    public Tile? TileAtWorldCoord(Vector2 pos) => TileAtWorldCoord(MathF.Floor(pos.X), MathF.Floor(pos.Y));
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void SetTileAtWorldCoord(float x, float y, Tile tile)
