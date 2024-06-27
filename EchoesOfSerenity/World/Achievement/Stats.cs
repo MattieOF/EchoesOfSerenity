@@ -8,7 +8,13 @@ public class Stats
     {
         StatList.Add("tiles_blown_up", new Stat()
         {
-            Name = "Tiles Blown Up"
+            Name = "Tiles Blown Up",
+            Unit = "tiles"
+        });
+        StatList.Add("units_moved", new Stat()
+        {
+            Name = "Distance Traveled",
+            Unit = "blocks"
         });
     }
 

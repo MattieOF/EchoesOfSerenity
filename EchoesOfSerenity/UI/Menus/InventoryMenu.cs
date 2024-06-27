@@ -196,6 +196,8 @@ public class InventoryMenu : Menu
                         };
                         Player.World.Entities.Add(itemEntity);
                     }
+                    foreach (var onCrafted in recipe.Result.OnCrafted)
+                        onCrafted(Player);
                     didCraft = true;
                 }
             }

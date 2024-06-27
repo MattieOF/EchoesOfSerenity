@@ -4,12 +4,16 @@ using EchoesOfSerenity.Core.Tilemap;
 
 namespace EchoesOfSerenity.World.Item;
 
+public delegate void OnItemAdded(Item item, int count);
+
 public class Inventory
 {
     public int Size { get; private set; } = 18;
     public static int RowSize = 6;
     public readonly List<(Item?, int)> Contents = [];
     public static HashSet<Item> DiscoveredItems = [];
+    
+    public List<OnItemAdded> OnItemAdded = [];
     
     public Inventory(int size = 18)
     {
@@ -35,6 +39,9 @@ public class Inventory
     public int AddItem(Item item, int count)
     {
         DiscoveredItems.Add(item);
+        
+        foreach (var cb in OnItemAdded)
+            cb(item, count);
         
         // Stacking phase
         for (int i = 0; i < Size; i++)

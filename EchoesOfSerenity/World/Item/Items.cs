@@ -1,4 +1,5 @@
 using EchoesOfSerenity.Core.Content;
+using EchoesOfSerenity.World.Entity;
 
 namespace EchoesOfSerenity.World.Item;
 
@@ -9,14 +10,39 @@ public static class Items
         Name = "Wood",
         Texture = ContentManager.GetTexture("Content/Items/Wood.png"),
     };
-    
-    public static Item JakeVoodooDoll = new JakeVoodooDollItem();
-    public static Item Bomb = new BombItem();
+
+    public static Item JakeVoodooDoll = new JakeVoodooDollItem()
+    {
+        OnCrafted = [
+            crafter =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("craft_jake");
+            } ]
+    };
+
+    public static Item Bomb = new BombItem()
+    {
+        OnCrafted =
+        [
+            crafter =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("craft_bomb");
+            }
+        ]
+    };
 
     public static TileItem Pebbles = new TileItem()
     {
         Name = "Pebbles",
         Texture = ContentManager.GetTexture("Content/Items/Pebbles.png"),
+        OnPickedUp = [
+            (crafter, _) =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("obtain_pebbles");
+            } ]
     };
     
     public static TileItem WoodPlank = new TileItem()
@@ -30,21 +56,39 @@ public static class Items
     {
         Name = "Work Bench",
         Texture = ContentManager.GetTexture("Content/Items/WorkBench.png"),
-        Description = "Used to make more interesting things!"
+        Description = "Used to make more interesting things!",
+        OnCrafted = [
+            crafter =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("craft_work_bench");
+            } ]
     };
 
     public static TileItem IronAnvil = new TileItem()
     {
         Name = "Iron Anvil",
         Texture = ContentManager.GetTexture("Content/Items/IronAnvil.png"),
-        Description = "Used to make more interesting things, with metal!"
+        Description = "Used to make more interesting things, with metal!",
+        OnCrafted = [
+            crafter =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("craft_anvil");
+            } ]
     };
 
     public static TileItem Furnace = new TileItem()
     {
         Name = "Furnace",
         Texture = ContentManager.GetTexture("Content/Items/Furnace.png"),
-        Description = "Used to make things hotter!"
+        Description = "Used to make things hotter!",
+        OnCrafted = [
+            crafter =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("craft_furnace");
+            } ]
     };
 
     public static Item Stick = new Item()
@@ -65,21 +109,39 @@ public static class Items
     {
         Name = "Lump of Coal",
         Texture = ContentManager.GetTexture("Content/Items/Coal.png"),
-        Description = "Rock make fire"
+        Description = "Rock make fire",
+        OnPickedUp = [
+            (crafter, _) =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("obtain_coal");
+            } ]
     };
     
     public static Item RawIron = new Item()
     {
         Name = "Raw Iron",
         Texture = ContentManager.GetTexture("Content/Items/RawIron.png"),
-        Description = "Can be smelted into something more useful"
+        Description = "Can be smelted into something more useful",
+        OnCrafted = [
+            crafter =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("mine_iron");
+            } ]
     };
     
     public static Item IronIngot = new Item()
     {
         Name = "Iron Ingot",
         Texture = ContentManager.GetTexture("Content/Items/IronIngot.png"),
-        Description = "Used to make iron tools, among other things"
+        Description = "Used to make iron tools, among other things",
+        OnCrafted = [
+            crafter =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("smelt_iron");
+            } ]
     };
 
     public static Item Flint = new Item()
@@ -98,6 +160,12 @@ public static class Items
         UseType = UseType.Tool,
         MaxStack = 1,
         UseSpeed = .5f,
+        OnCrafted = [
+            crafter =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("craft_wood_tool");
+            } ]
     };
 
     public static Item WoodenAxe = new Item()
@@ -110,6 +178,12 @@ public static class Items
         UseType = UseType.Tool,
         MaxStack = 1,
         UseSpeed = .5f,
+        OnCrafted = [
+            crafter =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("craft_wood_tool");
+            } ]
     };
     
     public static Item StonePickaxe = new Item()

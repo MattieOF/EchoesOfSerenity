@@ -20,6 +20,9 @@ public enum ToolType
     Shovel
 }
 
+public delegate void OnCrafted(LivingEntity crafter);
+public delegate void OnPickedUp(Core.Entity.Entity entity, int count);
+
 public class Item
 {
     public string Name = "Item";
@@ -31,6 +34,8 @@ public class Item
     public ToolType ToolType = ToolType.None;
     public int ToolStrength = 0;
     public float UseSpeed = 1.0f;
+    public List<OnCrafted> OnCrafted = [];
+    public List<OnPickedUp> OnPickedUp = [];
 
     public virtual bool OnUsed(LivingEntity user)
     {

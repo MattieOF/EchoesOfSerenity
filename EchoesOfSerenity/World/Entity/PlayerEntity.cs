@@ -49,6 +49,11 @@ public class PlayerEntity : LivingEntity
         Game.Instance.CameraZoom = IntroAnimInitialZoom;
         Echoes.EchoesInstance.HUD!.Player = this;
 
+        Inventory.OnItemAdded.Add((item, count) =>
+        {
+            foreach (var cb in item.OnPickedUp)
+                cb(this, count);
+        });
         Inventory.Contents[17] = (Item.Items.Bomb, 15);
     }
 
@@ -172,6 +177,7 @@ public class PlayerEntity : LivingEntity
             movement = Vector2.Normalize(movement) * (MoveSpeed * SpeedMultiplier * Raylib.GetFrameTime());
             _lastMovement = movement;
 
+            var oldPos = Position;
             var newPos = Position;
             newPos.X += movement.X;
             if (World.CheckCollision(new Rectangle(newPos.X, newPos.Y, Size.X, Size.Y)))
@@ -181,6 +187,8 @@ public class PlayerEntity : LivingEntity
                 newPos.Y = Position.Y;
             Position = newPos;
 
+            Stats.AddStat("units_moved", Vector2.Distance(oldPos, Position) / 16);
+            
             if (!inWater && Health > 0) SetAnimation("walk");
         }
         else
