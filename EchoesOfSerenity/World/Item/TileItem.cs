@@ -34,6 +34,7 @@ public class TileItem : Item
                     player.Inventory.Contents[player.SelectedHotbarSlot] = (this, player.Inventory.Contents[player.SelectedHotbarSlot].Item2 - 1);
                     if (player.Inventory.Contents[player.SelectedHotbarSlot].Item2 == 0)
                         player.Inventory.Contents[player.SelectedHotbarSlot] = (null, 0);
+                    player.Stats.AddStat("tiles_placed", 1);
                     return true;
                 }
             }

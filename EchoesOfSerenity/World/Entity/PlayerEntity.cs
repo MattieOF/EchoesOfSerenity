@@ -275,6 +275,7 @@ public class PlayerEntity : LivingEntity
                     if (tile.BreakSound.FrameCount != 0)
                         SoundManager.PlaySound(tile!.BreakSound);
                     World.TopLayer.DestroyTile(_breakInfo.Value.X, _breakInfo.Value.Y, source: this);
+                    Stats.AddStat("tiles_broken", 1);
                     _breakInfo = null;
                 }
                 else
