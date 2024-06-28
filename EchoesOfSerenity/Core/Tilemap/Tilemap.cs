@@ -172,7 +172,7 @@ public class Tilemap : IDisposable
 
         foreach ((Item item, int min, int max) in tile.Drops)
         {
-            int count = rnd.Next(min, max);
+            int count = rnd.Next(min, max + 1);
             if (count > 0)
             {
                 var entity = new ItemEntity(item, count);

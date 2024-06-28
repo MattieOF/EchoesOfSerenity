@@ -176,6 +176,12 @@ public static class Items
         Texture = ContentManager.GetTexture("Content/Items/Flint.png"),
     };
 
+    public static Item SulfurDust = new Item()
+    {
+        Name = "Sulfur Dust",
+        Texture = ContentManager.GetTexture("Content/Items/SulfurDust.png"),
+    };
+
     public static Item WoodenPickaxe = new Item()
     {
         Name = "Wooden Pickaxe",

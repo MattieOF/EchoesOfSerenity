@@ -231,6 +231,11 @@ public class PlayerEntity : LivingEntity
             Vector2 mousePos = Game.Instance.ScreenPosToWorld(Raylib.GetMousePosition());
             int tileX = (int)(mousePos.X / 16);
             int tileY = (int)(mousePos.Y / 16);
+            if (tileX < 0 || tileY < 0 || tileX >= World.TopLayer.Width || tileY >= World.TopLayer.Height)
+            {
+                _breakInfo = null;
+                return;
+            }
             Tile? tile = World.TopLayer.TileAtTileCoord(tileX, tileY);
             if (tile is null)
             {

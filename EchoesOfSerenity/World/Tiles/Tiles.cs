@@ -19,13 +19,14 @@ public static class Tiles
     public static Tile IronOre = new Tile { IsSolid = true, TileSetIndex = 24, RandomRotation = true, Strength = 10, RequiredTool = ToolType.Pickaxe, MinimumToolStrength = 3, Drops = [(Items.Stone, 1, 2), (Items.RawIron, 1, 2)] };
     public static Tile CoalOre = new Tile { IsSolid = true, TileSetIndex = 25, RandomRotation = true, Strength = 6, RequiredTool = ToolType.Pickaxe, Drops = [(Items.Stone, 1, 2), (Items.Coal, 1, 2)] };
     public static Tile Pebbles = new Tile { IsSolid = false, TileSetIndex = 11, RandomRotation = false, Strength = 3, CanBePunched = true, RequiredTool = ToolType.Pickaxe, Drops = [(Items.Pebbles, 1, 1)] };
-    public static Tile Rock = new Tile { IsSolid = true, TileSetIndex = 12, RandomRotation = false, CanBePunched = false, RequiredTool = ToolType.Pickaxe, Strength = 4 };
+    public static Tile Rock = new Tile { IsSolid = true, TileSetIndex = 12, RandomRotation = false, CanBePunched = false, RequiredTool = ToolType.Pickaxe, Strength = 4, Drops = [(Items.Stone, 0, 1)]};
     public static Tile Tree = new TreeTile { IsSolid = true, TileSetIndex = 13, RandomRotation = false, CanBePunched = true, RequiredTool = ToolType.Axe, Strength = 7, Drops = [(Items.Wood, 3, 6)] };
     public static Tile WoodPlank = new Tile { IsSolid = true, TileSetIndex = 14, RandomRotation = false, CanBePunched = true, RequiredTool = ToolType.Axe, Strength = 4, Drops = [(Items.WoodPlank, 1, 1)] };
     public static Tile WorkBench = new Tile { IsSolid = true, TileSetIndex = 15, RandomRotation = false, CanBePunched = true, RequiredTool = ToolType.Axe, Strength = 7, Drops = [(Items.WorkBench, 1, 1)], Name = "Work Bench" };
     public static Tile IronAnvil = new Tile { IsSolid = true, TileSetIndex = 16, RandomRotation = false, CanBePunched = false, RequiredTool = ToolType.Pickaxe, Strength = 7, Drops = [(Items.IronAnvil, 1, 1)], Name = "Iron Anvil" };
     public static Tile Furnace = new Tile { IsSolid = true, TileSetIndex = 17, RandomRotation = false, CanBePunched = false, RequiredTool = ToolType.Pickaxe, Strength = 7, Drops = [(Items.Furnace, 1, 1)], Name = "Furnace" };
     public static Tile SugarCane = new Tile { IsSolid = false, TileSetIndex = 26, RandomRotation = false, CanBePunched = true, RequiredTool = ToolType.None, Strength = 2, Drops = [(Items.SugarCane, 1, 1)] };
+    public static Tile SulfurRock = new Tile { IsSolid = true, TileSetIndex = 27, RandomRotation = false, CanBePunched = false, RequiredTool = ToolType.Pickaxe, Strength = 5, Drops = [(Items.Stone, 0, 1), (Items.SulfurDust, 1, 3)]};
     
     // TODO: Deep water, around of edge of map and where water gets deep. Kills player.
 

@@ -105,5 +105,12 @@ public static class Recipes
             Result = Items.Sugar,
             ResultCount = 3,
         });
+        
+        RecipeList.Add(new Recipe()
+        {
+            Requirements = [ (Items.SulfurDust, 4, true), (Items.IronIngot, 1, true) ],
+            Result = Items.Bomb,
+            ResultCount = 2,
+        });
     }
 }

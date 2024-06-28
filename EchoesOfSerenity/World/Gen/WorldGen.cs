@@ -121,7 +121,7 @@ public class WorldGen
                     }
                     else
                     {
-                        if (mainNoise3Val < 0.25f)
+                        if (mainNoise3Val < 0.2f)
                         {
                             if (rnd.Next(0, 2) == 0)
                                 world.TopLayer.SetTile(x, y, rnd.Next(0, 2) == 0 ? Tiles.Tiles.IronOre : Tiles.Tiles.CoalOre);
@@ -182,6 +182,21 @@ public class WorldGen
                             {
                                 if (world.TopLayer.TileAtTileCoord(x + dx, y + dy) is null && world.BaseLayer.TileAtTileCoord(x + dx, y + dy) == Tiles.Tiles.Sand && world.BaseLayer.TileTouches(x + dx, y + dy, Tiles.Tiles.Water))
                                     world.TopLayer.SetTile(x + dx, y + dy, Tiles.Tiles.SugarCane);
+                            }
+                        }
+                    }
+                }
+                
+                if (tile == Tiles.Tiles.StoneFloor)
+                {
+                    if (rnd.Next(0, 80) == 0)
+                    {
+                        for (int dx = -2; dx <= 2; dx++)
+                        {
+                            for (int dy = -2; dy <= 2; dy++)
+                            {
+                                if (world.TopLayer.TileAtTileCoord(x + dx, y + dy) is null && world.BaseLayer.TileAtTileCoord(x + dx, y + dy) == Tiles.Tiles.StoneFloor && rnd.Next(0, 3) == 0)
+                                    world.TopLayer.SetTile(x + dx, y + dy, Tiles.Tiles.SulfurRock);
                             }
                         }
                     }
