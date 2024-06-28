@@ -93,6 +93,13 @@ public class Achievements
             Icon = ContentManager.GetTexture("Content/Items/SugarCane.png")
         });
         
+        AchievementList.Add("eat_bread", new Achievement()
+        {
+            Name = "Greggs Fan",
+            Description = "Eat some Cave Bread, a tasty (albeit stale) treat",
+            Icon = ContentManager.GetTexture("Content/Items/CaveBread.png")
+        });
+
         AchievementList.Add("eat_sugar", new Achievement()
         {
             Name = "Sweet Tooth",
@@ -107,6 +114,24 @@ public class Achievements
             StatID = "items_crafted",
             StatGoal = 75,
             Icon = ContentManager.GetTexture("Content/Items/WorkBench.png")
+        });
+
+        AchievementList.Add("place_50_tiles", new Achievement()
+        {
+            Name = "House Builder Gang",
+            Description = "Place 50 tiles",
+            StatID = "tiles_placed",
+            StatGoal = 50,
+            Icon = ContentManager.GetTexture("Content/Items/WoodPlank.png")
+        });
+
+        AchievementList.Add("trash_64_items", new Achievement()
+        {
+            Name = "Wasteful",
+            Description = "Trash 64 items",
+            StatID = "items_trashed",
+            StatGoal = 64,
+            Icon = ContentManager.GetTexture("Content/UI/TrashSlot.png")
         });
 
         AchievementList.Add("craft_bomb", new Achievement()
@@ -137,7 +162,7 @@ public class Achievements
         AchievementList.Add("craft_jake", new Achievement()
         {
             Name = "Abyss Crafter",
-            Description = "Craft a Jake Voodoo Doll",
+            Description = "Craft a Jake Voodoo Doll, an ancient relic of the Abyss\nIt's said to be sweet to the taste, and high in carbs...",
             Icon = ContentManager.GetTexture("Content/Items/Jake.png")
         });
     }

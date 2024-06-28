@@ -32,6 +32,8 @@ public class PlayerEntity : LivingEntity
         IntroAnimZoomSpeed = 0.4f,
         IntroAnimZoomDelay = 5f;
 
+    public static bool DebugKeys = false;
+    
     private float _introAnimTimer = 0;
     private bool _introAnimActive = true;
     private bool _drowned = false;
@@ -56,7 +58,6 @@ public class PlayerEntity : LivingEntity
             foreach (var cb in item.OnPickedUp)
                 cb(this, count);
         });
-        Inventory.Contents[17] = (Item.Items.Bomb, 15);
     }
 
     public override void OnAddedToWorld()
@@ -148,18 +149,21 @@ public class PlayerEntity : LivingEntity
         SelectedHotbarSlot += (int)Raylib.GetMouseWheelMove();
         SelectedHotbarSlot = Math.Clamp(SelectedHotbarSlot, 0, Inventory.RowSize - 1);
 
-        if (Raylib.IsKeyPressed(KeyboardKey.H))
-            Hurt(1);
-
-        if (Raylib.IsKeyPressed(KeyboardKey.B))
+        if (DebugKeys)
         {
-            BombEntity bomb = new(this);
-            bomb.Position = Position;
-            var mousePos = Game.Instance.ScreenPosToWorld(Raylib.GetMousePosition());
-            bomb.Velocity = Vector2.Normalize(mousePos - Position) * 100;
-            World.AddEntity(bomb);
-        }
+            if (Raylib.IsKeyPressed(KeyboardKey.H))
+                Hurt(1);
 
+            if (Raylib.IsKeyPressed(KeyboardKey.B))
+            {
+                BombEntity bomb = new(this);
+                bomb.Position = Position;
+                var mousePos = Game.Instance.ScreenPosToWorld(Raylib.GetMousePosition());
+                bomb.Velocity = Vector2.Normalize(mousePos - Position) * 100;
+                World.AddEntity(bomb);
+            }
+        }
+        
         if (_useTimer > 0)
             _useTimer -= Raylib.GetFrameTime();
 

@@ -11,7 +11,7 @@ public class Inventory
     public int Size { get; private set; } = 18;
     public static int RowSize = 6;
     public readonly List<(Item?, int)> Contents = [];
-    public static HashSet<Item> DiscoveredItems = [];
+    public HashSet<Item> DiscoveredItems = [];
     
     public List<OnItemAdded> OnItemAdded = [];
     

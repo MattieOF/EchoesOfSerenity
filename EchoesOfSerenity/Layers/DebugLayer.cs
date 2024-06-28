@@ -73,6 +73,9 @@ public class DebugLayer : ILayer
             ImGui.SameLine();
             if (ImGui.Button("Set"))
                 Raylib.SetTargetFPS(_targetFPS);
+            
+            ImGui.Checkbox("Show FPS", ref _fpsVisible);
+            ImGui.Checkbox("Enable Debug Keys", ref PlayerEntity.DebugKeys);
 
             if (ImGui.CollapsingHeader("Camera Tools"))
             {

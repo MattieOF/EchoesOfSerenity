@@ -112,5 +112,12 @@ public static class Recipes
             Result = Items.Bomb,
             ResultCount = 2,
         });
+        
+        RecipeList.Add(new Recipe()
+        {
+            Requirements = [ (Items.Sugar, 2, false), (Items.CaveBread, 2, false) ],
+            Result = Items.JakeVoodooDoll,
+            ResultCount = 1,
+        });
     }
 }

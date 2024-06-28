@@ -21,6 +21,7 @@ public enum ToolType
 }
 
 public delegate void OnCrafted(LivingEntity crafter);
+public delegate void OnUsed(LivingEntity user);
 public delegate void OnPickedUp(Core.Entity.Entity entity, int count);
 
 public class Item
@@ -36,9 +37,12 @@ public class Item
     public float UseSpeed = 1.0f;
     public List<OnCrafted> OnCrafted = [];
     public List<OnPickedUp> OnPickedUp = [];
+    public List<OnUsed> OnUse = [];
 
     public virtual bool OnUsed(LivingEntity user)
     {
+        foreach (var action in OnUse)
+            action(user);
         return false;
     }
 

@@ -189,7 +189,7 @@ public class WorldGen
                 
                 if (tile == Tiles.Tiles.StoneFloor)
                 {
-                    if (rnd.Next(0, 80) == 0)
+                    if (rnd.Next(0, 120) == 0)
                     {
                         for (int dx = -2; dx <= 2; dx++)
                         {
@@ -197,6 +197,16 @@ public class WorldGen
                             {
                                 if (world.TopLayer.TileAtTileCoord(x + dx, y + dy) is null && world.BaseLayer.TileAtTileCoord(x + dx, y + dy) == Tiles.Tiles.StoneFloor && rnd.Next(0, 3) == 0)
                                     world.TopLayer.SetTile(x + dx, y + dy, Tiles.Tiles.SulfurRock);
+                            }
+                        }
+                    } else if (rnd.Next(0, 80) == 0)
+                    {
+                        for (int dx = -2; dx <= 2; dx++)
+                        {
+                            for (int dy = - 2; dy <= 2; dy++)
+                            {
+                                if (world.TopLayer.TileAtTileCoord(x + dx, y + dy) is null && world.BaseLayer.TileAtTileCoord(x + dx, y + dy) == Tiles.Tiles.StoneFloor && rnd.Next(0, 3) == 0)
+                                    world.TopLayer.SetTile(x + dx, y + dy, Tiles.Tiles.CavePot);
                             }
                         }
                     }

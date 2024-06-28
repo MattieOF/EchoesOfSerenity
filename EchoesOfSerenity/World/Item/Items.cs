@@ -263,6 +263,21 @@ public static class Items
         UseSpeed = .25f,
     };
 
+    public static Item CaveBread = new FoodItem(4)
+    {
+        Name = "Cave Bread",
+        Texture = ContentManager.GetTexture("Content/Items/CaveBread.png"),
+        Description = "Old bread found in a cave... probably safe to eat",
+        OnUse =
+        [
+            user =>
+            {
+                if (user is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("eat_bread");
+            }
+        ]
+    };
+
     public static void PostTileInit()
     {
         Pebbles.Tile = Tiles.Tiles.Pebbles;
