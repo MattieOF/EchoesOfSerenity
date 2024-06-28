@@ -52,9 +52,12 @@ public class TabMenu : Menu
                 ActiveTab = (int)(mousePos.X / tabSize);
             }
         }
-        
+
         if (ActiveTab != prevTab)
+        {
             Tabs[prevTab].menu.OnClosed();
+            SoundManager.PlaySound(ContentManager.GetSound("Content/Sounds/ui_click.wav"));
+        }
         
         Tabs[ActiveTab].menu.Update();
     }

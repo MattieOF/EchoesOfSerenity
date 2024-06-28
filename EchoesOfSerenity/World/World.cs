@@ -14,6 +14,7 @@ public class World : IDisposable
     public ParticleSystemLayer ParticleSystem = new();
     public int Width, Height;
     public int Seed = 0;
+    public float Time = 0;
     public Vector2 SpawnPoint;
     public PlayerEntity Player = null!;
 
@@ -64,6 +65,8 @@ public class World : IDisposable
     
     public void Update()
     {
+        Time += Raylib.GetFrameTime();
+        
         _isUpdating = true;
         foreach (var entity in Entities)
         {

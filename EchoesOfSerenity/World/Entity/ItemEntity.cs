@@ -13,6 +13,7 @@ public class ItemEntity : Core.Entity.Entity
     public static float PickupRangeSquared = 35 * 35;
     private static Font? _tooltipFont = null;
     private static Texture2D? _frame = null;
+    private static Sound? _pickupSound = null;
     public Vector2 Velocity;
     
     private bool _pickedUp = false, _visible = false;
@@ -26,6 +27,7 @@ public class ItemEntity : Core.Entity.Entity
         
         _tooltipFont ??= ContentManager.GetFont("Content/Fonts/OpenSans-Regular.ttf", 18);
         _frame ??= ContentManager.GetTexture("Content/UI/Frame.png");
+        _pickupSound ??= ContentManager.GetSound("Content/Sounds/pickup.wav");
         
         Random rnd = new();
         Velocity = new Vector2(rnd.Next(-48, 48), rnd.Next(-48, 48));
@@ -42,6 +44,7 @@ public class ItemEntity : Core.Entity.Entity
             {
                 var leftover = World.Player.Inventory.AddItem(Item, Count);
                 World.Player.Stats.AddStat("items_picked_up", Count - leftover);
+                SoundManager.PlaySound(_pickupSound!.Value, new Random().NextSingle() * 0.4f + 0.8f);
                 if (leftover == 0)
                     Kill();
                 else
@@ -56,7 +59,7 @@ public class ItemEntity : Core.Entity.Entity
         Position += Velocity * Raylib.GetFrameTime();
         Velocity -= Velocity * Raylib.GetFrameTime() * 5;
         
-        if (World.Player.Health > 0 && Raymath.Vector2DistanceSqr(World.Player.Center, Center) < PickupRangeSquared)
+        if (World.Player.Health > 0 && Raymath.Vector2DistanceSqr(World.Player.Center, Center) < PickupRangeSquared && World.Player.Inventory.CanPickUp(Item, Count))
         {
             _pickedUp = true;
         }

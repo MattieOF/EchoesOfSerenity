@@ -162,6 +162,7 @@ public class Label : UIElement
 public class Button : UIElement
 {
     public List<OnButtonPressed> OnPressed = [];
+    private bool _wasHovered = false;
 
     public string Text
     {
@@ -218,11 +219,17 @@ public class Button : UIElement
     {
         IsHovered = Raylib.CheckCollisionPointRec(Raylib.GetMousePosition(), new Rectangle(RenderPos, Rect.Size));
 
+        if (IsHovered && !_wasHovered)
+            SoundManager.PlaySound(ContentManager.GetSound("Content/Sounds/ui_hover.wav"));
+        
         if (IsHovered && Raylib.IsMouseButtonReleased(MouseButton.Left))
         {
+            SoundManager.PlaySound(ContentManager.GetSound("Content/Sounds/ui_click.wav"));
             foreach (var action in OnPressed)
                 action(this);
         }
+
+        _wasHovered = IsHovered;
     }
     
     public override void Render()

@@ -1,4 +1,4 @@
-Remove hurt debug key
 Sounds
-A bit more content:
-    - sulfur for bombs
+    - Music
+    - Rest of hit/break sounds
+    - Bomb explosion

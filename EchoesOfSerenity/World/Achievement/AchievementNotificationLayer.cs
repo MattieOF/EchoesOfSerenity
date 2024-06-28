@@ -38,6 +38,8 @@ public class AchievementNotificationLayer : ILayer
         size += new Vector2(60, 20);
 
         _rect = new Rectangle(50, 50, size);
+        
+        SoundManager.PlaySound(ContentManager.GetSound("Content/Sounds/achievement.wav"), 1f, 0.6f);
     }
 
     public void Update()

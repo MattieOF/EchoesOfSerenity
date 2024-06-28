@@ -196,7 +196,7 @@ public static class Items
             crafter =>
             {
                 if (crafter is PlayerEntity player)
-                    player.Achievements.CompleteAchievement("craft_wood_tool");
+                    player.Achievements.CompleteAchievement("craft_wooden_tool");
             } ]
     };
 
@@ -214,7 +214,7 @@ public static class Items
             crafter =>
             {
                 if (crafter is PlayerEntity player)
-                    player.Achievements.CompleteAchievement("craft_wood_tool");
+                    player.Achievements.CompleteAchievement("craft_wooden_tool");
             } ]
     };
     
@@ -228,6 +228,12 @@ public static class Items
         UseType = UseType.Tool,
         MaxStack = 1,
         UseSpeed = .3f,
+        OnCrafted = [
+            crafter =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("craft_stone_tool");
+            } ]
     };
 
     public static Item StoneAxe = new Item()
@@ -239,6 +245,12 @@ public static class Items
         UseType = UseType.Tool,
         MaxStack = 1,
         UseSpeed = .3f,
+        OnCrafted = [
+            crafter =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("craft_stone_tool");
+            } ]
     };
     
     public static Item IronPickaxe = new Item()
@@ -250,6 +262,12 @@ public static class Items
         UseType = UseType.Tool,
         MaxStack = 1,
         UseSpeed = .25f,
+        OnCrafted = [
+            crafter =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("craft_iron_tool");
+            } ]
     };
 
     public static Item IronAxe = new Item()
@@ -261,6 +279,12 @@ public static class Items
         UseType = UseType.Tool,
         MaxStack = 1,
         UseSpeed = .25f,
+        OnCrafted = [
+            crafter =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("craft_iron_tool");
+            } ]
     };
 
     public static Item CaveBread = new FoodItem(4)

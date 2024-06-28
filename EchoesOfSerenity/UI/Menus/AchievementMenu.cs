@@ -44,6 +44,11 @@ public class AchievementMenu : Menu
         x = (int)(x + completedTextSize.X + 15);
         Raylib.DrawRectangle(x, y, Raylib.GetScreenWidth() - x - 100, (int)completedTextSize.Y, new Color(20, 20, 20, 255));
         Raylib.DrawRectangle(x, y, (int)((Raylib.GetScreenWidth() - x - 100) * ((float)_complete / _total)), (int)completedTextSize.Y, new Color(20, 255, 20, 255));
+        if (_player.Achievements.CompletionTime != 0)
+        {
+            y += (int)completedTextSize.Y + 5;
+            Raylib.DrawTextEx(_font, $"Completion Time: {_player.Achievements.CompletionTime:F1} seconds", new Vector2(50, y), 18, 0, Color.White);
+        }
 
         var mousePos = Raylib.GetMousePosition();
         Achievement? hoveredAchievement = null;

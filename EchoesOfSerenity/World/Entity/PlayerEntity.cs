@@ -21,7 +21,7 @@ public class PlayerEntity : LivingEntity
     public float SpeedMultiplier = 1;
     public float PlaceRange = 48;
     public int SelectedHotbarSlot = 0;
-    public Inventory Inventory = new(18);
+    public Inventory Inventory = new();
     public Achievements Achievements = new();
     public Stats Stats = new();
     
@@ -42,6 +42,7 @@ public class PlayerEntity : LivingEntity
     private float _useTimer = 0;
     private Vector2 _lastMovement, _lastLerpedMovement;
     private float _achievementUpdateTimer = 0.5f;
+    private float _footStepTimer = 0;
 
     public PlayerEntity()
     {
@@ -87,7 +88,8 @@ public class PlayerEntity : LivingEntity
         }
         
         // Check if we're in water
-        bool inWater = World.BaseLayer.TileAtWorldCoord(Center) == Tiles.Tiles.Water;
+        var currentTile = World.BaseLayer.TileAtWorldCoord(Center);
+        bool inWater = currentTile == Tiles.Tiles.Water;
         if (inWater)
         {
             SetAnimation("in_water");
@@ -202,6 +204,15 @@ public class PlayerEntity : LivingEntity
 
             Stats.AddStat("units_moved", Vector2.Distance(oldPos, Position) / 16);
             
+            _footStepTimer -= Raylib.GetFrameTime();
+            if (_footStepTimer <= 0)
+            {
+                if (currentTile?.FootstepSounds is not null)
+                    SoundManager.PlaySound(currentTile.FootstepSounds[Raylib.GetRandomValue(0, currentTile.FootstepSounds.Count - 1)]);
+
+                _footStepTimer = 0.5f;
+            }
+            
             if (!inWater && Health > 0) SetAnimation("walk");
         }
         else
@@ -254,7 +265,7 @@ public class PlayerEntity : LivingEntity
                 {
                     _breakInfo = null;
                 }
-                else if (tile.CanBePunched || (selected is not null && selected.UseType == UseType.Tool))
+                else if (tile.CanBePunched || (selected is not null && selected.UseType == UseType.Tool && tile.RequiredTool == toolType))
                 {
                     int maxHits = tile.Strength;
                     if (tile.RequiredTool == toolType)
@@ -281,16 +292,16 @@ public class PlayerEntity : LivingEntity
 
                 if (_breakInfo.Value.RemainingHits == 0)
                 {
-                    if (tile.BreakSound.FrameCount != 0)
-                        SoundManager.PlaySound(tile!.BreakSound);
+                    if (tile.BreakSounds is not null)
+                        SoundManager.PlaySound(tile.BreakSounds[Raylib.GetRandomValue(0, tile.BreakSounds.Count - 1)]);
                     World.TopLayer.DestroyTile(_breakInfo.Value.X, _breakInfo.Value.Y, source: this);
                     Stats.AddStat("tiles_broken", 1);
                     _breakInfo = null;
                 }
                 else
                 {
-                    if (tile.HitSound.FrameCount != 0)
-                        SoundManager.PlaySound(tile.HitSound);
+                    if (tile.HitSounds is not null)
+                        SoundManager.PlaySound(tile.HitSounds[Raylib.GetRandomValue(0, tile.HitSounds.Count - 1)]);
                 }
                 
                 _useTimer = useTime;

@@ -1,3 +1,6 @@
+using EchoesOfSerenity.Core.Content;
+using Raylib_cs;
+
 namespace EchoesOfSerenity.World.Item;
 
 public static class Recipes
@@ -10,21 +13,25 @@ public static class Recipes
         {
             Requirements = [ (Items.Wood, 1, true) ],
             Result = Items.WoodPlank,
-            ResultCount = 2
+            ResultCount = 2,
+            CraftingSound = ContentManager.GetSound("Content/Sounds/sawing2.wav")
         });
+        Raylib.SetSoundVolume(ContentManager.GetSound("Content/Sounds/sawing2.wav"), 0.25f);
         
         RecipeList.Add(new Recipe()
         {
             Requirements = [ (Items.WoodPlank, 10, true), (Items.Wood, 2, true) ],
             Result = Items.WorkBench,
-            ResultCount = 1
+            ResultCount = 1,
+            CraftingSound = ContentManager.GetSound("Content/Sounds/sawing2.wav")
         });
         
         RecipeList.Add(new Recipe()
         {
             Requirements = [ (Items.WoodPlank, 2, true) ],
             Result = Items.Stick,
-            ResultCount = 4
+            ResultCount = 4,
+            CraftingSound = ContentManager.GetSound("Content/Sounds/sawing2.wav")
         });
         
         RecipeList.Add(new Recipe()
@@ -104,6 +111,7 @@ public static class Recipes
             Requirements = [ (Items.SugarCane, 1, true) ],
             Result = Items.Sugar,
             ResultCount = 3,
+            CraftingSound = ContentManager.GetSound("Content/Sounds/shake.wav")
         });
         
         RecipeList.Add(new Recipe()

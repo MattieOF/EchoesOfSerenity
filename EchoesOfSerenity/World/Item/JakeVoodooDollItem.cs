@@ -9,6 +9,7 @@ public class JakeVoodooDollItem : Item
     public JakeVoodooDollItem()
     {
         Name = "Jake Voodoo Doll";
+        Description = "Use in hotbar to squeeze";
         MaxStack = 1;
         UseType = UseType.Unconsumable;
         Texture = ContentManager.GetTexture("Content/Items/Jake.png");

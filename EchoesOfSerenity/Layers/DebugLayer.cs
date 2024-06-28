@@ -44,7 +44,7 @@ public class DebugLayer : ILayer
         if (_fpsVisible)
         {
             // Proper UI system would make this way better, but this is a jam baybee
-            string fpsString = $"FPS: {Raylib.GetFPS()}\nEntities: {Echoes.EchoesInstance.World.GetEntityCount()}\nParticles: {Echoes.EchoesInstance.World.ParticleSystem.GetParticleCount()}";
+            string fpsString = $"FPS: {Raylib.GetFPS()}\nEntities: {Echoes.EchoesInstance.World?.GetEntityCount()}\nParticles: {Echoes.EchoesInstance.World?.ParticleSystem.GetParticleCount()}";
             Vector2 size = Raylib.MeasureTextEx(_font, fpsString, FontSize, 1);
             Raylib.DrawRectangle(15, 15, (int)(MathF.Max(size.X, _titleSize.X) + 20), (int)(size.Y + _titleSize.Y + 15),
                 new Color(0, 0, 0, 130));
@@ -76,6 +76,12 @@ public class DebugLayer : ILayer
             
             ImGui.Checkbox("Show FPS", ref _fpsVisible);
             ImGui.Checkbox("Enable Debug Keys", ref PlayerEntity.DebugKeys);
+            
+            if (ImGui.Button("Unlock All Achievements"))
+            {
+                foreach (var (id, _) in Echoes.EchoesInstance.World.Player.Achievements.AchievementList)
+                    Echoes.EchoesInstance.World.Player.Achievements.CompleteAchievement(id);
+            }
 
             if (ImGui.CollapsingHeader("Camera Tools"))
             {

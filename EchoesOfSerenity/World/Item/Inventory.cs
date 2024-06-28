@@ -15,7 +15,7 @@ public class Inventory
     
     public List<OnItemAdded> OnItemAdded = [];
     
-    public Inventory(int size = 18)
+    public Inventory(int size = 24)
     {
         Size = size;
         Contents.Clear();
@@ -30,6 +30,22 @@ public class Inventory
             if (Contents[i].Item1 == null)
                 return true;
             if (Contents[i].Item1 == item && Contents[i].Item2 < item.MaxStack)
+                return true;
+        }
+
+        return false;
+    }
+    
+    public bool CanPickUp(Item item, int count)
+    {
+        for (int i = 0; i < Size; i++)
+        {
+            if (Contents[i].Item1 == null)
+                count -= item.MaxStack;
+            if (Contents[i].Item1 == item && Contents[i].Item2 < item.MaxStack)
+                count -= item.MaxStack - Contents[i].Item2;
+
+            if (count <= 0)
                 return true;
         }
 

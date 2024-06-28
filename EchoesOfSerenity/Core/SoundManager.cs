@@ -6,10 +6,12 @@ public static class SoundManager
 {
     private static List<Sound> _playingSounds = new();
 
-    public static void PlaySound(Sound sound)
+    public static void PlaySound(Sound sound, float pitch = 1f, float volume = 1f)
     {
         Sound alias = Raylib.LoadSoundAlias(sound);
         Raylib.PlaySound(alias);
+        Raylib.SetSoundPitch(alias, pitch);
+        Raylib.SetSoundVolume(alias, volume);
         _playingSounds.Add(alias);
     }
 

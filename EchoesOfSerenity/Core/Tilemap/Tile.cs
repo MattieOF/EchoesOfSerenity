@@ -22,7 +22,7 @@ public class Tile
     public bool CanBePunched = false;
     public List<(Item, int, int)> Drops = [];
 
-    public Sound HitSound, BreakSound;
+    public List<Sound>? HitSounds, BreakSounds, FootstepSounds;
 
     public virtual void OnBroken(Tilemap tilemap, int x, int y, Entity.Entity? cause)
     {

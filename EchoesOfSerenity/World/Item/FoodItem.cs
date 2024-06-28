@@ -16,6 +16,7 @@ public class FoodItem : Item
     
     public override bool OnUsed(LivingEntity user)
     {
+        base.OnUsed(user);
         user.Health = Math.Clamp(user.Health + Heal, 0, 10);
         return true;
     }

@@ -1,4 +1,6 @@
 using System.Numerics;
+using EchoesOfSerenity.Core;
+using EchoesOfSerenity.Core.Content;
 using EchoesOfSerenity.Core.Entity;
 using Raylib_cs;
 
@@ -68,6 +70,7 @@ public class BombEntity : Core.Entity.AnimatedEntity
                 }
             }
             
+            SoundManager.PlaySound(ContentManager.GetSound("Content/Sounds/explosion.wav"));
             World.ParticleSystem.AddParticle("Content/Spritesheets/ExplosionSpritesheet.png", Center - Vector2.One * 16, Vector2.Zero, 0.5f, new Rectangle(0, 0, 32, 32), 11, 32, 0.5f / 11.0f, false);
             World.RemoveEntity(this);
         }

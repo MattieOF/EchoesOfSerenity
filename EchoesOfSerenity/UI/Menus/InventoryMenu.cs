@@ -1,4 +1,5 @@
 using System.Numerics;
+using EchoesOfSerenity.Core;
 using EchoesOfSerenity.Core.Content;
 using EchoesOfSerenity.World.Entity;
 using EchoesOfSerenity.World.Item;
@@ -14,6 +15,7 @@ public class InventoryMenu : Menu
     private (Item? item, int count) _pickedUpItem = (null, 0);
 
     private List<Recipe> _craftable = [], _visible = [];
+    private int _prevHovered = -1;
     
     public InventoryMenu(PlayerEntity player)
     {
@@ -35,6 +37,7 @@ public class InventoryMenu : Menu
         int screenWidth = Raylib.GetScreenWidth();
         int screenHeight = Raylib.GetScreenHeight();
 
+        int hoveredIndex = -1;
         int slotSize = (int)(screenHeight * 0.3f / ((float)Player.Inventory.Contents.Count / Inventory.RowSize));
         int startX = screenWidth / 2 - slotSize * Inventory.RowSize / 2;
         int x = startX - slotSize, y = 150;
@@ -53,6 +56,7 @@ public class InventoryMenu : Menu
 
             var rect = new Rectangle(x, y, slotSize, slotSize);
             bool hovered = Raylib.CheckCollisionPointRec(mousePos, rect);
+            if (hovered) hoveredIndex = i;
             Raylib.DrawRectanglePro(rect, Vector2.Zero, 0, hovered ? Color.DarkGray : new Color(20, 20, 20, 255));
             Raylib.DrawRectangleLinesEx(rect, 2, Color.Black);
 
@@ -142,6 +146,7 @@ public class InventoryMenu : Menu
         x += (int)(slotSize * 1.5f);
         Rectangle trashDest = new(x, y, slotSize, slotSize);
         bool trashHovered = Raylib.CheckCollisionPointRec(mousePos, trashDest);
+        if (trashHovered) hoveredIndex = -2;
         Raylib.DrawRectanglePro(trashDest, Vector2.Zero, 0, trashHovered ? Color.DarkGray : new Color(20, 20, 20, 255));
         Raylib.DrawRectangleLinesEx(trashDest, 2, Color.Black);
         Raylib.DrawTexturePro(_trash, new Rectangle(0, 0, _trash.Width, _trash.Height), trashDest, Vector2.Zero, 0, Color.White);
@@ -178,6 +183,7 @@ public class InventoryMenu : Menu
         Raylib.DrawTextEx(_headerFont, "Crafting", new Vector2(x, y), 40, 0, Color.White);
         
         y += 50;
+        int index = 0;
         foreach (var recipe in _craftable)
         {
             bool hovered = false;
@@ -185,7 +191,8 @@ public class InventoryMenu : Menu
             {
                 tooltipRecipe = recipe;
                 hovered = true;
-
+                hoveredIndex = Player.Inventory.Contents.Count + index; 
+                
                 if (Raylib.IsMouseButtonPressed(MouseButton.Left))
                 {
                     foreach (var requirement in recipe.Requirements)
@@ -202,12 +209,17 @@ public class InventoryMenu : Menu
                     }
                     foreach (var onCrafted in recipe.Result.OnCrafted)
                         onCrafted(Player);
+                    if (recipe.CraftingSound is not null)
+                        SoundManager.PlaySound(recipe.CraftingSound.Value);
+                    else
+                        SoundManager.PlaySound(ContentManager.GetSound("Content/Sounds/ui_click.wav"));
                     didCraft = true;
                 }
             }
             Raylib.DrawTexture(_frame, x, y, Color.White);
             Raylib.DrawTexturePro(recipe.Result.Texture, new Rectangle(0, 0, recipe.Result.Texture.Width, recipe.Result.Texture.Height), new Rectangle(x + (hovered ? 3 : 6), y + (hovered ? 3 : 6), 32 - (hovered ? 6 : 12), 32 - (hovered ? 6 : 12)), Vector2.Zero, 0, Color.White);
             x += 36;
+            index++;
         }
 
         x = 50;
@@ -215,6 +227,7 @@ public class InventoryMenu : Menu
         Raylib.DrawTextEx(_headerFont, "Discovered", new Vector2(x, y), 40, 0, Color.White);
 
         y += 50;
+        index = 0;
         foreach (var recipe in _visible)
         {
             bool hovered = false;
@@ -222,10 +235,12 @@ public class InventoryMenu : Menu
             {
                 tooltipRecipe = recipe;
                 hovered = true;
+                hoveredIndex = Player.Inventory.Contents.Count + _craftable.Count + index;
             }
             Raylib.DrawTexture(_frame, x, y, Color.White);
             Raylib.DrawTexturePro(recipe.Result.Texture, new Rectangle(0, 0, recipe.Result.Texture.Width, recipe.Result.Texture.Height), new Rectangle(x + (hovered ? 3 : 6), y + (hovered ? 3 : 6), 32 - (hovered ? 6 : 12), 32 - (hovered ? 6 : 12)), Vector2.Zero, 0, Color.White);
             x += 36;
+            index++;
         }
         
         if (tooltipRecipe is not null)
@@ -260,12 +275,19 @@ public class InventoryMenu : Menu
                 Raylib.DrawTextEx(font, text, textPos, 18, 0, Color.White);
         }
 
+        if (invEdited)
+            SoundManager.PlaySound(ContentManager.GetSound("Content/Sounds/ui_click.wav"));
+        
         if (invEdited || didCraft)
         {
             _craftable.Clear();
             _visible.Clear();
             Player.Inventory.BuildRecipeLists(Player, _craftable, _visible);
         }
+        
+        if (_prevHovered != hoveredIndex)
+            SoundManager.PlaySound(ContentManager.GetSound("Content/Sounds/ui_hover.wav"));
+        _prevHovered = hoveredIndex;
     }
 
     public override void OnClosed()

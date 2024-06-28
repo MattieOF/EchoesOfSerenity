@@ -6,6 +6,7 @@ namespace EchoesOfSerenity.World.Achievement;
 public class Achievements
 {
     public Dictionary<string, Achievement> AchievementList = [];
+    public float CompletionTime = 0;
 
     public Achievements()
     {
@@ -184,10 +185,19 @@ public class Achievements
 
     public void CompleteAchievement(string id)
     {
+        if (!AchievementList.ContainsKey(id))
+        {
+            Console.WriteLine($"Achievement {id} does not exist");
+            return;    
+        }
+        
         Achievement achievement = AchievementList[id];
         if (achievement.Completed) return;
         achievement.Completed = true;
         AchievementNotificationLayer layer = new(achievement);
         Game.Instance.AttachLayer(layer, Game.Instance.GetLayerCount() - 1);
+        
+        if (AchievementList.All(pair => pair.Value.Completed)) 
+            CompletionTime = Echoes.EchoesInstance.World.Time;
     }
 }
