@@ -131,6 +131,13 @@ public class DebugLayer : ILayer
                             ImGui.SliderInt("Chunk Index", ref _tilemapChunkPreviewIndex, 0, tilemap.Chunks.Count - 1);
                             rlImGui.ImageSize(tilemap.Chunks[_tilemapChunkPreviewIndex].Texture, 256, 256);
                         }
+
+                        if (ImGui.Button("Export Chunk"))
+                        {
+                            Image chunkImage = Raylib.LoadImageFromTexture(tilemap.Chunks[_tilemapChunkPreviewIndex].Texture);
+                            Raylib.ExportImage(chunkImage, $"chunk_{_tilemapChunkPreviewIndex}.png");
+                            Raylib.UnloadImage(chunkImage);
+                        }
                     }
                 }
                 
