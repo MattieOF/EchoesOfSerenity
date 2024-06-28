@@ -165,7 +165,30 @@ public class WorldGen
                 AddRocks();
             }
         }
-        
+
+        // Second pass for placing other stuff
+        for (int y = 0; y < tilesY; y++)
+        {
+            for (int x = 0; x < tilesX; x++)
+            {
+                Tile? tile = world.BaseLayer.TileAtTileCoord(x, y);
+                if (tile == Tiles.Tiles.Sand && world.BaseLayer.TileTouches(x, y, Tiles.Tiles.Water))
+                {
+                    if (rnd.Next(0, 25) == 0)
+                    {
+                        for (int dx = -2; dx <= 2; dx++)
+                        {
+                            for (int dy = -2; dy <= 2; dy++)
+                            {
+                                if (world.TopLayer.TileAtTileCoord(x + dx, y + dy) is null && world.BaseLayer.TileAtTileCoord(x + dx, y + dy) == Tiles.Tiles.Sand && world.BaseLayer.TileTouches(x + dx, y + dy, Tiles.Tiles.Water))
+                                    world.TopLayer.SetTile(x + dx, y + dy, Tiles.Tiles.SugarCane);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         // Spawn player
         int tries = 30;
         int playerX = rnd.Next((int)(centerPoint.X - 128), (int)(centerPoint.X + 128)), playerY = rnd.Next((int)(centerPoint.Y - 128), (int)(centerPoint.Y + 128));

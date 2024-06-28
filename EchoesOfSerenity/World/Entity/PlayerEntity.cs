@@ -25,6 +25,8 @@ public class PlayerEntity : LivingEntity
     public Achievements Achievements = new();
     public Stats Stats = new();
     
+    public float SpeedBuff = 1f, SpeedBuffTimer = 0;
+    
     public static float IntroAnimInitialZoom = 0.3f,
         IntroAnimTargetZoom = 1.4f,
         IntroAnimZoomSpeed = 0.4f,
@@ -76,6 +78,13 @@ public class PlayerEntity : LivingEntity
         if (Health <= 0)
             return;
 
+        if (SpeedBuffTimer > 0)
+        {
+            SpeedBuffTimer -= Raylib.GetFrameTime();
+            if (SpeedBuffTimer <= 0)
+                SpeedBuff = 1;
+        }
+        
         // Check if we're in water
         bool inWater = World.BaseLayer.TileAtWorldCoord(Center) == Tiles.Tiles.Water;
         if (inWater)
@@ -174,7 +183,7 @@ public class PlayerEntity : LivingEntity
 
         if (movement != Vector2.Zero)
         {
-            movement = Vector2.Normalize(movement) * (MoveSpeed * SpeedMultiplier * Raylib.GetFrameTime());
+            movement = Vector2.Normalize(movement) * (MoveSpeed * SpeedMultiplier * SpeedBuff * Raylib.GetFrameTime());
             _lastMovement = movement;
 
             var oldPos = Position;

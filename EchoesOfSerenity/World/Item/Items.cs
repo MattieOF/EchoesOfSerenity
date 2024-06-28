@@ -52,6 +52,26 @@ public static class Items
         Description = "Can be placed"
     };
 
+    public static TileItem SugarCane = new TileItem()
+    {
+        Name = "Sugar Cane",
+        Texture = ContentManager.GetTexture("Content/Items/SugarCane.png"),
+        Description = "Can be placed\nUsed to make sugar",
+        OnPickedUp = [
+            (crafter, _) =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("obtain_sugarcane");
+            } ]
+    };
+    
+    public static Item Sugar = new SugarItem()
+    {
+        Name = "Sugar",
+        Texture = ContentManager.GetTexture("Content/Items/Sugar.png"),
+        Description = "Used to make sweet things\nCan also be eaten for a small amount of health and a temporary speed boost"
+    };
+    
     public static TileItem WorkBench = new TileItem()
     {
         Name = "Work Bench",
@@ -238,5 +258,6 @@ public static class Items
         WorkBench.Tile = Tiles.Tiles.WorkBench;
         IronAnvil.Tile = Tiles.Tiles.IronAnvil;
         Furnace.Tile = Tiles.Tiles.Furnace;
+        SugarCane.Tile = Tiles.Tiles.SugarCane;
     }
 }

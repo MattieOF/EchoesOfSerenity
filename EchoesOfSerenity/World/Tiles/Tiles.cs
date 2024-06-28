@@ -25,6 +25,7 @@ public static class Tiles
     public static Tile WorkBench = new Tile { IsSolid = true, TileSetIndex = 15, RandomRotation = false, CanBePunched = true, RequiredTool = ToolType.Axe, Strength = 7, Drops = [(Items.WorkBench, 1, 1)], Name = "Work Bench" };
     public static Tile IronAnvil = new Tile { IsSolid = true, TileSetIndex = 16, RandomRotation = false, CanBePunched = false, RequiredTool = ToolType.Pickaxe, Strength = 7, Drops = [(Items.IronAnvil, 1, 1)], Name = "Iron Anvil" };
     public static Tile Furnace = new Tile { IsSolid = true, TileSetIndex = 17, RandomRotation = false, CanBePunched = false, RequiredTool = ToolType.Pickaxe, Strength = 7, Drops = [(Items.Furnace, 1, 1)], Name = "Furnace" };
+    public static Tile SugarCane = new Tile { IsSolid = false, TileSetIndex = 26, RandomRotation = false, CanBePunched = true, RequiredTool = ToolType.None, Strength = 2, Drops = [(Items.SugarCane, 1, 1)] };
     
     // TODO: Deep water, around of edge of map and where water gets deep. Kills player.
 

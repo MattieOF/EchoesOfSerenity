@@ -79,6 +79,20 @@ public class Achievements
             Icon = ContentManager.GetTexture("Content/Items/Pebbles.png")
         });
         
+        AchievementList.Add("obtain_sugarcane", new Achievement()
+        {
+            Name = "Cane Collector",
+            Description = "Obtain some sugar cane, which you can find on sand near water",
+            Icon = ContentManager.GetTexture("Content/Items/SugarCane.png")
+        });
+        
+        AchievementList.Add("eat_sugar", new Achievement()
+        {
+            Name = "Sweet Tooth",
+            Description = "Eat some Sugar, good for a quick energy boost",
+            Icon = ContentManager.GetTexture("Content/Items/Sugar.png")
+        });
+
         AchievementList.Add("craft_bomb", new Achievement()
         {
             Name = "Demolition Expert",

@@ -98,5 +98,12 @@ public static class Recipes
             ResultCount = 1,
             RequiredTile = Tiles.Tiles.IronAnvil
         });
+        
+        RecipeList.Add(new Recipe()
+        {
+            Requirements = [ (Items.SugarCane, 1, true) ],
+            Result = Items.Sugar,
+            ResultCount = 3,
+        });
     }
 }
