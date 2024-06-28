@@ -41,6 +41,7 @@ public class ItemEntity : Core.Entity.Entity
             if (Raymath.Vector2DistanceSqr(World.Player.Center, Center) < 4)
             {
                 var leftover = World.Player.Inventory.AddItem(Item, Count);
+                World.Player.Stats.AddStat("items_picked_up", Count - leftover);
                 if (leftover == 0)
                     Kill();
                 else

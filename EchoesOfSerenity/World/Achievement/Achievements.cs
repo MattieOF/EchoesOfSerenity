@@ -30,6 +30,13 @@ public class Achievements
             Icon = ContentManager.GetTexture("Content/Items/WoodenPickaxe.png")
         });
 
+        AchievementList.Add("obtain_stone", new Achievement()
+        {
+            Name = "Stoner",
+            Description = "Using your Wooden Pickaxe, mine some stone",
+            Icon = ContentManager.GetTexture("Content/Items/Stone.png")
+        });
+
         AchievementList.Add("craft_stone_tool", new Achievement()
         {
             Name = "Stone Age",
@@ -93,6 +100,15 @@ public class Achievements
             Icon = ContentManager.GetTexture("Content/Items/Sugar.png")
         });
 
+        AchievementList.Add("craft_75_items", new Achievement()
+        {
+            Name = "Big-time Crafter",
+            Description = "Craft 75 items",
+            StatID = "items_crafted",
+            StatGoal = 75,
+            Icon = ContentManager.GetTexture("Content/Items/WorkBench.png")
+        });
+
         AchievementList.Add("craft_bomb", new Achievement()
         {
             Name = "Demolition Expert",
@@ -106,7 +122,7 @@ public class Achievements
             Description = "Walk 1000 blocks",
             StatID = "units_moved",
             StatGoal = 1000,
-            Icon = ContentManager.GetTexture("Content/Items/Bomb.png")
+            Icon = ContentManager.GetTexture("Content/Items/Sugar.png")
         });
 
         AchievementList.Add("blow_up_200_tiles", new Achievement()

@@ -79,10 +79,11 @@ public class AchievementMenu : Menu
                 var sizeIncrease = string.IsNullOrWhiteSpace(text)
                     ? Vector2.Zero
                     : Raylib.MeasureTextEx(_tooltipFont, text, 18, 0);
+                sizeIncrease.Y += 2;
                 size.Y += sizeIncrease.Y;
                 size.X = MathF.Max(size.X, sizeIncrease.X + 40);
                 _queuedDraws.Add((font, text, pos));
-                pos.Y += sizeIncrease.Y + 2;
+                pos.Y += sizeIncrease.Y;
             }
             
             DrawText(hoveredAchievement.Name, _tooltipBoldFont);

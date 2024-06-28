@@ -26,6 +26,21 @@ public class Stats
             Name = "Tiles Placed",
             Unit = "tiles"
         });
+        StatList.Add("items_picked_up", new Stat()
+        {
+            Name = "Items Picked Up",
+            Unit = "items"
+        });
+        StatList.Add("items_crafted", new Stat()
+        {
+            Name = "Items Crafted",
+            Unit = "items"
+        });
+        StatList.Add("items_trashed", new Stat()
+        {
+            Name = "Items Trashed",
+            Unit = "items"
+        });
     }
 
     public void AddStat(string stat, float value)

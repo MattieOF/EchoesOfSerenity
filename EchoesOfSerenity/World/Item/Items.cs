@@ -122,7 +122,13 @@ public static class Items
     {
         Name = "Stone",
         Texture = ContentManager.GetTexture("Content/Items/Stone.png"),
-        Description = "Used to make stone tools, among other things"
+        Description = "Used to make stone tools, among other things",
+        OnPickedUp = [
+            (crafter, _) =>
+            {
+                if (crafter is PlayerEntity player)
+                    player.Achievements.CompleteAchievement("obtain_stone");
+            } ]
     };
     
     public static Item Coal = new Item()

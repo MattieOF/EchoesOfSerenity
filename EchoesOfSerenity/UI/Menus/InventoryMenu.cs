@@ -146,7 +146,10 @@ public class InventoryMenu : Menu
         Raylib.DrawRectangleLinesEx(trashDest, 2, Color.Black);
         Raylib.DrawTexturePro(_trash, new Rectangle(0, 0, _trash.Width, _trash.Height), trashDest, Vector2.Zero, 0, Color.White);
         if (trashHovered && Raylib.IsMouseButtonDown(MouseButton.Left))
+        {
+            Player.Stats.AddStat("items_trashed", _pickedUpItem.count);
             _pickedUpItem = (null, 0);
+        }
         
         if (_pickedUpItem.item is not null)
         {
@@ -188,6 +191,7 @@ public class InventoryMenu : Menu
                     foreach (var requirement in recipe.Requirements)
                         Player.Inventory.RemoveItem(requirement.Item1, requirement.Item2);
                     int leftover = Player.Inventory.AddItem(recipe.Result, recipe.ResultCount);
+                    Player.Stats.AddStat("items_crafted", recipe.ResultCount);
                     if (leftover > 0)
                     {
                         ItemEntity itemEntity = new(recipe.Result, leftover)
